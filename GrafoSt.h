@@ -15,5 +15,10 @@ struct Nodo{
     u32 nombre;
     u32 color;
     u32 grado;
-    Nodo* vecinos;
+    ListaNodos* vecinos;
+};
+
+struct ListaNodos{
+    Nodo* nodo;
+    ListaNodos* prox;
 };
