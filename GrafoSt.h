@@ -22,7 +22,7 @@ struct Nodo{
     u32 nombre;
     u32 color;
     u32 grado;
-    ListaNodos* vecinos; // No puede ser una Linked List, porque  necesitamos acceder a los vecinos en O(1). Pero al principio no sabemos el grado del vertice. Cómo podemos hacer? Quizas un dynamic array, hay que ver cómo se implementa.
+    ListaNodos* vecinos; // Esto necesita ser una Linked List porque no sabemos el grado del nodo hasta terminar de construir el grafo.
 };
 
 // Struct para la linked list.
