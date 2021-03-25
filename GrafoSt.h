@@ -25,7 +25,8 @@ struct Nodo{
     ListaNodos* vecinos; // Esto va a ser una linked list de nodos.
 };
 
-struct ListaNodos{
+// Struct para la linked list.
+struct ListaNodos{ 
     Nodo* nodo;
     ListaNodos* prox;
 };
