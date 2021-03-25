@@ -4,7 +4,8 @@ typedef uint32_t u32;
 
 /*El grafo contiene los campos que necesitamos en  O(1) y un arreglo de nodos.
 Creo que si o si vamos a necesitar un array para describir el orden, no veo otra 
-forma eficiente de reordenar los nodos*/
+forma eficiente de reordenar los nodos. Como los nodos estan en un array, acceder 
+a un nodo teniendo su número de orden en orden inicial también es O(1)*/
 
 struct GrafoSt{
   u32 num_vertices;
