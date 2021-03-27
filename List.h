@@ -13,6 +13,9 @@ struct node {
 };
 
 La principal diferencia es que ahora data va a ser un puntero a un vertice.
+Hasta donde puedo ver las unicas moddificaciones que son necesarias son:
+  - addr necesita tomar un puntero a vertice en vez de un entero
+  - head e index van a devolver punteros a vertices.
 */
 
 
@@ -30,7 +33,7 @@ bool is_empty(list l);
 /*{It returns wheter the list is enpty or not}*/
 
 /*{The list must not be empty}*/
-int head(list l);
+vertice *head(list l);
 /*{It returns the list's first element}*/
 
 
@@ -38,7 +41,7 @@ int head(list l);
 list tail(list l);
 /*{Deletes the first element of the given list}*/
 
-list addr(int e, list l);
+list addr(vertice *e, list l);
 /*{Adds an element at the end of the list}*/
 
 unsigned int length(list l);
@@ -48,7 +51,7 @@ void concat(list l1, list l2);
 /*{Adds the elements of l2, in order, to l1 }*/
 
 /*{i < length(l)}*/
-int index(unsigned int i ,list l);
+vertice *index(unsigned int i ,list l); 
 /*{Returns the list's ith element}*/
 
 /*{i < length(l)}*/
@@ -73,4 +76,3 @@ list copy_list(list l);
  void destroy_list(list l);
  /*{ Frees the memory used by l }*/
 
-#endif
