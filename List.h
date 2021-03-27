@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
 typedef struct vertice vertice; //Forward declaration, si no hago esto se crea una dependencia circular con VerticeSt.
-#define ELEMENT_TYPE vertice;
 /*
 Programé esta implementación de lista cuando estaba cursando Algoritmos II. Vamos a adaptarla para nuestras necesidades actuales.
 
