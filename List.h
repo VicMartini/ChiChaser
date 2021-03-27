@@ -19,13 +19,12 @@ Hasta donde puedo ver las unicas moddificaciones que son necesarias son:
 
 !!!!****Necesitamos tests para esto****!!!!
 */
-typedef struct node node;
-typedef struct node *list;
+typedef struct node* list;
 
 struct node
 { //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
     vertice *data;
-    node *next;
+    list next;
 };
 
 
