@@ -10,18 +10,18 @@ lista de adyacencia.*/
 #define ENTRY_TYPE vertice;
 
 //---------------Estructuras---------------------------
-struct hash_list_s
+struct hash_table_s
 {
     int size;
     int ocupation;
     list *buckets; //Cada bucket es una lista de los vertices con el mismo hash.
 };
 
-typedef struct hash_list_s *hash_list;
+typedef struct hash_table_s *hash_table;
 
 //---------------Métodos---------------------------
 
-hash_list new_hl(int size);              //Crea una hashlist vacia dado su tamaño.
-void add_hl_entry(vertice *entry);  // Añade unn vertice a la hashtable
-vertice* lookup_hl_entry(u32 key);      //Busca un vertice en la hashtable
-u32 hash(u32 nombre_real, hash_list hl); // Devuelve el hash para un vertice y una hashlist en particular.
+hash_table new_ht(int size);              //Crea una hashtist vacia dado su tamaño.
+void add_ht_entry(vertice *entry);  // Añade unn vertice a la hashtable
+vertice* lookup_ht_entry(u32 key);      //Busca un vertice en la hashtable
+u32 hash(u32 nombre_real, hash_table ht); // Devuelve el hash para un vertice y una hashtist en particular.
