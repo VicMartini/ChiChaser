@@ -22,6 +22,6 @@ typedef struct hash_list_s *hash_list;
 //---------------Métodos---------------------------
 
 hash_list new_hl(int size);              //Crea una hashlist vacia dado su tamaño.
-hash_list add_hl_entry(vertice *entry);  // Añade unn vertice a la hashtable
-hash_list lookup_hl_entry(u32 key);      //Busca un vertice en la hashtable
+void add_hl_entry(vertice *entry);  // Añade unn vertice a la hashtable
+vertice* lookup_hl_entry(u32 key);      //Busca un vertice en la hashtable
 u32 hash(u32 nombre_real, hash_list hl); // Devuelve el hash para un vertice y una hashlist en particular.
