@@ -19,14 +19,14 @@ Hasta donde puedo ver las unicas moddificaciones que son necesarias son:
 
 !!!!****Necesitamos tests para esto****!!!!
 */
-
+typedef struct node node;
+typedef struct node *list;
 
 struct node
 { //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
     vertice *data;
     node *next;
 };
-typedef node* list;
 
 
 list new_list(void);
@@ -53,7 +53,7 @@ void concat(list l1, list l2);
 /*{Adds the elements of l2, in order, to l1 }*/
 
 /*{i < length(l)}*/
-vertice *index(unsigned int i ,list l); 
+vertice *index_ith(unsigned int i ,list l); 
 /*{Returns the list's ith element}*/
 
 /*{i < length(l)}*/

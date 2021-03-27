@@ -1,118 +1,105 @@
-#include <stdio.h>
+#include "munit.h"
+#include "List.h"
+/* This is just to disable an MSVC warning about conditional
+ * expressions being constant, which you shouldn't have to do for your
+ * code.  It's only here because we want to be able to do silly things
+ * like assert that 0 != 1 for our demo. */
+#if defined(_MSC_VER)
+#pragma warning(disable: 4127)
+#endif  
+
+/* The setup function, if you provide one, for a test will be run
+ * before the test, and the return value will be passed as the sole
+ * parameter to the test function. */
+static void*
+test_setup(const MunitParameter params[], void* user_data) {
+  list q = new_list();
+  return q;
+}
+
+static MunitResult
+test_is_null(const MunitParameter params[], void* fixture) {
+  list q = (list) fixture;
+  munit_assert_ptr(q, ==, NULL);
+  return MUNIT_OK;
+}
+/* To clean up after a test, you can use a tear down function.  The
+ * fixture argument is the value returned by the setup function
+ * above. */
+static void
+test_tear_down(void* fixture) {
+  free(fixture);
+}
+
+
+/* Creating a test suite is pretty simple.  First, you'll need an
+ * array of tests: */
+static MunitTest test_suite_tests[] = {
+  {
+    (char*) "/test_is_null",
+    test_is_null,
+    test_setup,
+    /* If you passed a callback for the fixture setup function, you
+     * may want to pass a corresponding callback here to reverse the
+     * operation. */
+    test_tear_down,
+    /* Finally, there is a bitmask for options you can pass here.  You
+     * can provide either MUNIT_TEST_OPTION_NONE or 0 here to use the
+     * defaults. */
+    MUNIT_TEST_OPTION_NONE,
+    NULL
+  },
+  /* Usually this is written in a much more compact format; all these
+   * comments kind of ruin that, though.  Here is how you'll usually
+   * see entries written: */
+  { NULL, NULL, NULL, NULL, MUNIT_TEST_OPTION_NONE, NULL }
+};
+
+/* If you wanted to have your test suite run other test suites you
+ * could declare an array of them.  Of course each sub-suite can
+ * contain more suites, etc. */
+/* static const MunitSuite other_suites[] = { */
+/*   { "/second", test_suite_tests, NULL, 1, MUNIT_SUITE_OPTION_NONE }, */
+/*   { NULL, NULL, NULL, 0, MUNIT_SUITE_OPTION_NONE } */
+/* }; */
+
+/* Now we'll actually declare the test suite.  You could do this in
+ * the main function, or on the heap, or whatever you want. */
+static const MunitSuite test_suite = {
+  /* This string will be prepended to all test names in this suite;
+   * for example, "/example/rand" will become "/µnit/example/rand".
+   * Note that, while it doesn't really matter for the top-level
+   * suite, NULL signal the end of an array of tests; you should use
+   * an empty string ("") instead. */
+  (char*) "",
+  /* The first parameter is the array of test suites. */
+  test_suite_tests,
+  /* In addition to containing test cases, suites can contain other
+   * test suites.  This isn't necessary in this example, but it can be
+   * a great help to projects with lots of tests by making it easier
+   * to spread the tests across many files.  This is where you would
+   * put "other_suites" (which is commented out above). */
+  NULL,
+  /* An interesting feature of µnit is that it supports automatically
+   * running multiple iterations of the tests.  This is usually only
+   * interesting if you make use of the PRNG to randomize your tests
+   * cases a bit, or if you are doing performance testing and want to
+   * average multiple runs.  0 is an alias for 1. */
+  1,
+  /* Just like MUNIT_TEST_OPTION_NONE, you can provide
+   * MUNIT_SUITE_OPTION_NONE or 0 to use the default settings. */
+  MUNIT_SUITE_OPTION_NONE
+};
+
+/* This is only necessary for EXIT_SUCCESS and EXIT_FAILURE, which you
+ * *should* be using but probably aren't (no, zero and non-zero don't
+ * always mean success and failure).  I guess my point is that nothing
+ * about µnit requires it. */
 #include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include "GrafoSt.h"
 
-/*
- compilar gcc test.c
- ./a.out < dimacs 
-
-*/ 
-char* parse_correct_form_edge(char *str);
-Lado_st* parse_p_edge_n_m(void);
-Lado_st** parse_edge(Lado_st *lados);
-/**
- * @brief chequea que la palabra este en forma correcta
- *         
- * @param str toma un string 
- * @return devuelve un string continuando luego de edge o
- *         si falla NULL.
- */
-char* parse_correct_form_edge(char *str){
-  char *r = NULL;
-
-  r = strtok(str, "p ");
-  if (strcmp(r, "edge") == 0){
-    r = strtok(NULL," ");
-    return r;
-  }else{
-    printf("error :%s \n", r);
-    return NULL;
-  }
-}
-
-
-Lado_st* parse_p_edge_n_m(void){
-char *readString = NULL; 
-u32 strToULong;
-char *ptr = NULL;
-bool flag = false;
-Lado_st *Data = NULL;
-
-Data = (Lado_st*) calloc(1, sizeof(struct Lado));
-readString = (char *)calloc(1, sizeof(char));
-
-  while (!flag) {
-    if(fgets(readString, 1024, stdin) == NULL)
-      return NULL;
-    if(readString[0] == 'p'){
-      if ((readString = parse_correct_form_edge(readString)) == NULL){
-        return NULL;
-      }
-      strToULong = strtoul(readString, &ptr, 10);
-      printf("1-%d\n", strToULong);
-      Data->v = strToULong;
-      readString = strtok(NULL, " ");
-      strToULong = strtoul(readString, &ptr, 10);
-      Data->w = strToULong;
-      printf("2-%d\n", strToULong);
-      flag = true;
-    }
-  }
-
-return Data;
-}
-
-
-Lado_st** parse_edge(Lado_st *lados){
-  bool flag = false;
-  char *token, *ptr ,*readStr = NULL;
-  u32 a, b, M = 0;
-  Lado_st **array_lados = NULL;
-  
-  M = lados->w;
-  readStr = (char *) calloc(1, sizeof(char));
-  array_lados = (Lado_st **) calloc(M, sizeof(Lado_st));
-  for (int i = 0; i < M; i++)
-  {
-    array_lados[i] = calloc(1, sizeof(struct Lado));
-  }
-  
-
-  for (int i = 0; i < M; i++){
-    if(fgets(readStr, 1024, stdin) == NULL)
-      return NULL;
-    if(readStr[0] = 'e'){
-      token = strtok(readStr, "e ");
-      a = (unsigned int) strtoul(token, &ptr, 10);
-      token = strtok(NULL, " ");
-      b = (unsigned int) strtoul(token, &ptr, 10);
-      array_lados[i]->v = a;
-      array_lados[i]->w = b;
-
-    }
-
-
-  }
-return array_lados;
-}
-
-
-int main(int argc, char ** argv){
-  Lado_st *infoEdge = NULL;
-  Lado_st **array = NULL;
-  u32 M = 0;
-  infoEdge = parse_p_edge_n_m();
-  M = infoEdge->w;
-  array = parse_edge(infoEdge);
-
-  /*test array */
-
-  for (int i = 0; i < M; i++)
-  {
-    printf("array[%d] : a=%d - b=%d  \n", i, array[i]->v, array[i]->w);
-  }
-  
-  return 0;
+int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
+  /* Finally, we'll actually run our test suite!  That second argument
+   * is the user_data parameter which will be passed either to the
+   * test or (if provided) the fixture setup function. */
+  return munit_suite_main(&test_suite, NULL, argc, argv);
 }
