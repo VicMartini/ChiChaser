@@ -16,6 +16,8 @@ La principal diferencia es que ahora data va a ser un puntero a un vertice.
 Hasta donde puedo ver las unicas moddificaciones que son necesarias son:
   - addr necesita tomar un puntero a vertice en vez de un entero
   - head e index van a devolver punteros a vertices.
+
+!!!!****Necesitamos tests para esto****!!!!
 */
 
 
