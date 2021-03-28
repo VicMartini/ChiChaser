@@ -26,7 +26,8 @@ void add_ht_entry(vertice *entry, hash_table ht)
     //Primero hasheamos el nombre real para ver a cual bucket hay que agregar el vertice
     u32 hsh = hash(entry -> nombre, ht);
     // Y con esto ya podemos agregar el vertice al bucket correspondiente usando la interfaz de list
-    ht -> buckets[hsh] = addr(entry, ht -> buckets[hsh]);
+    // gracias a addr_idemp podemos agregar sin crear duplicados, osea esta función también es idempotente
+    ht -> buckets[hsh] = addr_idemp(entry, ht -> buckets[hsh]);
     // Me parece que quedó mucho más simple que si hubieramos usado open addressing :)
 };
 
