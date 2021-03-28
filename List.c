@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include "List.h"
+typedef uint32_t u32;
 
 
 list new_list(void)
@@ -140,13 +141,12 @@ void destroy_list(list l)
   assert(!is_empty(l));
   list traverser = l;
   list prev_node;
-  while (traverser -> next != NULL)
+  while (traverser)
   { 
     prev_node = traverser;
     traverser = traverser -> next;
     free(prev_node);
   }
-  free(traverser);
 }
 
 
