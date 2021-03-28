@@ -35,7 +35,7 @@ typedef struct vertice_st
     u32 nombre;
     u32 color;
     u32 grado;
-    list vecinos; // Esto necesita ser una Linked List porque no sabemos el grado del vertice hasta terminar de construir el grafo.
+    list vecinos; 
 }vertice;
 
 
@@ -69,6 +69,11 @@ list addr_idemp(vertice *e, list l);
 /*{Adds an element to the end of the list
 if it is not already there}*/
 
+vertice* search(u32 key, list l);
+/*{Returns a pointer to the vertex with the given key
+NOTE: It returns a NULL pointer if the vertex isn't there}*/ 
+//Estos comentarios capaz que es bueno pasarlos todos a español
+
 unsigned int length(list l);
 /*{Returns the length of the list}*/
 
@@ -100,4 +105,3 @@ list copy_list(list l);
 /*{The list must not be empty}*/
  void destroy_list(list l);
  /*{ Frees the memory used by l }*/
-

@@ -83,6 +83,14 @@ list addr_idemp(vertice *e, list l)
     }
   }
 }
+//Ahora con acceso a la definición completa de vertice podemos buscar un poco más eficientemente
+vertice* search(u32 key, list l)
+{   
+  list traverser = l;
+  while(traverser && traverser -> data -> nombre != key)
+    traverser = traverser -> next;
+  return traverser; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
+}
 
 unsigned int length(list l)
 {
