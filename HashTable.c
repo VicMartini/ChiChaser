@@ -43,7 +43,7 @@ vertice *lookup_ht_entry(u32 key, hash_table ht)
     }
     v = (c == NULL) ? NULL : c -> data; // Si esta función devuelve null significa que
                                         //el vertice no estaba en la lista
-    if (c != NULL) destroy_list(c); // Si tail no vació la lista liberamos la memoria de la copia.
+    destroy_list(c); // Liberamos la memoria de la copia.
     return v;
 } // Tengo mis dudas sobre esta función, en particular no me gusta esto de copiar la lista
   // tengamos en cuenta que puede requerir refactorización.
