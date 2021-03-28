@@ -1,4 +1,3 @@
-#include "GrafoSt.h"
 #include "List.h"
 typedef uint32_t u32;
 /* Esta estructura de datos es una implementación de una lista de adyacencia usando hash tables.
