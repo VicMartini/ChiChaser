@@ -14,7 +14,7 @@ typedef struct GrafoSt
   u32 num_vertices;
   u32 num_lados;
   u32 delta;
-  vertice **vertices; /*Esto va a ser un array de punteros a vertices, como la cantidad de vertices está al principio del archivo dimacs, ya sabemos
+  struct vertice **vertices; /*Esto va a ser un array de punteros a vertices, como la cantidad de vertices está al principio del archivo dimacs, ya sabemos
   desde el comienzo cuanto espacio reservar para el array*/
 } grafo;
 
@@ -25,5 +25,15 @@ struct Lado
   u32 w;
 };
 
+/*Los vertices contienen la información que necesitamos en O(1) + una linked list  que tiene punteros a sus vecinos 
+Todo es O(1) salvo buscar un vecino que O(n) en el peor de los casos*/
+struct list;
+struct vertice_st
+{
+    u32 nombre;
+    u32 color;
+    u32 grado;
+  struct  list *vecinos; // Esto necesita ser una Linked List porque no sabemos el grado del vertice hasta terminar de construir el grafo.
+};
 
 

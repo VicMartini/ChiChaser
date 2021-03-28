@@ -1,13 +1,11 @@
 #include "GrafoSt.h"
 #include "List.h"
-#include "VerticeSt.h"
 typedef uint32_t u32;
 /* Esta estructura de datos es una implementación de una lista de adyacencia usando hash tables.
 Usar la hashtable nos permite hacer frente al problema de que los nodos del grafos no van a ser
 necesariamente enteros contiguos, lo cual hace inviable usar la implementación tradicional de una
 lista de adyacencia.*/
 
-#define ENTRY_TYPE vertice;
 
 //---------------Estructuras---------------------------
 struct hash_table_s
