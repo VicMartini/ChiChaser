@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "List.h"
 typedef uint32_t u32;
 
@@ -89,7 +90,7 @@ vertice* search(u32 key, list l)
   list traverser = l;
   while(traverser && traverser -> data -> nombre != key)
     traverser = traverser -> next;
-  return traverser; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
+  return traverser -> data; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
 }
 
 unsigned int length(list l)
@@ -187,7 +188,6 @@ void destroy_list(list l)
     free(prev_node);
   }
 }
-
 
 
 

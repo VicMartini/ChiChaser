@@ -1,5 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
+typedef uint32_t u32;
+
 /*
 Programé esta implementación de lista cuando estaba cursando Algoritmos II. Vamos a adaptarla para nuestras necesidades actuales.
 
@@ -17,12 +19,6 @@ Hasta donde puedo ver las unicas moddificaciones que son necesarias son:
 
 !!!!****Necesitamos tests para esto****!!!!
 */
-struct node
-{ //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
-    vertice *data;
-    list next;
-};
-typedef struct node* list;
 /*Voy a poner esta  vertice acá porque hay mucho acoplamiento entre vertice y lista 
 (se referencian mutuamente),y no vamos a tener listas de cosas que no sean vertices.
 No vamos a necesitar usar forward declaration y la busqueda va a poder ser más eficiente
@@ -35,8 +31,15 @@ typedef struct vertice_st
     u32 nombre;
     u32 color;
     u32 grado;
-    list vecinos; 
+    struct node *vecinos; 
 }vertice;
+
+struct node
+{ //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
+    vertice *data;
+    struct node *next;
+};
+typedef struct node* list;
 
 
 
