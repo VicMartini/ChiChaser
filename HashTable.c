@@ -36,19 +36,6 @@ vertice *lookup_ht_entry(u32 key, hash_table ht)
     vertice *v;
     //Muy parecido a la anterior, primero hasheamos la key
     u32 hsh = hash(key, ht);
-    /*Pero no tenemos un método para buscar en la lista, asi 
-    que vamos a copiar la lista y hacer tail de la copia
-    hasta llegar al elemento que buscamos. Esto no es muy 
-    eficiente, hay que probarlo. De ocurrir pocas colisiones
-    va a andar bien*/
-    list c = copy_list(ht -> buckets[hsh]);
-    while(c -> data -> nombre != key && c != NULL)
-    {
-        c = tail(c);
-    }
-    v = (c == NULL) ? NULL : c -> data; // Si esta función devuelve null significa que
-                                        //el vertice no estaba en la lista
-    destroy_list(c); // Liberamos la memoria de la copia.
-    return v;
-} // Tengo mis dudas sobre esta función, en particular no me gusta esto de copiar la lista
-  // tengamos en cuenta que puede requerir refactorización.
+    /*Gracias al nuevo metodo search de la lista solo tenemos que hacer una llamada acá*/
+    return search(key, ht -> buckets[hsh]);
+};
