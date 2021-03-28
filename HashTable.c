@@ -13,8 +13,12 @@ hash_table new_ht(int size)
     hash_table new_ht = malloc(sizeof(struct hash_table_s));
     new_ht -> size = size;
     new_ht -> ocupation = 0;
-    new_ht-> buckets = calloc(size, sizeof(list)); //Quizás deberiamos agregar un loop para inicializar
-                                                            //todas las posiciones de la tabla a NULL
+    new_ht-> buckets = calloc(size, sizeof(list)); 
+    for (u32 i = 0; i < size; ++i)
+    {
+        new_ht -> buckets[i] = new_list();
+    }       
+    return new_ht;                                                 
 };
 
 void add_ht_entry(vertice *entry, hash_table ht)
