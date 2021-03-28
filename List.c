@@ -55,7 +55,7 @@ list addr(vertice *e, list l)
   
 }
 
-list addr_idemp(vertice *e, list l)
+list addr_idemp_ptr(vertice *e, list l)
 {
   list traverser = l;
   list prev_node = NULL;
@@ -67,6 +67,9 @@ list addr_idemp(vertice *e, list l)
    // si no existe estamos parados al final de la lista
   if (traverser) //La lista no es vacia y no llegamos al final
   {              // eso significa que el vertice ya está en la lista.
+    if (traverser -> data != e)
+      free(e); //Si nos pasaron un puntero a un nodo que ya está y no es el puntero que 
+                //está en la lista liberamos la memoria usada por ese nodo duplicado
     return l; //No hacemos nada
   }
   else // La lista original es vacia o llegamos al final sin encontrar el vertice
@@ -83,6 +86,14 @@ list addr_idemp(vertice *e, list l)
       return new_node; //Devolvemos el puntero al nuevo nodo
     }
   }
+}
+
+list addr_idemp(u32 key, list l)
+{
+  vertice *new_vertex = malloc(sizeof(vertice));
+  new_vertex -> nombre = key; // Estamos mezclando español e inglés demasiado, eso no está bueno
+  return addr_idemp_ptr(new_vertex, l); //La addr_demp_ptr va a destruir este nuevo vertice si 
+                                        // ya existe uno igual en la lista.
 }
 //Ahora con acceso a la definición completa de vertice podemos buscar un poco más eficientemente
 vertice* search(u32 key, list l)

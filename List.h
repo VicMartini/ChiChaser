@@ -68,10 +68,12 @@ que ocurren en cada lado sin crear duplicados.
 Si no tendriamos que checkear si el vertice está
 antes de agregarlo con search y después agregarlo
 con addr. Esto seria un poco menos eficiente*/
-list addr_idemp(vertice *e, list l); 
-/*{Adds an element to the end of the list
-if it is not already there}*/
-
+list addr_idemp_ptr(vertice *e, list l); 
+/*{Adds a vertex to the end of the list
+if it is not already there, given a pointer to it}*/
+list addr_idemp(u32 key, list l);
+/*{It creates a vertex and it adds it to the end of the list
+if the vertex with that key is not in the list}*/
 vertice* search(u32 key, list l);
 /*{Returns a pointer to the vertex with the given key
 NOTE: It returns a NULL pointer if the vertex isn't there}*/ 
