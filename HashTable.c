@@ -21,10 +21,13 @@ hash_table new_ht(int size)
     return new_ht;                                                 
 };
 
-void add_ht_entry(vertice *entry, hash_table ht)
-{
+void add_ht_entry(u32 name_vertex, hash_table ht)
+{   // puntero para crear el vertice con el nombre real
+    vertice *entry = NULL;
     //Primero hasheamos el nombre real para ver a cual bucket hay que agregar el vertice
-    u32 hsh = hash(entry -> nombre, ht);
+    u32 hsh = hash(name_vertex, ht);
+    entry = calloc(1,sizeof(vertice));
+    entry -> nombre = name_vertex;
     // Y con esto ya podemos agregar el vertice al bucket correspondiente usando la interfaz de list
     // gracias a addr_idemp podemos agregar sin crear duplicados, osea esta función también es idempotente
     ht -> buckets[hsh] = addr_idemp(entry, ht -> buckets[hsh]);
