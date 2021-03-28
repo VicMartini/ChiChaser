@@ -53,6 +53,37 @@ list addr(vertice *e, list l)
   }
   
 }
+
+list addr_idemp(vertice *e, list l)
+{
+  list traverser = l;
+  list prev_node = NULL;
+   while(traverser && traverser -> data -> nombre != e -> nombre){
+      prev_node = traverser;
+      traverser = traverser -> next;
+   }
+   // En este punto, si el vertice existe ya en la lista estamos parados en él
+   // si no existe estamos parados al final de la lista
+  if (traverser) //La lista no es vacia y no llegamos al final
+  {              // eso significa que el vertice ya está en la lista.
+    return l; //No hacemos nada
+  }
+  else // La lista original es vacia o llegamos al final sin encontrar el vertice
+  {   
+    list new_node = malloc(sizeof(struct node)); //Acá ya sabemos que necesitamos un nodo más
+    new_node -> data = e;
+    if (prev_node) //Si hay un prev_node la lista no es vacia y prev_node apunta al ultimo 
+    {               //elemento de la lista
+      prev_node -> next = new_node; //Agregamos el vertice al final de la lista
+      return l; // En este caso el head sigue siendo el mismo
+    }
+    else //La lista es vacia
+    {
+      return new_node; //Devolvemos el puntero al nuevo nodo
+    }
+  }
+}
+
 unsigned int length(list l)
 {
   int count = 0;

@@ -1,6 +1,5 @@
 #include <stdint.h>
 #include <stdbool.h>
-typedef struct vertice vertice; //Forward declaration, si no hago esto se crea una dependencia circular con VerticeSt.
 /*
 Programé esta implementación de lista cuando estaba cursando Algoritmos II. Vamos a adaptarla para nuestras necesidades actuales.
 
@@ -18,13 +17,29 @@ Hasta donde puedo ver las unicas moddificaciones que son necesarias son:
 
 !!!!****Necesitamos tests para esto****!!!!
 */
-typedef struct node* list;
-
 struct node
 { //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
     vertice *data;
     list next;
 };
+typedef struct node* list;
+/*Voy a poner esta  vertice acá porque hay mucho acoplamiento entre vertice y lista 
+(se referencian mutuamente),y no vamos a tener listas de cosas que no sean vertices.
+No vamos a necesitar usar forward declaration y la busqueda va a poder ser más eficiente
+teniendo la definición completa de vertice*/
+
+/*Los vertices contienen la información que necesitamos en O(1) + una linked list  que tiene punteros a sus vecinos 
+Todo es O(1) salvo buscar un vecino que O(n) en el peor de los casos*/
+typedef struct vertice_st
+{
+    u32 nombre;
+    u32 color;
+    u32 grado;
+    list vecinos; // Esto necesita ser una Linked List porque no sabemos el grado del vertice hasta terminar de construir el grafo.
+}vertice;
+
+
+
 
 
 list new_list(void);
@@ -43,6 +58,16 @@ list tail(list l);
 
 list addr(vertice *e, list l);
 /*{Adds an element at the end of the list}*/
+
+/*Nuevo operador sobre la lista, nos va a permitir
+recorrer el array de lados agregando los vertices
+que ocurren en cada lado sin crear duplicados.
+Si no tendriamos que checkear si el vertice está
+antes de agregarlo con search y después agregarlo
+con addr. Esto seria un poco menos eficiente*/
+list addr_idemp(vertice *e, list l); 
+/*{Adds an element to the end of the list
+if it is not already there}*/
 
 unsigned int length(list l);
 /*{Returns the length of the list}*/
