@@ -98,9 +98,14 @@ list addr_idemp(u32 key, list l)
 //Ahora con acceso a la definición completa de vertice podemos buscar un poco más eficientemente
 vertice* search(u32 key, list l)
 {   
+  
   list traverser = l;
+  /* if(traverser==NULL){
+    return NULL;
+  } */
   while(traverser && traverser -> data -> nombre != key)
     traverser = traverser -> next;
+  
   return traverser -> data; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
 }
 

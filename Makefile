@@ -1,5 +1,5 @@
 CC=gcc
-#CFLAGS=
+#CFLAGS= -Wall -Wextra -O3 -std=c99
 
 # the macro DEPS, which is the set of .h files on which the .c files depend
 DEPS=List.h HashTable.h GrafoSt.h
