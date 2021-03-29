@@ -116,7 +116,7 @@ int func_insert_neighbour(u32 nombre, u32 vecino, hash_table ht){
   printf("nombre: %d \n", nombre);
   vert = lookup_ht_entry(nombre, ht);
   if(vert != NULL){
-    addr_idemp(vecino, vert->vecinos);
+    vert -> vecinos = addr_idemp(vecino, vert->vecinos);
   }
 return 0;
 }
