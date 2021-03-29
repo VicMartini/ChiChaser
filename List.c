@@ -106,7 +106,7 @@ vertice* search(u32 key, list l)
   while(traverser && traverser -> data -> nombre != key)
     traverser = traverser -> next;
   
-  return traverser -> data; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
+  return traverser ? traverser -> data : NULL; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
 }
 
 unsigned int length(list l)
