@@ -7,6 +7,27 @@
 typedef uint32_t u32;
 
 
+vertice* new_vertex(u32 nombre)
+{
+  vertice* new_vertex = malloc(sizeof(vertice));
+  new_vertex -> nombre = nombre;
+  new_vertex -> vecinos = new_list();
+  return new_vertex;
+};
+
+list addl(u32 key, list l){
+  vertice* nv = new_vertex(key);
+  return addl_ptr(nv, l);
+}
+
+list addl_ptr(vertice* v, list l)
+{
+  list new_head = malloc(sizeof(struct node));
+  new_head -> data = v;
+  new_head -> next = l;
+  return new_head;
+}
+
 list new_list(void)
 {
   list new_list = NULL;
@@ -34,25 +55,26 @@ list tail(list l)
   return new_head;
 }
 
+
 list addr(vertice *e, list l)
 {
-  list new_node = malloc(sizeof(struct node));
-  new_node -> data = e;
   list traverser = l;
-  if(!is_empty(traverser) )
-  {
-    while (traverser -> next != NULL)
-    {
-      traverser = traverser -> next;
-    }
-      traverser -> next = new_node;
-      return l;
+  list prev_node = NULL;
+  list new_node = malloc(sizeof(struct node)); 
+
+  while(traverser){
+    prev_node = traverser;
+    traverser = traverser -> next;
   }
-  else
-  {
-    return new_node;
+  if (prev_node) //Si hay un prev_node la lista no es vacia y prev_node apunta al ultimo 
+  {               //elemento de la lista
+    prev_node -> next = new_node; //Agregamos el vertice al final de la lista
+    return l; // En este caso el head sigue siendo el mismo
   }
-  
+  else //La lista es vacia
+  {
+    return new_node; //Devolvemos el puntero al nuevo nodo
+  } 
 }
 
 list addr_idemp_ptr(vertice *e, list l)
@@ -96,19 +118,30 @@ list addr_idemp(u32 key, list l)
                                         // ya existe uno igual en la lista.
 }
 //Ahora con acceso a la definición completa de vertice podemos buscar un poco más eficientemente
+
 vertice* search(u32 key, list l)
 {   
   
   list traverser = l;
-  /* if(traverser==NULL){
-    return NULL;
-  } */
+
   while(traverser && traverser -> data -> nombre != key)
     traverser = traverser -> next;
   
   return traverser ? traverser -> data : NULL; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
 }
 
+
+bool in_list(u32 key, list l)
+{
+  list traverser = l;
+  while(traverser && traverser -> data -> nombre != key){
+    traverser = traverser -> next;
+  }
+   // En este punto, si el vertice existe ya en la lista estamos parados en él
+   // si no existe estamos parados al final de la lista
+   // Si salimos del loop porque traverser == NULL significa que no encontramos el vertice
+   return !(traverser == NULL);
+}
 unsigned int length(list l)
 {
   int count = 0;

@@ -42,9 +42,14 @@ struct node
 typedef struct node* list;
 
 
-
-
-
+list addl(u32 key, list l);
+//{Creates a new vertex at the begining of the list given its name}
+list addl_ptr(vertice *v, list l);
+//{Adds a vertex to the begining of the list}
+bool in_list(u32 key, list l);
+//{Returns true if and only if the vertex is in the list}
+vertice* new_vertex(u32 nombre);
+//{Creates a new vertex}
 list new_list(void);
 /*{Returns a ponter to a new list}*/
 bool is_empty(list l);
