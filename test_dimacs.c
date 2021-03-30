@@ -72,12 +72,12 @@ return Data;
 
 Lado_st** parse_edge(Lado_st *lados){
   bool flag = false;
-  char *token, *ptr ,*readStr = NULL;
+  char readStr[1];
+  char *token, *ptr ;
   u32 a, b, M = 0;
   Lado_st **array_lados = NULL;
   
   M = lados->w;
-  readStr = (char *) calloc(1, sizeof(char));
   array_lados = (Lado_st **) calloc(M, sizeof(Lado_st));
   for (int i = 0; i < M; i++)
   {
@@ -88,7 +88,7 @@ Lado_st** parse_edge(Lado_st *lados){
   for (int i = 0; i < M; i++){
     if(fgets(readStr, 1024, stdin) == NULL)
       return NULL;
-    if(readStr[0] = 'e'){
+    if(readStr[0] =='e'){
       token = strtok(readStr, "e ");
       a = (unsigned int) strtoul(token, &ptr, 10);
       token = strtok(NULL, " ");
@@ -103,22 +103,22 @@ Lado_st** parse_edge(Lado_st *lados){
 return array_lados;
 }
 
-
+/*
 int func_insertar_vert(u32 nombre, hash_table ht){
   
     add_ht_entry(nombre, ht);
 
   return 0;
 }
-
-int func_insert_neighbour(u32 nombre, u32 vecino, hash_table ht){
-  vertice *vert = NULL;
-  printf("nombre: %d \n", nombre);
-  vert = lookup_ht_entry(nombre, ht);
-  if(vert != NULL){
-    vert -> vecinos = addr_idemp(vecino, vert->vecinos);
-  }
-return 0;
+*/
+int insert_edge(u32 v_key, u32 w_key, hash_table ht){
+  vertice *v = ht_put(v_key, ht);
+  vertice *w = ht_put(w_key, ht); //Notese que put es idempotente (No genera duplicados)
+  v -> vecinos = (in_list(w_key, v -> vecinos)) ? v -> vecinos : addl_ptr(w, v -> vecinos);
+  w -> vecinos = (in_list(v_key, w -> vecinos)) ? w -> vecinos : addl_ptr(v, w -> vecinos);
+  //Puede que eñ chequeo de si el vecino está en la lista sea inecesario. Hay que preguntarle
+  // al profe si podemos asumir que no hay lados duplicados en el dimacs.
+  return 0;
 }
 
 int print_graph(hash_table ht){
@@ -128,7 +128,7 @@ int print_graph(hash_table ht){
   u32 longitud_lista = 0;
   for (u32 i = 0; i < M; i++)
   {
-    vert = lookup_ht_entry(i, ht);
+    vert = ht_get(i, ht);
     if(vert != NULL){
           printf("vertice: %d -> \n", vert->nombre);
           printf("  vecinos:\n");
@@ -168,10 +168,7 @@ int main(int argc, char ** argv){
 
   for (int i = 0; i < M; i++)
   {
-    func_insertar_vert(array[i]->v, ht);
-    func_insertar_vert(array[i]->w, ht);
-    func_insert_neighbour(array[i]->v, array[i]->w , ht);
-    func_insert_neighbour(array[i]->w, array[i]->v , ht);
+    insert_edge(array[i] -> v, array[i] -> w, ht);
   }
 
   print_graph(ht);
