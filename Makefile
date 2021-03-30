@@ -15,12 +15,12 @@ OBJ=test_dimacs.o List.o HashTable.o
 # the compilation in the file named on the left side of the :,
 # the $< is the first item in the dependencies list, and the CFLAGS macro is defined as above.
 %.o: %.c $(DEPS)
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -Wall -g -c -o $@ $< $(CFLAGS)
 
 # use the special macros $@ and $^, which are the left and right sides of the :,
 # respectively, to make the overall compilation rule more general.
 test_dimacs: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -Wall -g -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
