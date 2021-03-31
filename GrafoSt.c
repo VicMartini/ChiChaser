@@ -24,34 +24,37 @@ void insert_edge(u32 v_key, u32 w_key, Grafo g)
     // al profe si podemos asumir que no hay lados duplicados en el dimacs.
 }
 
-void print_graph(Grafo g)
+u32 print_graph(Grafo g, u32 lines)
 {
     hash_table ht = g->vertices;
     int M = ht->size;
     vertice *vert, *vecino = NULL;
     u32 longitud_lista = 0;
-    for (u32 i = 0; i < M; i++)
+    if (lines >= M)
+        return 1;
+    for (u32 i = 0; i < lines; i++)
     {
-        vert = ht -> iterator[i];
+        vert = ht->iterator[i];
         if (vert != NULL)
         {
-            printf("%d: vertice: %d -> \n",i, vert->nombre);
+            printf("%u: vertice: %u -> \n", i, vert->nombre);
             printf("  vecinos:\n");
             printf("( \n");
-            longitud_lista =  vert -> grado;
-            printf("grado: %d \n", longitud_lista);
+            longitud_lista = vert->grado;
+            printf("grado: %u \n", longitud_lista);
             for (u32 i = 0; i < longitud_lista; i++)
             {
                 vecino = index_ith(i, vert->vecinos);
                 if (vecino != NULL)
                 {
-                    printf("(v: %d, peso: %d )", vecino->nombre, vert -> pesos[i]);
+                    printf("(v: %u, peso: %u )", vecino->nombre, vert->pesos[i]);
                 }
             }
             printf("\n ) \n");
             printf("\n");
         }
     }
+    return 0;
 }
 Grafo ConstruccionDelGrafo(void)
 {
@@ -76,38 +79,36 @@ Grafo ConstruccionDelGrafo(void)
         insert_edge(array[i]->v, array[i]->w, new_graph);
     }
 
-    for(int j = 0; j < N; ++j)
-    {   
-        v_degree = length(new_graph -> vertices -> iterator[j] -> vecinos);
-        new_graph -> vertices -> iterator [j] -> pesos = calloc(v_degree, sizeof(u32));
-        new_graph -> vertices -> iterator[j] ->grado = v_degree;
+    for (int j = 0; j < N; ++j)
+    {
+        v_degree = length(new_graph->vertices->iterator[j]->vecinos);
+        new_graph->vertices->iterator[j]->pesos = calloc(v_degree, sizeof(u32));
+        new_graph->vertices->iterator[j]->grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
-        max_degree = (v_degree > max_degree) ? v_degree : min_degree;
+        max_degree = (v_degree > max_degree) ? v_degree : max_degree;
     }
-    new_graph -> Delta = max_degree;
-    new_graph -> delta = min_degree;
+    new_graph->Delta = max_degree;
+    new_graph->delta = min_degree;
     return new_graph;
 }
 
-
-
 u32 Delta(Grafo g)
 {
-    return g -> Delta;
+    return g->Delta;
 }
 
 u32 delta(Grafo g)
 {
-    return g -> Delta;
+    return g->Delta;
 }
 
-u32 FijarPesoLadoConVecino(u32 j,u32 i,u32 p,Grafo G)
+u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
-    vertice** iterator = G -> vertices -> iterator;
-    u32 n = G -> num_vertices;
-    if( i < n && j < iterator[i] -> grado)
+    vertice **iterator = G->vertices->iterator;
+    u32 n = G->num_vertices;
+    if (i < n && j < iterator[i]->grado)
     {
-        iterator[i] -> pesos[j] = p;
+        iterator[i]->pesos[j] = p;
         return 0;
     }
     else
@@ -115,13 +116,13 @@ u32 FijarPesoLadoConVecino(u32 j,u32 i,u32 p,Grafo G)
         return 1;
     }
 };
-u32 PesoLadoConVecino(u32 j,u32 i,Grafo G)
+u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
 {
-    vertice** iterator = G -> vertices -> iterator;
-    u32 n = G -> num_vertices;
-    if( i < n && j < iterator[i] -> grado)
+    vertice **iterator = G->vertices->iterator;
+    u32 n = G->num_vertices;
+    if (i < n && j < iterator[i]->grado)
     {
-        return iterator[i] -> pesos[j];
+        return iterator[i]->pesos[j];
     }
     else
     {

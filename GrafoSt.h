@@ -8,24 +8,19 @@ Si usamos un array de punteros a Vertices eliminamos la necesidad de usar un arr
 Como los vertices estan en un array, acceder 
 a un vertice teniendo su número de orden en orden inicial también es O(1). */
 
-
 struct GrafoSt
 {
   u32 num_vertices;
   u32 num_lados;
   u32 Delta;
   u32 delta;
-  hash_table vertices; 
+  hash_table vertices;
 };
 typedef struct GrafoSt *Grafo;
 
 u32 delta(Grafo g);
 u32 Delta(Grafo g);
 void insert_edge(u32 v_key, u32 w_key, Grafo g);
-void print_graph(Grafo g);
+u32 print_graph(Grafo g, u32 lados);
 Grafo ConstruccionDelGrafo(void);
-u32 FijarPesoLadoConVecino(u32 j,u32 i,u32 p,Grafo G);
-
-
-
-
+u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
