@@ -28,7 +28,7 @@ void print_graph(Grafo g)
         vert = ht -> order[i];
         if (vert != NULL)
         {
-            printf("vertice: %d -> \n", vert->nombre);
+            printf("%d: vertice: %d -> \n",i, vert->nombre);
             printf("  vecinos:\n");
             printf("( \n");
             longitud_lista =  vert -> grado;
@@ -93,3 +93,31 @@ u32 delta(Grafo g)
 {
     return g -> Delta;
 }
+
+u32 FijarPesoLadoConVecino(u32 j,u32 i,u32 p,Grafo G)
+{
+    vertice** iterator = G -> vertices -> order;
+    u32 n = G -> num_vertices;
+    if( i < n && j < iterator[i] -> grado)
+    {
+        iterator[i] -> pesos[j] = p;
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+};
+u32 PesoLadoConVecino(u32 j,u32 i,Grafo G)
+{
+    vertice** iterator = G -> vertices -> order;
+    u32 n = G -> num_vertices;
+    if( i < n && j < iterator[i] -> grado)
+    {
+        return iterator[i] -> pesos[j];
+    }
+    else
+    {
+        return 0;
+    }
+};

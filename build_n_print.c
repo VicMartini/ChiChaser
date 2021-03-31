@@ -9,6 +9,14 @@
 int main(void)
 {
     Grafo g = ConstruccionDelGrafo();
+    vertice **iterator = g -> vertices -> order;
+    for(u32 i = 0; i < g -> num_vertices; ++i)
+    {
+        for(u32 j = 0; j < iterator[i] -> grado; ++j)
+        {
+            FijarPesoLadoConVecino(j,i,j+i,g);
+        }
+    }
     print_graph(g);
     printf("Δ = %d | δ = %d\n", g->Delta, g->delta);
 }
