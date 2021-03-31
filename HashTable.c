@@ -13,7 +13,7 @@ hash_table new_ht(int size)
     hash_table new_ht = malloc(sizeof(struct hash_table_s));
     new_ht->size = size;
     new_ht->ocupation = 0;
-    new_ht->order = calloc(size, sizeof(vertice *));
+    new_ht->iterator = calloc(size, sizeof(vertice *));
     new_ht->buckets = calloc(size, sizeof(list));
     for (u32 i = 0; i < size; ++i)
     {
@@ -36,7 +36,7 @@ vertice *ht_put(u32 key, hash_table ht) // Si el vertice no está lo agregamos y
     if (!v)                                     //No está el vertice vamos a agregarlo a la tabla y al array de orden.
     {
         ht->buckets[hsh] = addl(key, ht->buckets[hsh]);    //Ahora el nuevo vertice es el primero en el bucket
-        ht->order[ht->ocupation] = head(ht->buckets[hsh]); // Agregamos el puntero al nuevo vertice a la lista en la posición
+        ht->iterator[ht->ocupation] = head(ht->buckets[hsh]); // Agregamos el puntero al nuevo vertice a la lista en la posición
         ht->ocupation += 1;
         return head(ht->buckets[hsh]);                    // que corresponde a su orden de cargado.
     }

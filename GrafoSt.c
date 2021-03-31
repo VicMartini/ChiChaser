@@ -25,7 +25,7 @@ void print_graph(Grafo g)
     u32 longitud_lista = 0;
     for (u32 i = 0; i < M; i++)
     {
-        vert = ht -> order[i];
+        vert = ht -> iterator[i];
         if (vert != NULL)
         {
             printf("%d: vertice: %d -> \n",i, vert->nombre);
@@ -71,9 +71,9 @@ Grafo ConstruccionDelGrafo(void)
 
     for(int j = 0; j < N; ++j)
     {   
-        v_degree = length(new_graph -> vertices -> order[j] -> vecinos);
-        new_graph -> vertices -> order [j] -> pesos = calloc(v_degree, sizeof(u32));
-        new_graph -> vertices -> order[j] ->grado = v_degree;
+        v_degree = length(new_graph -> vertices -> iterator[j] -> vecinos);
+        new_graph -> vertices -> iterator [j] -> pesos = calloc(v_degree, sizeof(u32));
+        new_graph -> vertices -> iterator[j] ->grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
         max_degree = (v_degree > max_degree) ? v_degree : min_degree;
     }
@@ -96,7 +96,7 @@ u32 delta(Grafo g)
 
 u32 FijarPesoLadoConVecino(u32 j,u32 i,u32 p,Grafo G)
 {
-    vertice** iterator = G -> vertices -> order;
+    vertice** iterator = G -> vertices -> iterator;
     u32 n = G -> num_vertices;
     if( i < n && j < iterator[i] -> grado)
     {
@@ -110,7 +110,7 @@ u32 FijarPesoLadoConVecino(u32 j,u32 i,u32 p,Grafo G)
 };
 u32 PesoLadoConVecino(u32 j,u32 i,Grafo G)
 {
-    vertice** iterator = G -> vertices -> order;
+    vertice** iterator = G -> vertices -> iterator;
     u32 n = G -> num_vertices;
     if( i < n && j < iterator[i] -> grado)
     {

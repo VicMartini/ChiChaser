@@ -9,7 +9,7 @@
 int main(void)
 {
     Grafo g = ConstruccionDelGrafo();
-    vertice **iterator = g -> vertices -> order;
+    vertice **iterator = g -> vertices -> iterator;
     for(u32 i = 0; i < g -> num_vertices; ++i)
     {
         for(u32 j = 0; j < iterator[i] -> grado; ++j)

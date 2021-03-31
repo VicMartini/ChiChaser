@@ -71,7 +71,6 @@ Lado_st *parse_p_edge_n_m(void)
 
 Lado_st **parse_edge(Lado_st *lados)
 {
-  bool flag = false;
   char readStr[1];
   char *token, *ptr;
   u32 a, b, M = 0;

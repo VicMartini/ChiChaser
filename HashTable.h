@@ -11,9 +11,10 @@ struct hash_table_s
 {
     int size;
     int ocupation;
-    vertice** order; //Un array de punteros a vertices que podemos usar para iterar eficientemente sobre todos los elementos de la hashtable
+    vertice** iterator; //Un array de punteros a vertices que podemos usar para iterar eficientemente sobre todos los elementos de la hashtable
                     //inspirado en la LinkedHashMap de Java.
     list *buckets; //Cada bucket es una lista de los vertices con el mismo hash.
+    //Idea: Después de terminada la construccion del grafo podriamos liberar la hashtable y quedarnos solo con el iterator.
 };
 
 typedef struct hash_table_s *hash_table;
