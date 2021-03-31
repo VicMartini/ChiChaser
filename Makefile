@@ -4,7 +4,7 @@ CC=gcc
 # the macro DEPS, which is the set of .h files on which the .c files depend
 DEPS=List.h HashTable.h GrafoSt.h dimacs.h
 
-OBJ=build_n_print.o  GrafoSt.o dimacs.o List.o HashTable.o
+OBJ=check_build_time.o  GrafoSt.o dimacs.o List.o HashTable.o
 
 # we define a rule that applies to all files ending in the .o suffix.
 # The rule says that the .o file depends upon the .c version of the file and the .h
@@ -19,7 +19,7 @@ OBJ=build_n_print.o  GrafoSt.o dimacs.o List.o HashTable.o
 
 # use the special macros $@ and $^, which are the left and right sides of the :,
 # respectively, to make the overall compilation rule more general.
-build_and_print: $(OBJ)
+check_build_time: $(OBJ)
 	$(CC) -Wall -g -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
