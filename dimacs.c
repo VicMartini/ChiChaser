@@ -71,11 +71,11 @@ Lado_st *parse_p_edge_n_m(void)
 
 Lado_st **parse_edge(Lado_st *lados)
 {
-  char readStr[1];
+  char *readStr;
   char *token, *ptr;
   u32 a, b, M = 0;
   Lado_st **array_lados = NULL;
-
+  readStr = calloc(1, sizeof(char)*1024);
   M = lados->w;
   array_lados = (Lado_st **)calloc(M, sizeof(Lado_st));
   for (int i = 0; i < M; i++)
