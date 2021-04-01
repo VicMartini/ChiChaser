@@ -118,8 +118,6 @@ Grafo CopiarGrafo(Grafo G)
     clone->num_lados = G->num_lados;
     clone->vertices = calloc(G->num_vertices, sizeof(vertice));
     //Copiar vertices
-    //memcpy((void *)clone->vertices, (void *)G->vertices, G->num_vertices);
-    printf("-> %u\n", G->vertices[1].nombre);
     //Cambiar la base de los punteros a vecinos
     for (u32 j = 0; j < G->num_vertices; ++j)
     {
