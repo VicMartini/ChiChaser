@@ -25,3 +25,4 @@ vertice *ht_put(u32 key, hash_table ht);      // Añade un vertice a la hashtabl
 vertice *ht_get(u32 key, hash_table ht);      //Busca un vertice en la hashtable
 u32 hash(u32 nombre_real, hash_table ht);     // Devuelve el hash para un vertice y una hashtist en particular.
 vertice **ht_extract_iterator(hash_table ht); //Destruye la hashtable y devuelve una referencia a su iterator.
+void insert_edge(u32 v_key, u32 w_key, hash_table ht);

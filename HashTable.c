@@ -8,6 +8,23 @@ u32 hash(u32 nombre_real, hash_table ht)
     return nombre_real % ht->size; //Un hash modular muy sencillo que deberia servirnos por el momento
 };                                 //deberiamos ver cómo se comporta y decidir si necesitamos algo más sofisticado.
 
+void insert_edge(u32 v_key, u32 w_key, hash_table ht)
+{
+    vertice *v = ht_put(v_key, ht);
+    vertice *w = ht_put(w_key, ht); //Notese que put es idempotente (No genera duplicados)
+    /*
+    Me parece que chequear por duplicados antes de añadir vecinos es inviable
+    aumenta mucho el tiempo de ejecución y me parece que en las specs dice
+    que no va a haber duplicados
+    v->vecinos = (in_list(w_key, v->vecinos)) ? v->vecinos : addl_ptr(w, v->vecinos);
+    w->vecinos = (in_list(v_key, w->vecinos)) ? w->vecinos : addl_ptr(v, w->vecinos);
+    */
+    v->vecinos = addl_ptr(w, v->vecinos);
+    w->vecinos = addl_ptr(v, w->vecinos);
+    //Puede que el chequeo de si el vecino está en la lista sea inecesario. Hay que preguntarle
+    // al profe si podemos asumir que no hay lados duplicados en el dimacs.
+}
+
 //Esta función destruye la struct de la hashtable
 // y nos devuelve un puntero a su iterator.
 vertice **ht_extract_iterator(hash_table ht)
