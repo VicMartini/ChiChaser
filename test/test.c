@@ -99,12 +99,33 @@ test_search_in_list(const MunitParameter params[], void* fixture) {
   munit_assert_false(in_list(4, q));
   return MUNIT_OK;
 }
+/* parametros , cuando se hace un test y se necesita parametros 
+   se crea una arreglo y se pasa a MunitParameterEnum 
+   luego en la suite se agrega el nombre como parametro en este caso file_params
+   esto es para que el test use esos parametros.
+   luego con munit_parameters_get(params, "file") los obtenemos .
 
+*/
 static char* file_params[] = {
+  (char *)"./dimacs_files/q10",
+  (char *)"./dimacs_files/q13",
+  (char *)"./dimacs_files/school1",
+  (char *)"./dimacs_files/CBQsc100_200_11_1517",
+  (char *)"./dimacs_files/CBQsv10_22_61.txt",
+  (char *)"./dimacs_files/KC",
+  (char *)"./dimacs_files/KD",
+  (char *)"./dimacs_files/KM",
+  (char *)"./dimacs_files/Octo.txt",
   (char *)"./dimacs_files/BxB1100_999_54_2017",
-  (char *)"./dimacs_files/GRD99704280",
-  (char *)"./dimacs_files/CBQsv1000_77_150.txt",
+  (char *)"./dimacs_files/bxb777_999_12",
   (char *)"./dimacs_files/R1999999_10123123_1",
+  (char *)"./dimacs_files/Gf12345_12111222_457_15",
+  (char *)"./dimacs_files/CBQsv1000_77_150.txt",
+  (char *)"./dimacs_files/GRD99704280",
+  (char *)"./dimacs_files/GRD22154753987",
+  (char *)"./dimacs_files/DG100",
+  (char *)"./dimacs_files/PG64",
+  (char *)"./dimacs_files/GRD505041100",
    NULL
 };
 
