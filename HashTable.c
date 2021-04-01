@@ -8,6 +8,20 @@ u32 hash(u32 nombre_real, hash_table ht)
     return nombre_real % ht->size; //Un hash modular muy sencillo que deberia servirnos por el momento
 };                                 //deberiamos ver cómo se comporta y decidir si necesitamos algo más sofisticado.
 
+//Esta función destruye la struct de la hashtable
+// y nos devuelve un puntero a su iterator.
+vertice **ht_extract_iterator(hash_table ht)
+{
+    vertice **iterator = ht->iterator;
+    for (u32 i = 0; i < ht->size; ++i)
+    {
+        destroy_list(ht->buckets[i]);
+    }
+    free(ht->buckets);
+    free(ht);
+    return iterator;
+}
+
 hash_table new_ht(int size)
 {
     hash_table new_ht = malloc(sizeof(struct hash_table_s));
@@ -35,10 +49,10 @@ vertice *ht_put(u32 key, hash_table ht) // Si el vertice no está lo agregamos y
     vertice *v = search(key, ht->buckets[hsh]); //Esto es NULL si el vertice no está
     if (!v)                                     //No está el vertice vamos a agregarlo a la tabla y al array de orden.
     {
-        ht->buckets[hsh] = addl(key, ht->buckets[hsh]);    //Ahora el nuevo vertice es el primero en el bucket
+        ht->buckets[hsh] = addl(key, ht->buckets[hsh]);       //Ahora el nuevo vertice es el primero en el bucket
         ht->iterator[ht->ocupation] = head(ht->buckets[hsh]); // Agregamos el puntero al nuevo vertice a la lista en la posición
         ht->ocupation += 1;
-        return head(ht->buckets[hsh]);                    // que corresponde a su orden de cargado.
+        return head(ht->buckets[hsh]); // que corresponde a su orden de cargado.
     }
     else // El vertice ya estaba, devolvemos el puntero hacia él.
     {

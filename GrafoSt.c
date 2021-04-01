@@ -6,9 +6,8 @@
 #include "GrafoSt.h"
 typedef uint32_t u32;
 
-void insert_edge(u32 v_key, u32 w_key, Grafo g)
+void insert_edge(u32 v_key, u32 w_key, hash_table ht)
 {
-    hash_table ht = g->vertices;
     vertice *v = ht_put(v_key, ht);
     vertice *w = ht_put(w_key, ht); //Notese que put es idempotente (No genera duplicados)
     /*
@@ -26,15 +25,14 @@ void insert_edge(u32 v_key, u32 w_key, Grafo g)
 
 u32 print_graph(Grafo g, u32 lines)
 {
-    hash_table ht = g->vertices;
-    int M = ht->size;
+    u32 M = g->num_vertices;
     vertice *vert, *vecino = NULL;
     u32 longitud_lista = 0;
     if (lines >= M)
         return 1;
     for (u32 i = 0; i < lines; i++)
     {
-        vert = ht->iterator[i];
+        vert = g->vertices[i];
         if (vert != NULL)
         {
             printf("%u: vertice: %u -> \n", i, vert->nombre);
@@ -72,18 +70,21 @@ Grafo ConstruccionDelGrafo(void)
     M = infoEdge->w;
     array = parse_edge(infoEdge);
     new_graph->num_vertices = N;
-    new_graph->vertices = new_ht(N);
+
+    hash_table scaffold = new_ht(N); //La hashtable va a servir como un 'andamio' para la
+                                     //construcción del grafo.
 
     for (int i = 0; i < M; i++)
     {
-        insert_edge(array[i]->v, array[i]->w, new_graph);
+        insert_edge(array[i]->v, array[i]->w, scaffold);
     }
-
+    //Ya no necesitamos la hashtable. Vamos a destruirla y quedarnos solo con el iterator
+    new_graph->vertices = ht_extract_iterator(scaffold);
     for (int j = 0; j < N; ++j)
     {
-        v_degree = length(new_graph->vertices->iterator[j]->vecinos);
-        new_graph->vertices->iterator[j]->pesos = calloc(v_degree, sizeof(u32));
-        new_graph->vertices->iterator[j]->grado = v_degree;
+        v_degree = length(new_graph->vertices[j]->vecinos);
+        new_graph->vertices[j]->pesos = calloc(v_degree, sizeof(u32));
+        new_graph->vertices[j]->grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
         max_degree = (v_degree > max_degree) ? v_degree : max_degree;
     }
@@ -101,7 +102,7 @@ u32 delta(Grafo g)
 {
     return g->Delta;
 }
-
+/*
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
     vertice **iterator = G->vertices->iterator;
@@ -129,3 +130,4 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
         return 0;
     }
 };
+*/
