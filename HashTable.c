@@ -76,7 +76,7 @@ vertice *ht_put(u32 key, hash_table ht) // Si el vertice no está lo agregamos y
         vertice *nv_address = place_in_iterator(key, ht->ocupation, ht);
         ht->buckets[hsh] = addl_ptr(nv_address, ht->buckets[hsh]); //Ahora el nuevo vertice es el primero en el bucket
         ht->ocupation += 1;
-        return head(ht->buckets[hsh]); // que corresponde a su orden de cargado.
+        return nv_address; // que corresponde a su orden de cargado.
     }
     else // El vertice ya estaba, devolvemos el puntero hacia él.
     {
