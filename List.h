@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include "VerticeSt.h"
 typedef uint32_t u32;
 
 /*
@@ -26,30 +27,21 @@ teniendo la definición completa de vertice*/
 
 /*Los vertices contienen la información que necesitamos en O(1) + una linked list  que tiene punteros a sus vecinos 
 Todo es O(1) salvo buscar un vecino que O(n) en el peor de los casos*/
-typedef struct vertice_st
-{
-  u32 nombre;
-  u32 color;
-  u32 grado;
-  u32 *pesos;
-  struct node *vecinos;
-} vertice;
 
 struct node
-{ //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
+{ //Vamos a usar la lista  para  manejar colisiones en la hashtable.
   vertice *data;
+  u32 key;
   struct node *next;
 };
 typedef struct node *list;
 
-list addl(u32 key, list l);
+list addl(u32 key, vertice *v, list l);
 //{Creates a new vertex at the begining of the list given its name}
 list addl_ptr(vertice *v, list l);
 //{Adds a vertex to the begining of the list}
 bool in_list(u32 key, list l);
 //{Returns true if and only if the vertex is in the list}
-vertice *new_vertex(u32 nombre);
-//{Creates a new vertex}
 list new_list(void);
 /*{Returns a ponter to a new list}*/
 bool is_empty(list l);
@@ -109,10 +101,6 @@ list copy_list(list l);
 /*{Deletes all the elements of l1
  whose indexes are less than i}*/
 
-vertice *copy_vertex(vertice *v);
 /*{The list must not be empty}*/
 u32 destroy_list(list l);
 /*{ Frees the memory used by l }*/
-list copy_and_offset(vertice *new_base, vertice *original_base, list l);
-
-vertice *offset(vertice *new_base, vertice *original_base, vertice *vertex);

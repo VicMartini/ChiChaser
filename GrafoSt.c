@@ -24,7 +24,7 @@ u32 print_graph(Grafo g, u32 lines)
         printf("grado: %u \n", longitud_lista);
         for (u32 i = 0; i < longitud_lista; i++)
         {
-            vecino = index_ith(i, vert.vecinos);
+            vecino = vert.vecinos->elements[i];
             if (vecino != NULL)
             {
                 printf("(v: %u, peso: %u )", vecino->nombre, vert.pesos[i]);
@@ -63,7 +63,8 @@ Grafo ConstruccionDelGrafo(void)
     new_graph->vertices = ht_extract_iterator(scaffold);
     for (int j = 0; j < N; ++j)
     {
-        v_degree = length(new_graph->vertices[j].vecinos);
+        v_degree = new_graph->vertices[j].vecinos->ocupation;
+        printf("Ocupation : %d\n", new_graph->vertices[j].vecinos->ocupation);
         new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
         new_graph->vertices[j].grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
@@ -107,7 +108,6 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
     else
         return 0;
 };
-*/
 
 Grafo CopiarGrafo(Grafo G)
 {
@@ -129,3 +129,4 @@ Grafo CopiarGrafo(Grafo G)
     }
     return clone;
 }
+*/

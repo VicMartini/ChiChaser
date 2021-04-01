@@ -2,9 +2,9 @@ CC=gcc
 #CFLAGS= -Wall -Wextra -O3 -std=c99
 
 # the macro DEPS, which is the set of .h files on which the .c files depend
-DEPS=List.h HashTable.h GrafoSt.h dimacs.h
+DEPS=List.h HashTable.h GrafoSt.h dimacs.h VerticeSt.h darray.h
 
-OBJ=check_build_time.o  GrafoSt.o dimacs.o List.o HashTable.o
+OBJ=check_build_time.o  GrafoSt.o dimacs.o List.o HashTable.o VerticeSt.o darray.o 
 
 # we define a rule that applies to all files ending in the .o suffix.
 # The rule says that the .o file depends upon the .c version of the file and the .h
