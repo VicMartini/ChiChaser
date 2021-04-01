@@ -109,6 +109,10 @@ list copy_list(list l);
 /*{Deletes all the elements of l1
  whose indexes are less than i}*/
 
+vertice *copy_vertex(vertice *v);
 /*{The list must not be empty}*/
 u32 destroy_list(list l);
 /*{ Frees the memory used by l }*/
+list copy_and_offset(vertice *new_base, vertice *original_base, list l);
+
+vertice *offset(vertice *new_base, vertice *original_base, vertice *vertex);

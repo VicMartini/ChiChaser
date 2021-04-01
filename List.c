@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include "List.h"
 typedef uint32_t u32;
 
@@ -208,7 +209,7 @@ list drop(unsigned int i, list l)
   }
   return traverser;
 }
-
+/*
 list copy_list(list l)
 {
   assert(!is_empty(l));
@@ -226,6 +227,43 @@ list copy_list(list l)
   }
   return new_list;
 }
+*/
+list copy_list(list l)
+{
+  if (is_empty(l))
+    return NULL;
+  list clone = malloc(sizeof(struct node));
+  clone->data = l->data;
+  clone->next = copy_list(l->next);
+  return clone;
+}
+
+list copy_and_offset(vertice *new_base, vertice *original_base, list l)
+{
+  if (is_empty(l))
+    return NULL;
+  list clone = malloc(sizeof(struct node));
+  clone->data = offset(new_base, original_base, l->data);
+  clone->next = copy_list(l->next);
+  return clone;
+}
+
+vertice *offset(vertice *new_base, vertice *original_base, vertice *vertex)
+{
+  return new_base + (original_base - vertex);
+}
+
+/*
+vertice *copy_vertex(vertice *v)
+{
+  vertice *clone = new_vertex(v->nombre);
+  clone->grado = v->grado;
+  clone->color = v->color;
+  clone->pesos = calloc(v->vecinos, sizeof(u32));
+  memcpy(clone->pesos, v->pesos);
+  clone->vecinos = new_list();
+}
+*/
 
 u32 destroy_list(list l)
 {

@@ -14,7 +14,7 @@ struct GrafoSt
   u32 num_lados;
   u32 Delta;
   u32 delta;
-  vertice **vertices; //Array de punteros a vertices
+  vertice *vertices; //Array de vertices
 };
 typedef struct GrafoSt *Grafo;
 
@@ -23,3 +23,4 @@ u32 Delta(Grafo g);
 u32 print_graph(Grafo g, u32 lines);
 Grafo ConstruccionDelGrafo(void);
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
+Grafo CopiarGrafo(Grafo G);

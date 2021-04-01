@@ -9,31 +9,29 @@ typedef uint32_t u32;
 u32 print_graph(Grafo g, u32 lines)
 {
     u32 M = g->num_vertices;
-    vertice *vert, *vecino = NULL;
+    vertice vert;
+    vertice *vecino = NULL;
     u32 longitud_lista = 0;
     if (lines > M)
         return 1;
     for (u32 i = 0; i < lines; i++)
     {
         vert = g->vertices[i];
-        if (vert != NULL)
+        printf("%u: vertice: %u -> \n", i, vert.nombre);
+        printf("  vecinos:\n");
+        printf("( \n");
+        longitud_lista = vert.grado;
+        printf("grado: %u \n", longitud_lista);
+        for (u32 i = 0; i < longitud_lista; i++)
         {
-            printf("%u: vertice: %u -> \n", i, vert->nombre);
-            printf("  vecinos:\n");
-            printf("( \n");
-            longitud_lista = vert->grado;
-            printf("grado: %u \n", longitud_lista);
-            for (u32 i = 0; i < longitud_lista; i++)
+            vecino = index_ith(i, vert.vecinos);
+            if (vecino != NULL)
             {
-                vecino = index_ith(i, vert->vecinos);
-                if (vecino != NULL)
-                {
-                    printf("(v: %u, peso: %u )", vecino->nombre, vert->pesos[i]);
-                }
+                printf("(v: %u, peso: %u )", vecino->nombre, vert.pesos[i]);
             }
-            printf("\n ) \n");
-            printf("\n");
         }
+        printf("\n ) \n");
+        printf("\n");
     }
     return 0;
 }
@@ -65,9 +63,9 @@ Grafo ConstruccionDelGrafo(void)
     new_graph->vertices = ht_extract_iterator(scaffold);
     for (int j = 0; j < N; ++j)
     {
-        v_degree = length(new_graph->vertices[j]->vecinos);
-        new_graph->vertices[j]->pesos = calloc(v_degree, sizeof(u32));
-        new_graph->vertices[j]->grado = v_degree;
+        v_degree = length(new_graph->vertices[j].vecinos);
+        new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
+        new_graph->vertices[j].grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
         max_degree = (v_degree > max_degree) ? v_degree : max_degree;
     }
@@ -86,6 +84,7 @@ u32 delta(Grafo g)
     return g->Delta;
 }
 
+/*
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
     ;
@@ -108,3 +107,27 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
     else
         return 0;
 };
+*/
+
+Grafo CopiarGrafo(Grafo G)
+{
+    Grafo clone = malloc(sizeof(struct GrafoSt));
+    clone->Delta = G->Delta;
+    clone->delta = G->delta;
+    clone->num_vertices = G->num_vertices;
+    clone->num_lados = G->num_lados;
+    clone->vertices = calloc(G->num_vertices, sizeof(vertice));
+    //Copiar vertices
+    //memcpy((void *)clone->vertices, (void *)G->vertices, G->num_vertices);
+    printf("-> %u\n", G->vertices[1].nombre);
+    //Cambiar la base de los punteros a vecinos
+    for (u32 j = 0; j < G->num_vertices; ++j)
+    {
+        clone->vertices[j] = G->vertices[j];
+        clone->vertices[j].grado = G->vertices[j].grado;
+        clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
+        memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, clone->vertices[j].grado);
+        clone->vertices[j].vecinos = copy_and_offset(clone->vertices, clone->vertices, G->vertices[j].vecinos);
+    }
+    return clone;
+}

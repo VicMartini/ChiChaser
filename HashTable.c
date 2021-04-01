@@ -27,9 +27,9 @@ void insert_edge(u32 v_key, u32 w_key, hash_table ht)
 
 //Esta función destruye la struct de la hashtable
 // y nos devuelve un puntero a su iterator.
-vertice **ht_extract_iterator(hash_table ht)
+vertice *ht_extract_iterator(hash_table ht)
 {
-    vertice **iterator = ht->iterator;
+    vertice *iterator = ht->iterator;
     for (u32 i = 0; i < ht->size; ++i)
     {
         destroy_list(ht->buckets[i]);
@@ -44,7 +44,7 @@ hash_table new_ht(int size)
     hash_table new_ht = malloc(sizeof(struct hash_table_s));
     new_ht->size = size;
     new_ht->ocupation = 0;
-    new_ht->iterator = calloc(size, sizeof(vertice *));
+    new_ht->iterator = calloc(size, sizeof(vertice));
     new_ht->buckets = calloc(size, sizeof(list));
     for (u32 i = 0; i < size; ++i)
     {
@@ -52,6 +52,13 @@ hash_table new_ht(int size)
     }
     return new_ht;
 };
+
+vertice *place_in_iterator(u32 key, u32 k, hash_table ht)
+{
+    ht->iterator[k].nombre = key;
+    ht->iterator[k].vecinos = new_list();
+    return ht->iterator + k;
+}
 
 bool in_ht(u32 key, hash_table ht)
 {
@@ -66,8 +73,8 @@ vertice *ht_put(u32 key, hash_table ht) // Si el vertice no está lo agregamos y
     vertice *v = search(key, ht->buckets[hsh]); //Esto es NULL si el vertice no está
     if (!v)                                     //No está el vertice vamos a agregarlo a la tabla y al array de orden.
     {
-        ht->buckets[hsh] = addl(key, ht->buckets[hsh]);       //Ahora el nuevo vertice es el primero en el bucket
-        ht->iterator[ht->ocupation] = head(ht->buckets[hsh]); // Agregamos el puntero al nuevo vertice a la lista en la posición
+        vertice *nv_address = place_in_iterator(key, ht->ocupation, ht);
+        ht->buckets[hsh] = addl_ptr(nv_address, ht->buckets[hsh]); //Ahora el nuevo vertice es el primero en el bucket
         ht->ocupation += 1;
         return head(ht->buckets[hsh]); // que corresponde a su orden de cargado.
     }
