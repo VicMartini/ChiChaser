@@ -1,7 +1,9 @@
 /.vscode
 *.o
+*.out
 .DS_Store
 check_build_time
 build_and_print
 build_n_print
 Graphs/
+
