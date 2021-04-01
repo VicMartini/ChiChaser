@@ -4,4 +4,7 @@
 ## Estructuras de datos
 # HashList
 
+
+
+'Test'
 ![](./DiagramaHashList.jpg)
