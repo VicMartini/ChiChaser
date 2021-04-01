@@ -56,12 +56,10 @@ Lado_st *parse_p_edge_n_m(void)
         return NULL;
       }
       strToULong = strtoul(readString, &ptr, 10);
-      printf("1-%d\n", strToULong);
       Data->v = strToULong;
       readString = strtok(NULL, " ");
       strToULong = strtoul(readString, &ptr, 10);
       Data->w = strToULong;
-      printf("2-%d\n", strToULong);
       flag = true;
     }
   }

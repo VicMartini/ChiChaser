@@ -101,8 +101,11 @@ test_search_in_list(const MunitParameter params[], void* fixture) {
 }
 
 static char* file_params[] = {
-  (char *)"../test_dimacs/bxb14_22_10",
-  (char *)"../test_dimacs/bxb15_22_10", NULL
+  (char *)"./dimacs_files/BxB1100_999_54_2017",
+  (char *)"./dimacs_files/GRD99704280",
+  (char *)"./dimacs_files/CBQsv1000_77_150.txt",
+  (char *)"./dimacs_files/R1999999_10123123_1",
+   NULL
 };
 
 static MunitParameterEnum test_params[] = {
@@ -111,46 +114,47 @@ static MunitParameterEnum test_params[] = {
 };
 
 static MunitResult
-test_load_file(const MunitParameter params[], void* fixture) {
+test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
   FILE *f;
-  char *buffer, *ptr= NULL;
-  bool flag = false;
-  const char* filename;
-  u32 strToULong;
-  Lado_st *Data;
+  const char *filename;
+  Lado_st *Data=calloc(1, sizeof(Lado_st));
+ 
+  Data->v = 0;
+  Data->w = 0;
+  filename = (const char *) munit_parameters_get(params, "file");
+  /*
+    The  freopen()  function  opens  the  file  whose name is the string
+    pointed to by pathname and associates the stream pointed to by stream with it. 
+    The original stream (if it exists) is closed.
+    The mode argument is used just as in the fopen() function.
+  */
+  f = freopen(filename, "r", stdin);
+  Data = parse_p_edge_n_m();
+  munit_assert_uint32(Data->v, !=, 0);
+  munit_assert_uint32(Data->w, !=, 0);
+  free(Data);
+  return MUNIT_OK;
+}
 
-  filename = (const char *)munit_parameters_get(params, "file");
-  
 
-  buffer = malloc(sizeof(f));
-  f = fopen(filename, "r");
-  if(f==NULL){
-    printf("error fopen: %s \n",filename);
-    return MUNIT_ERROR;
-  }
-  /* while (!flag)
-  {
-    if (fgets(buffer, 1024, f) == NULL)
-      return MUNIT_ERROR;
-    if (buffer[0] == 'p')
-    {
-      if ((buffer = parse_correct_form_edge(buffer)) == NULL)
-      {
-        return MUNIT_ERROR;
-      }
-      strToULong = strtoul(buffer, &ptr, 10);
-      Data->v = strToULong;
-      buffer = strtok(NULL, " ");
-      strToULong = strtoul(buffer, &ptr, 10);
-      Data->w = strToULong;
-      flag = true;
-    }
-  } */
-  
-  munit_assert_ptr_not_null(Data);
-  munit_assert_uint32(Data->v, >, 0);
-  munit_assert_uint32(Data->w, >, 0);
 
+static MunitResult
+test_read_graph(const MunitParameter params[], void* fixture) {
+  FILE *f;
+  const char *filename;
+  Grafo graph = NULL;
+
+  filename = (const char *) munit_parameters_get(params, "file");
+  /*
+    The  freopen()  function  opens  the  file  whose name is the string
+    pointed to by pathname and associates the stream pointed to by stream with it. 
+    The original stream (if it exists) is closed.
+    The mode argument is used just as in the fopen() function.
+  */
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+  // ckeck not null graph 
+  munit_assert_ptr_not_null(graph);
   return MUNIT_OK;
 }
 /* To clean up after a test, you can use a tear down function.  The
@@ -225,8 +229,16 @@ static MunitTest test_suite_tests[] = {
     NULL
   },
   {
-    (char*) "/test_load_file",
-    test_load_file,
+    (char*) "/test_read_n_m_from_file",
+    test_read_n_m_from_file,
+    test_list_setup,
+    test_list_tear_down,
+    MUNIT_TEST_OPTION_NONE,
+    test_params
+    },
+    {
+    (char*) "/test_read_graph",
+    test_read_graph,
     test_list_setup,
     test_list_tear_down,
     MUNIT_TEST_OPTION_NONE,
