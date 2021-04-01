@@ -239,7 +239,6 @@ u32 destroy_list(list l)
     return 1;
   list traverser = l;
   list prev_node;
-  printf("-> %u", traverser->key);
   while (traverser)
   {
     prev_node = traverser;

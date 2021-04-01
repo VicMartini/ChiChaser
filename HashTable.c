@@ -30,11 +30,11 @@ void insert_edge(u32 v_key, u32 w_key, hash_table ht)
 vertice *ht_extract_iterator(hash_table ht)
 {
     vertice *iterator = ht->iterator;
-    /*
+
     for (u32 i = 0; i < ht->size; ++i)
     {
         destroy_list(ht->buckets[i]);
-    }*/
+    }
     free(ht->buckets);
     free(ht);
     return iterator;
@@ -69,11 +69,9 @@ vertice *ht_put(u32 key, hash_table ht) // Si el vertice no está lo agregamos y
     if (!v)                                     //No está el vertice vamos a agregarlo a la tabla y al array de orden.
     {
         ht->iterator[k] = Vertice(key);
-        printf("N: %d\n", ht->iterator[k].nombre);
         ht->buckets[hsh] = addl(key, ht->iterator + k, ht->buckets[hsh]); //Ahora el nuevo vertice es el primero en el bucket
                                                                           // que corresponde a su orden de cargado.
                                                                           //  printf("-> %d\n");
-        printf("M: %d\n", head(ht->buckets[hsh])->nombre);
         ht->ocupation += 1;
         return ht->iterator + k;
     }

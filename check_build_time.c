@@ -12,8 +12,6 @@ int main(void)
     Grafo g = ConstruccionDelGrafo();
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
-    printf("numvert %u\n", g->num_vertices);
-    print_graph(g, g->num_vertices);
     printf("Time creating: %f\n", elapsed_time);
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     /*

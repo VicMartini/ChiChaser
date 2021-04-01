@@ -64,7 +64,6 @@ Grafo ConstruccionDelGrafo(void)
     for (int j = 0; j < N; ++j)
     {
         v_degree = new_graph->vertices[j].vecinos->ocupation;
-        printf("Ocupation : %d\n", new_graph->vertices[j].vecinos->ocupation);
         new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
         new_graph->vertices[j].grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;

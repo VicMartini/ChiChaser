@@ -4,7 +4,7 @@
 typedef uint32_t u32;
 typedef struct vertice_st *elem_type; //Forwad declaration.
 
-#define GROWTH_FACTOR 1.5
+#define GROWTH_FACTOR 2
 
 //Array dinamico de punteros a vertices, lo vamos a usar para guardar vencios.
 //la justificación por detrás de esta desición de diseño es que queremos tener
