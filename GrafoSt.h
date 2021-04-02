@@ -24,3 +24,4 @@ u32 print_graph(Grafo g, u32 lines);
 Grafo ConstruccionDelGrafo(void);
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
 Grafo CopiarGrafo(Grafo G);
+void DestruccionDelGrafo(Grafo G);

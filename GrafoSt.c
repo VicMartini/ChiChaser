@@ -158,3 +158,13 @@ Grafo CopiarGrafo(Grafo G)
     }
     return clone;
 }
+
+void DestruccionDelGrafo(Grafo G)
+{
+    for (u32 i = 0; i < G->num_vertices; ++i)
+    {
+        delete_darray(G->vertices[i].vecinos);
+    }
+    free(G->vertices);
+    free(G);
+}
