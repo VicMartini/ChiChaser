@@ -21,3 +21,4 @@ typedef struct darray_s *darray;
 darray new_darray(void);
 void expand_darray(darray d);
 void darray_push(elem_type e, darray d);
+darray darray_copy(darray d);

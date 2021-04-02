@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <string.h>
 #include "darray.h"
 typedef uint32_t u32;
 
@@ -24,5 +25,17 @@ void darray_push(elem_type e, darray d)
 {
     if (d->size == d->ocupation)
         expand_darray(d);
-    d->elements[++d->ocupation] = e;
+    d->elements[d->ocupation] = e;
+    d->ocupation += 1;
+}
+
+darray darray_copy(darray d)
+{
+    darray clone = malloc(sizeof(struct darray_s));
+    clone->size = d->size;
+    clone->ocupation = d->ocupation;
+    clone->elements = calloc(d->ocupation, sizeof(elem_type));
+    for (u32 i = 0; i < d->ocupation; ++i)
+        clone->elements[i] = d->elements[i];
+    return clone;
 }
