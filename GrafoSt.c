@@ -183,3 +183,20 @@ void DestruccionDelGrafo(Grafo G)
     free(G->vertices);
     free(G);
 }
+
+// Funciones para extraer información de los vertices
+
+u32 Nombre(u32 i, Grafo G)
+{
+    return G->vertices[i].nombre;
+}
+
+u32 Color(u32 i, Grafo G)
+{
+    return G->vertices[i].color;
+}
+
+u32 Grado(u32 i, Grafo G)
+{
+    return G->vertices[i].grado;
+}
