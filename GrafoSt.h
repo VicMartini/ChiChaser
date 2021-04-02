@@ -36,3 +36,4 @@ u32 Color(u32 i, Grafo G);
 u32 Nombre(u32 i, Grafo G);
 u32 NumeroDeLados(Grafo G);
 u32 NumeroDeVertices(Grafo G);
+u32 OrdenVecino(u32 j, u32 i, Grafo G);

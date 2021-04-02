@@ -126,6 +126,14 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
     else
         return 0;
 };
+u32 OrdenVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    u32 k = (vertice *)G->vertices[i].vecinos->elements[j] - G->vertices;
+    return o[k];
+}
 
 Grafo CopiarGrafo(Grafo G)
 {
