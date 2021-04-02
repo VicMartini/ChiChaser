@@ -3,27 +3,23 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include "List.h"
 typedef uint32_t u32;
 
-vertice *new_vertex(u32 nombre)
-{
-  vertice *new_vertex = malloc(sizeof(vertice));
-  new_vertex->nombre = nombre;
-  new_vertex->vecinos = new_list();
-  return new_vertex;
-};
-
+/*
 list addl(u32 key, list l)
 {
   vertice *nv = new_vertex(key);
   return addl_ptr(nv, l);
 }
+*/
 
-list addl_ptr(vertice *v, list l)
+list addl(u32 key, vertice *v, list l)
 {
   list new_head = malloc(sizeof(struct node));
   new_head->data = v;
+  new_head->key = key;
   new_head->next = l;
   return new_head;
 }
@@ -125,7 +121,7 @@ vertice *search(u32 key, list l)
 
   list traverser = l;
 
-  while (traverser && traverser->data->nombre != key)
+  while (traverser && traverser->key != key)
     traverser = traverser->next;
 
   return traverser ? traverser->data : NULL; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
@@ -134,7 +130,7 @@ vertice *search(u32 key, list l)
 bool in_list(u32 key, list l)
 {
   list traverser = l;
-  while (traverser && traverser->data->nombre != key)
+  while (traverser && traverser->key != key)
   {
     traverser = traverser->next;
   }
@@ -208,7 +204,7 @@ list drop(unsigned int i, list l)
   }
   return traverser;
 }
-
+/*
 list copy_list(list l)
 {
   assert(!is_empty(l));
@@ -225,6 +221,16 @@ list copy_list(list l)
     traverser = traverser->next;
   }
   return new_list;
+}
+*/
+list copy_list(list l)
+{
+  if (is_empty(l))
+    return NULL;
+  list clone = malloc(sizeof(struct node));
+  clone->data = l->data;
+  clone->next = copy_list(l->next);
+  return clone;
 }
 
 u32 destroy_list(list l)

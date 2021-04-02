@@ -9,34 +9,53 @@ typedef uint32_t u32;
 u32 print_graph(Grafo g, u32 lines)
 {
     u32 M = g->num_vertices;
-    vertice *vert, *vecino = NULL;
+    vertice vert;
+    vertice *vecino = NULL;
     u32 longitud_lista = 0;
     if (lines > M)
         return 1;
     for (u32 i = 0; i < lines; i++)
     {
         vert = g->vertices[i];
-        if (vert != NULL)
+        printf("%u: vertice: %u -> \n", g->orden[i], vert.nombre);
+        printf("  vecinos:\n");
+        printf("( \n");
+        longitud_lista = vert.grado;
+        printf("grado: %u \n", longitud_lista);
+        for (u32 i = 0; i < longitud_lista; i++)
         {
-            printf("%u: vertice: %u -> \n", i, vert->nombre);
-            printf("  vecinos:\n");
-            printf("( \n");
-            longitud_lista = vert->grado;
-            printf("grado: %u \n", longitud_lista);
-            for (u32 i = 0; i < longitud_lista; i++)
+            vecino = vert.vecinos->elements[i];
+            if (vecino != NULL)
             {
-                vecino = index_ith(i, vert->vecinos);
-                if (vecino != NULL)
-                {
-                    printf("(v: %u, peso: %u )", vecino->nombre, vert->pesos[i]);
-                }
+                printf("(v: %u, peso: %u )", vecino->nombre, vert.pesos[i]);
             }
-            printf("\n ) \n");
-            printf("\n");
         }
+        printf("\n ) \n");
+        printf("\n");
     }
     return 0;
 }
+
+void insert_edge(u32 v_key, u32 w_key, Grafo g, hash_table ht)
+{
+    vertice *v_addr = ht_get(v_key, ht);
+    vertice *w_addr = ht_get(w_key, ht);
+    if (!v_addr)
+    {
+        g->vertices[ht->ocupation] = Vertice(v_key);
+        v_addr = g->vertices + ht->ocupation;
+        ht_put(v_key, v_addr, ht);
+    }
+    if (!w_addr)
+    {
+        g->vertices[ht->ocupation] = Vertice(w_key);
+        w_addr = g->vertices + ht->ocupation;
+        ht_put(w_key, w_addr, ht);
+    }
+    darray_push(w_addr, v_addr->vecinos);
+    darray_push(v_addr, w_addr->vecinos);
+}
+
 Grafo ConstruccionDelGrafo(void)
 {
     Grafo new_graph = malloc(sizeof(struct GrafoSt));
@@ -53,21 +72,24 @@ Grafo ConstruccionDelGrafo(void)
     M = infoEdge->w;
     array = parse_edge(infoEdge);
     new_graph->num_vertices = N;
+    new_graph->vertices = calloc(N, sizeof(vertice));
+    new_graph->orden = calloc(N, sizeof(u32));
 
-    hash_table scaffold = new_ht(N); //La hashtable va a servir como un 'andamio' para la
-                                     //construcción del grafo.
+    hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
+                                  //construcción del grafo.
 
-    for (int i = 0; i < M; i++)
+    for (u32 i = 0; i < M; i++)
     {
-        insert_edge(array[i]->v, array[i]->w, scaffold);
+        insert_edge(array[i]->v, array[i]->w, new_graph, index);
     }
-    //Ya no necesitamos la hashtable. Vamos a destruirla y quedarnos solo con el iterator
-    new_graph->vertices = ht_extract_iterator(scaffold);
-    for (int j = 0; j < N; ++j)
+    //Ya no necesitamos la hashtable.
+    destroy_ht(index);
+    for (u32 j = 0; j < N; ++j)
     {
-        v_degree = length(new_graph->vertices[j]->vecinos);
-        new_graph->vertices[j]->pesos = calloc(v_degree, sizeof(u32));
-        new_graph->vertices[j]->grado = v_degree;
+        new_graph->orden[j] = j;
+        v_degree = new_graph->vertices[j].vecinos->ocupation;
+        new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
+        new_graph->vertices[j].grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
         max_degree = (v_degree > max_degree) ? v_degree : max_degree;
     }
@@ -86,25 +108,146 @@ u32 delta(Grafo g)
     return g->Delta;
 }
 
+u32 NumeroDeLados(Grafo G)
+{
+    return G->num_lados;
+}
+
+u32 NumeroDeVertices(Grafo G)
+{
+    return G->num_vertices;
+}
+
+u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
+{
+    u32 n = G->num_vertices;
+    if (i < n && j < G->vertices[i].grado)
+        return G->vertices[i].pesos[j];
+    else
+        return 0;
+};
+u32 OrdenVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    u32 k = (vertice *)G->vertices[i].vecinos->elements[j] - G->vertices;
+    return o[k];
+}
+
+Grafo CopiarGrafo(Grafo G)
+{
+    vertice *new_addr;
+    u32 relative_pos;
+    Grafo clone = malloc(sizeof(struct GrafoSt));
+    clone->Delta = G->Delta;
+    clone->delta = G->delta;
+    clone->num_vertices = G->num_vertices;
+    clone->num_lados = G->num_lados;
+    clone->vertices = calloc(G->num_vertices, sizeof(vertice));
+    clone->orden = calloc(G->num_vertices, sizeof(u32));
+
+    for (u32 j = 0; j < G->num_vertices; ++j)
+    {
+        clone->orden[j] = G->orden[j];
+        clone->vertices[j].nombre = G->vertices[j].nombre;
+        clone->vertices[j].grado = G->vertices[j].grado;
+        clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
+        clone->vertices[j].vecinos = new_darray();
+        for (u32 i = 0; i < G->vertices[j].grado; ++i)
+        {
+            clone->vertices[j].pesos[i] = G->vertices[j].pesos[i];
+            relative_pos = (vertice *)G->vertices[j].vecinos->elements[i] - G->vertices;
+            new_addr = (vertice *)clone->vertices + relative_pos;
+            darray_push(new_addr, clone->vertices[j].vecinos);
+            /*
+        */
+        }
+    }
+    return clone;
+}
+
+void DestruccionDelGrafo(Grafo G)
+{
+    for (u32 i = 0; i < G->num_vertices; ++i)
+    {
+        delete_darray(G->vertices[i].vecinos);
+    }
+    free(G->orden);
+    free(G->vertices);
+    free(G);
+}
+
+// Funciones para extraer información de los vertices
+
+u32 Nombre(u32 i, Grafo G)
+{
+    if (i >= G->num_vertices)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].nombre;
+}
+
+u32 Color(u32 i, Grafo G)
+{
+    if (i >= G->num_vertices)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].color;
+}
+
+u32 Grado(u32 i, Grafo G)
+{
+    if (i >= G->num_vertices)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].grado;
+}
+
+// Funciones para extraer informacion de los vecinos de un vertice
+u32 ColorVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].vecinos->elements[j]->nombre;
+};
+u32 NombreVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].vecinos->elements[j]->color;
+};
+//Funciones para modificar datos de vertices
+
+char FijarColor(u32 x, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices)
+        return 1;
+    G->vertices[i].color = x;
+    return 0;
+}
+
+char FijarOrden(u32 i, Grafo G, u32 N)
+{
+    if (i >= G->num_vertices || N >= G->num_vertices)
+        return 1;
+    G->orden[N] = i;
+    return 0;
+}
+
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
     ;
     u32 n = G->num_vertices;
-    if (i < n && j < G->vertices[i]->grado)
+    if (i < n && j < G->vertices[i].grado)
     {
-        G->vertices[i]->pesos[j] = p;
+        G->vertices[i].pesos[j] = p;
         return 0;
     }
     else
     {
         return 1;
     }
-};
-u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
-{
-    u32 n = G->num_vertices;
-    if (i < n && j < G->vertices[i]->grado)
-        return G->vertices[i]->pesos[j];
-    else
-        return 0;
 };
