@@ -39,3 +39,10 @@ darray darray_copy(darray d)
         clone->elements[i] = d->elements[i];
     return clone;
 }
+
+void delete_darray(darray d)
+{
+    if (d->size == d->ocupation)
+        expand_darray(d);
+    d->elements[++d->ocupation] = e;
+}
