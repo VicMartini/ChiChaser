@@ -42,7 +42,6 @@ darray darray_copy(darray d)
 
 void delete_darray(darray d)
 {
-    if (d->size == d->ocupation)
-        expand_darray(d);
-    d->elements[++d->ocupation] = e;
+    free(d->elements);
+    free(d);
 }
