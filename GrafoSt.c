@@ -17,7 +17,7 @@ u32 print_graph(Grafo g, u32 lines)
     for (u32 i = 0; i < lines; i++)
     {
         vert = g->vertices[i];
-        printf("%u: vertice: %u -> \n", i, vert.nombre);
+        printf("%u: vertice: %u -> \n", g->orden[i], vert.nombre);
         printf("  vecinos:\n");
         printf("( \n");
         longitud_lista = vert.grado;
@@ -73,6 +73,7 @@ Grafo ConstruccionDelGrafo(void)
     array = parse_edge(infoEdge);
     new_graph->num_vertices = N;
     new_graph->vertices = calloc(N, sizeof(vertice));
+    new_graph->orden = calloc(N, sizeof(u32));
 
     hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
                                   //construcción del grafo.
@@ -85,6 +86,7 @@ Grafo ConstruccionDelGrafo(void)
     destroy_ht(index);
     for (u32 j = 0; j < N; ++j)
     {
+        new_graph->orden[j] = j;
         v_degree = new_graph->vertices[j].vecinos->ocupation;
         new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
         new_graph->vertices[j].grado = v_degree;
@@ -139,9 +141,11 @@ Grafo CopiarGrafo(Grafo G)
     clone->num_vertices = G->num_vertices;
     clone->num_lados = G->num_lados;
     clone->vertices = calloc(G->num_vertices, sizeof(vertice));
+    clone->orden = calloc(G->num_vertices, sizeof(u32));
 
     for (u32 j = 0; j < G->num_vertices; ++j)
     {
+        clone->orden[j] = G->orden[j];
         clone->vertices[j].nombre = G->vertices[j].nombre;
         clone->vertices[j].grado = G->vertices[j].grado;
         clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
@@ -165,6 +169,7 @@ void DestruccionDelGrafo(Grafo G)
     {
         delete_darray(G->vertices[i].vecinos);
     }
+    free(G->orden);
     free(G->vertices);
     free(G);
 }
