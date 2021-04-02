@@ -188,15 +188,40 @@ void DestruccionDelGrafo(Grafo G)
 
 u32 Nombre(u32 i, Grafo G)
 {
-    return G->vertices[i].nombre;
+    if (i >= G->num_vertices)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].nombre;
 }
 
 u32 Color(u32 i, Grafo G)
 {
-    return G->vertices[i].color;
+    if (i >= G->num_vertices)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].color;
 }
 
 u32 Grado(u32 i, Grafo G)
 {
-    return G->vertices[i].grado;
+    if (i >= G->num_vertices)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].grado;
 }
+
+// Funciones para extraer informacion de los vecinos de un vertice
+u32 ColorVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].vecinos->elements[j]->nombre;
+};
+u32 NombreVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    return G->vertices[o[i]].vecinos->elements[j]->color;
+};
