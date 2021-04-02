@@ -118,20 +118,6 @@ u32 NumeroDeVertices(Grafo G)
     return G->num_vertices;
 }
 
-u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
-{
-    ;
-    u32 n = G->num_vertices;
-    if (i < n && j < G->vertices[i].grado)
-    {
-        G->vertices[i].pesos[j] = p;
-        return 0;
-    }
-    else
-    {
-        return 1;
-    }
-};
 u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
 {
     u32 n = G->num_vertices;
@@ -224,4 +210,36 @@ u32 NombreVecino(u32 j, u32 i, Grafo G)
         return 0;
     u32 *o = G->orden;
     return G->vertices[o[i]].vecinos->elements[j]->color;
+};
+//Funciones para modificar datos de vertices
+
+char FijarColor(u32 x, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices)
+        return 1;
+    G->vertices[i].color = x;
+    return 0;
+}
+
+char FijarOrden(u32 i, Grafo G, u32 N)
+{
+    if (i >= G->num_vertices || N >= G->num_vertices)
+        return 1;
+    G->orden[N] = i;
+    return 0;
+}
+
+u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
+{
+    ;
+    u32 n = G->num_vertices;
+    if (i < n && j < G->vertices[i].grado)
+    {
+        G->vertices[i].pesos[j] = p;
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 };
