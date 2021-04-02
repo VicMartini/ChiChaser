@@ -108,6 +108,16 @@ u32 delta(Grafo g)
     return g->Delta;
 }
 
+u32 NumeroDeLados(Grafo G)
+{
+    return G->num_lados;
+}
+
+u32 NumeroDeVertices(Grafo G)
+{
+    return G->num_vertices;
+}
+
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
     ;
