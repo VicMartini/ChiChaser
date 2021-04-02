@@ -24,7 +24,7 @@ u32 print_graph(Grafo g, u32 lines)
         printf("grado: %u \n", longitud_lista);
         for (u32 i = 0; i < longitud_lista; i++)
         {
-            vecino = index_ith(i, vert.vecinos);
+            vecino = vert.vecinos->elements[i];
             if (vecino != NULL)
             {
                 printf("(v: %u, peso: %u )", vecino->nombre, vert.pesos[i]);
@@ -35,6 +35,27 @@ u32 print_graph(Grafo g, u32 lines)
     }
     return 0;
 }
+
+void insert_edge(u32 v_key, u32 w_key, Grafo g, hash_table ht)
+{
+    vertice *v_addr = ht_get(v_key, ht);
+    vertice *w_addr = ht_get(w_key, ht);
+    if (!v_addr)
+    {
+        g->vertices[ht->ocupation] = Vertice(v_key);
+        v_addr = g->vertices + ht->ocupation;
+        ht_put(v_key, v_addr, ht);
+    }
+    if (!w_addr)
+    {
+        g->vertices[ht->ocupation] = Vertice(w_key);
+        w_addr = g->vertices + ht->ocupation;
+        ht_put(w_key, w_addr, ht);
+    }
+    darray_push(w_addr, v_addr->vecinos);
+    darray_push(v_addr, w_addr->vecinos);
+}
+
 Grafo ConstruccionDelGrafo(void)
 {
     Grafo new_graph = malloc(sizeof(struct GrafoSt));
@@ -51,19 +72,20 @@ Grafo ConstruccionDelGrafo(void)
     M = infoEdge->w;
     array = parse_edge(infoEdge);
     new_graph->num_vertices = N;
+    new_graph->vertices = calloc(N, sizeof(vertice));
 
-    hash_table scaffold = new_ht(N); //La hashtable va a servir como un 'andamio' para la
-                                     //construcción del grafo.
+    hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
+                                  //construcción del grafo.
 
-    for (int i = 0; i < M; i++)
+    for (u32 i = 0; i < M; i++)
     {
-        insert_edge(array[i]->v, array[i]->w, scaffold);
+        insert_edge(array[i]->v, array[i]->w, new_graph, index);
     }
-    //Ya no necesitamos la hashtable. Vamos a destruirla y quedarnos solo con el iterator
-    new_graph->vertices = ht_extract_iterator(scaffold);
-    for (int j = 0; j < N; ++j)
+    //Ya no necesitamos la hashtable.
+    destroy_ht(index);
+    for (u32 j = 0; j < N; ++j)
     {
-        v_degree = length(new_graph->vertices[j].vecinos);
+        v_degree = new_graph->vertices[j].vecinos->ocupation;
         new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
         new_graph->vertices[j].grado = v_degree;
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
@@ -84,14 +106,13 @@ u32 delta(Grafo g)
     return g->Delta;
 }
 
-/*
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
     ;
     u32 n = G->num_vertices;
-    if (i < n && j < G->vertices[i]->grado)
+    if (i < n && j < G->vertices[i].grado)
     {
-        G->vertices[i]->pesos[j] = p;
+        G->vertices[i].pesos[j] = p;
         return 0;
     }
     else
@@ -102,30 +123,38 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
 {
     u32 n = G->num_vertices;
-    if (i < n && j < G->vertices[i]->grado)
-        return G->vertices[i]->pesos[j];
+    if (i < n && j < G->vertices[i].grado)
+        return G->vertices[i].pesos[j];
     else
         return 0;
 };
-*/
 
 Grafo CopiarGrafo(Grafo G)
 {
+    vertice *new_addr;
+    u32 relative_pos;
     Grafo clone = malloc(sizeof(struct GrafoSt));
     clone->Delta = G->Delta;
     clone->delta = G->delta;
     clone->num_vertices = G->num_vertices;
     clone->num_lados = G->num_lados;
     clone->vertices = calloc(G->num_vertices, sizeof(vertice));
-    //Copiar vertices
-    //Cambiar la base de los punteros a vecinos
+
     for (u32 j = 0; j < G->num_vertices; ++j)
     {
-        clone->vertices[j] = G->vertices[j];
+        clone->vertices[j].nombre = G->vertices[j].nombre;
         clone->vertices[j].grado = G->vertices[j].grado;
         clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
-        memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, clone->vertices[j].grado);
-        clone->vertices[j].vecinos = copy_and_offset(clone->vertices, clone->vertices, G->vertices[j].vecinos);
+        clone->vertices[j].vecinos = new_darray();
+        for (u32 i = 0; i < G->vertices[j].grado; ++i)
+        {
+            clone->vertices[j].pesos[i] = G->vertices[j].pesos[i];
+            relative_pos = (vertice *)G->vertices[j].vecinos->elements[i] - G->vertices;
+            new_addr = (vertice *)clone->vertices + relative_pos;
+            darray_push(new_addr, clone->vertices[j].vecinos);
+            /*
+        */
+        }
     }
     return clone;
 }

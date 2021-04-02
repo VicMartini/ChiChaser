@@ -14,7 +14,6 @@ int main(void)
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time creating: %f\n", elapsed_time);
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
-
     t = clock();
     Grafo h = CopiarGrafo(g);
     t = clock() - t;

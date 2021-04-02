@@ -7,24 +7,19 @@
 #include "List.h"
 typedef uint32_t u32;
 
-vertice *new_vertex(u32 nombre)
-{
-  vertice *new_vertex = malloc(sizeof(vertice));
-  new_vertex->nombre = nombre;
-  new_vertex->vecinos = new_list();
-  return new_vertex;
-};
-
+/*
 list addl(u32 key, list l)
 {
   vertice *nv = new_vertex(key);
   return addl_ptr(nv, l);
 }
+*/
 
-list addl_ptr(vertice *v, list l)
+list addl(u32 key, vertice *v, list l)
 {
   list new_head = malloc(sizeof(struct node));
   new_head->data = v;
+  new_head->key = key;
   new_head->next = l;
   return new_head;
 }
@@ -126,7 +121,7 @@ vertice *search(u32 key, list l)
 
   list traverser = l;
 
-  while (traverser && traverser->data->nombre != key)
+  while (traverser && traverser->key != key)
     traverser = traverser->next;
 
   return traverser ? traverser->data : NULL; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
@@ -135,7 +130,7 @@ vertice *search(u32 key, list l)
 bool in_list(u32 key, list l)
 {
   list traverser = l;
-  while (traverser && traverser->data->nombre != key)
+  while (traverser && traverser->key != key)
   {
     traverser = traverser->next;
   }
@@ -237,33 +232,6 @@ list copy_list(list l)
   clone->next = copy_list(l->next);
   return clone;
 }
-
-list copy_and_offset(vertice *new_base, vertice *original_base, list l)
-{
-  if (is_empty(l))
-    return NULL;
-  list clone = malloc(sizeof(struct node));
-  clone->data = offset(new_base, original_base, l->data);
-  clone->next = copy_list(l->next);
-  return clone;
-}
-
-vertice *offset(vertice *new_base, vertice *original_base, vertice *vertex)
-{
-  return new_base + (original_base - vertex);
-}
-
-/*
-vertice *copy_vertex(vertice *v)
-{
-  vertice *clone = new_vertex(v->nombre);
-  clone->grado = v->grado;
-  clone->color = v->color;
-  clone->pesos = calloc(v->vecinos, sizeof(u32));
-  memcpy(clone->pesos, v->pesos);
-  clone->vecinos = new_list();
-}
-*/
 
 u32 destroy_list(list l)
 {
