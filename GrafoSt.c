@@ -176,6 +176,9 @@ void DestruccionDelGrafo(Grafo G)
     free(G->orden);
     free(G->vertices);
     free(G);
+    G->orden = NULL;
+    G->vertices = NULL;
+    G = NULL;
 }
 
 // Funciones para extraer información de los vertices

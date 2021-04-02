@@ -129,8 +129,18 @@ static char* file_params[] = {
    NULL
 };
 
+static char* one_file_params[] = {
+  (char *)"./dimacs_files/BxB1100_999_54_2017",
+   NULL
+};
+
 static MunitParameterEnum test_params[] = {
-  { "file", file_params },
+  {(char*) "file", file_params },
+  { NULL, NULL },
+};
+
+static MunitParameterEnum test_params_one[] = {
+  {(char*) "one_file", one_file_params},
   { NULL, NULL },
 };
 
@@ -138,11 +148,11 @@ static MunitResult
 test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
   FILE *f;
   const char *filename;
-  Lado_st *Data=calloc(1, sizeof(Lado_st));
+  Lado_st *Data = calloc(1, sizeof(Lado_st));
  
   Data->v = 0;
   Data->w = 0;
-  filename = (const char *) munit_parameters_get(params, "file");
+  filename = (const char *) munit_parameters_get(params, (const char*)"file");
   /*
     The  freopen()  function  opens  the  file  whose name is the string
     pointed to by pathname and associates the stream pointed to by stream with it. 
@@ -158,7 +168,6 @@ test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
 }
 
 
-
 static MunitResult
 test_read_graph(const MunitParameter params[], void* fixture) {
   FILE *f;
@@ -166,16 +175,59 @@ test_read_graph(const MunitParameter params[], void* fixture) {
   Grafo graph = NULL;
 
   filename = (const char *) munit_parameters_get(params, "file");
-  /*
-    The  freopen()  function  opens  the  file  whose name is the string
-    pointed to by pathname and associates the stream pointed to by stream with it. 
-    The original stream (if it exists) is closed.
-    The mode argument is used just as in the fopen() function.
-  */
   f = freopen(filename, "r", stdin);
   graph  = ConstruccionDelGrafo();
   // ckeck not null graph 
   munit_assert_ptr_not_null(graph);
+  return MUNIT_OK;
+}
+
+
+static MunitResult
+test_copy_graph(const MunitParameter params[], void* fixture) {
+  FILE *f;
+  const char *filename;
+  Grafo graph = NULL;
+  Grafo clone_graph = NULL;
+
+  filename = (const char *) munit_parameters_get(params, "file");
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+  clone_graph = CopiarGrafo(graph);
+  
+  
+  munit_assert_ptr_not_null(clone_graph);
+  munit_assert_uint32(delta(graph), ==, delta(clone_graph));
+  munit_assert_uint32(Delta(graph), ==, Delta(clone_graph));
+
+  munit_assert_uint32(NumeroDeLados(graph), ==, NumeroDeLados(clone_graph));
+  munit_assert_uint32(NumeroDeVertices(graph), ==, NumeroDeVertices(clone_graph));
+  for (int i = 0; i < NumeroDeVertices(graph); i++)
+  {
+    munit_assert_uint32(Nombre(i, graph), == , Nombre( i, clone_graph));
+    munit_assert_uint32(graph->orden[i], ==, clone_graph->orden[i]);
+  }
+  
+  return MUNIT_OK;
+}
+
+static MunitResult
+test_delete_graph(const MunitParameter params[], void* fixture) {
+  FILE *f;
+  const char *filename;
+  Grafo graph = NULL;
+
+  filename = (const char *) munit_parameters_get(params, "one_file");
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+  
+  DestruccionDelGrafo(graph);
+
+  // check vertices null
+  munit_assert_ptr_null(graph->vertices);
+  // check array orden es null
+  munit_assert_ptr_null(graph->orden);
+  
   return MUNIT_OK;
 }
 /* To clean up after a test, you can use a tear down function.  The
@@ -226,14 +278,6 @@ static MunitTest test_suite_tests[] = {
     NULL
   },
   {
-    (char*) "/test_search",
-    test_list_search,
-    test_list_setup,
-    test_list_tear_down,
-    MUNIT_TEST_OPTION_NONE,
-    NULL
-  },
-  {
     (char*) "/test_search_false",
     test_list_search_false,
     test_list_setup,
@@ -256,15 +300,31 @@ static MunitTest test_suite_tests[] = {
     test_list_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params
-    },
-    {
+  },
+  {
     (char*) "/test_read_graph",
     test_read_graph,
     test_list_setup,
     test_list_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params
-    },
+  },
+  {
+    (char*) "/test_copy_graph",
+    test_copy_graph,
+    test_list_setup,
+    test_list_tear_down,
+    MUNIT_TEST_OPTION_NONE,
+    test_params
+  },
+  {
+    (char*) "/test_delete_graph",
+    test_delete_graph,
+    test_list_setup,
+    test_list_tear_down,
+    MUNIT_TEST_OPTION_NONE,
+    test_params_one
+  },
   /* Usually this is written in a much more compact format; all these
    * comments kind of ruin that, though.  Here is how you'll usually
    * see entries written: */
@@ -287,7 +347,7 @@ static const MunitSuite test_suite = {
    * Note that, while it doesn't really matter for the top-level
    * suite, NULL signal the end of an array of tests; you should use
    * an empty string ("") instead. */
-  (char*) "",
+  (char*) "test_suite_tests",
   /* The first parameter is the array of test suites. */
   test_suite_tests,
   /* In addition to containing test cases, suites can contain other
