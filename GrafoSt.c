@@ -10,7 +10,7 @@ u32 print_graph(Grafo g, u32 lines)
 {
     u32 M = g->num_vertices;
     vertice vert;
-    vertice *vecino = NULL;
+    vertice vecino = NULL;
     u32 longitud_lista = 0;
     if (lines > M)
         return 1;
@@ -24,10 +24,10 @@ u32 print_graph(Grafo g, u32 lines)
         printf("grado: %u \n", longitud_lista);
         for (u32 i = 0; i < longitud_lista; i++)
         {
-            vecino = vert.vecinos->elements[i];
+            vecino = g->vertices[darray_get(i, vert.vecinos)];
             if (vecino != NULL)
             {
-                printf("(v: %u, peso: %u )", vecino->nombre, vert.pesos[i]);
+                printf("(v: %u, peso: %u )", vecino.nombre, vert.pesos[i]);
             }
         }
         printf("\n ) \n");
@@ -138,7 +138,7 @@ u32 OrdenVecino(u32 j, u32 i, Grafo G)
 Grafo CopiarGrafo(Grafo G)
 {
     vertice *new_addr;
-    u32 relative_pos;
+    u32 neig_pos;
     Grafo clone = malloc(sizeof(struct GrafoSt));
     clone->Delta = G->Delta;
     clone->delta = G->delta;
@@ -157,9 +157,8 @@ Grafo CopiarGrafo(Grafo G)
         for (u32 i = 0; i < G->vertices[j].grado; ++i)
         {
             clone->vertices[j].pesos[i] = G->vertices[j].pesos[i];
-            relative_pos = (vertice *)G->vertices[j].vecinos->elements[i] - G->vertices;
-            new_addr = (vertice *)clone->vertices + relative_pos;
-            darray_push(new_addr, clone->vertices[j].vecinos);
+            neig_pos = darray_get(i, G->vertices[j].vecinos);
+            darray_push(neig_pos, clone->vertices[j].vecinos);
             /*
         */
         }

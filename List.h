@@ -65,7 +65,7 @@ void concat(list l1, list l2);
 /*{Adds the elements of l2, in order, to l1 }*/
 
 /*{i < length(l)}*/
-u32 *index(unsigned int i, list l);
+u32 *index_ith(unsigned int i, list l);
 /*{Returns the list's ith element}*/
 
 /*{i < length(l)}*/
