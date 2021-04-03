@@ -95,6 +95,14 @@ Grafo ConstruccionDelGrafo(void)
     }
     new_graph->Delta = max_degree;
     new_graph->delta = min_degree;
+
+    for (u32 i = 0; i < M; i++)
+    {
+        free(array[i]);
+    }
+    free(array);
+    free(infoEdge);
+    
     return new_graph;
 }
 
@@ -175,7 +183,6 @@ void DestruccionDelGrafo(Grafo G)
     }
     free(G->orden);
     free(G->vertices);
-    free(G);
     G->orden = NULL;
     G->vertices = NULL;
     G = NULL;
