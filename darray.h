@@ -2,7 +2,6 @@
 #include <stdbool.h>
 
 typedef uint32_t u32;
-typedef struct vertice_st *elem_type; //Forwad declaration.
 
 #define GROWTH_FACTOR 2
 
@@ -12,7 +11,7 @@ typedef struct vertice_st *elem_type; //Forwad declaration.
 
 struct darray_s
 {
-    elem_type *elements;
+    u32 *elements;
     u32 ocupation;
     u32 size;
 };
@@ -20,6 +19,7 @@ typedef struct darray_s *darray;
 
 darray new_darray(void);
 void expand_darray(darray d);
-void darray_push(elem_type e, darray d);
+void darray_push(u32 e, darray d);
 darray darray_copy(darray d);
+u32 darray_get(u32 index, darray d);
 void delete_darray(darray d);
