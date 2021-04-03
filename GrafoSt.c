@@ -38,22 +38,22 @@ u32 print_graph(Grafo g, u32 lines)
 
 void insert_edge(u32 v_key, u32 w_key, Grafo g, hash_table ht)
 {
-    vertice *v_addr = ht_get(v_key, ht);
-    vertice *w_addr = ht_get(w_key, ht);
-    if (!v_addr)
+    u32 v_position = ht_get(v_key, ht);
+    u32 w_position = ht_get(w_key, ht);
+    if (!v_position)
     {
         g->vertices[ht->ocupation] = Vertice(v_key);
-        v_addr = g->vertices + ht->ocupation;
-        ht_put(v_key, v_addr, ht);
+        v_position = ht->ocupation;
+        ht_put(v_key, v_position, ht);
     }
-    if (!w_addr)
+    if (!w_position)
     {
         g->vertices[ht->ocupation] = Vertice(w_key);
-        w_addr = g->vertices + ht->ocupation;
-        ht_put(w_key, w_addr, ht);
+        w_position = ht->ocupation;
+        ht_put(w_key, w_position, ht);
     }
-    darray_push(w_addr, v_addr->vecinos);
-    darray_push(v_addr, w_addr->vecinos);
+    darray_push(w_position, g->vertices[v_position].vecinos);
+    darray_push(v_position, g->vertices[v_position].vecinos);
 }
 
 Grafo ConstruccionDelGrafo(void)
