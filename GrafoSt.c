@@ -180,12 +180,13 @@ void DestruccionDelGrafo(Grafo G)
     for (u32 i = 0; i < G->num_vertices; ++i)
     {
         delete_darray(G->vertices[i].vecinos);
+        free(G->vertices[i].pesos);
     }
     free(G->orden);
     free(G->vertices);
     G->orden = NULL;
     G->vertices = NULL;
-    G = NULL;
+    free(G);
 }
 
 // Funciones para extraer información de los vertices

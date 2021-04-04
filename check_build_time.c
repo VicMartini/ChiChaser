@@ -22,4 +22,5 @@ int main(void)
     printf("Time copying: %f\n", elapsed_time);
     printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
     DestruccionDelGrafo(g);
+    DestruccionDelGrafo(h);
 }
