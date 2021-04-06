@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
+#include "VerticeSt.h"
 typedef uint32_t u32;
 
 /*
@@ -26,59 +27,33 @@ teniendo la definición completa de vertice*/
 
 /*Los vertices contienen la información que necesitamos en O(1) + una linked list  que tiene punteros a sus vecinos 
 Todo es O(1) salvo buscar un vecino que O(n) en el peor de los casos*/
-typedef struct vertice_st
-{
-  u32 nombre;
-  u32 color;
-  u32 grado;
-  u32 *pesos;
-  struct node *vecinos;
-} vertice;
 
 struct node
-{ //Vamos a usar la lista para guardar los vecinos de un vertice y también para  manejar colisiones en la hashtable.
-  vertice *data;
+{ //Vamos a usar la lista  para  manejar colisiones en la hashtable.
+  u32 val;
+  u32 key;
   struct node *next;
 };
 typedef struct node *list;
 
-list addl(u32 key, list l);
+list addl(u32 key, u32 val, list l);
 //{Creates a new vertex at the begining of the list given its name}
-list addl_ptr(vertice *v, list l);
-//{Adds a vertex to the begining of the list}
 bool in_list(u32 key, list l);
 //{Returns true if and only if the vertex is in the list}
-vertice *new_vertex(u32 nombre);
-//{Creates a new vertex}
 list new_list(void);
 /*{Returns a ponter to a new list}*/
 bool is_empty(list l);
 /*{It returns wheter the list is enpty or not}*/
 
 /*{The list must not be empty}*/
-vertice *head(list l);
+u32 head(list l);
 /*{It returns the list's first element}*/
 
 /*{The list must not be empty}*/
 list tail(list l);
 /*{Deletes the first element of the given list}*/
 
-list addr(vertice *e, list l);
-/*{Adds an element at the end of the list}*/
-
-/*Nuevo operador sobre la lista, nos va a permitir
-recorrer el array de lados agregando los vertices
-que ocurren en cada lado sin crear duplicados.
-Si no tendriamos que checkear si el vertice está
-antes de agregarlo con search y después agregarlo
-con addr. Esto seria un poco menos eficiente*/
-list addr_idemp_ptr(vertice *e, list l);
-/*{Adds a vertex to the end of the list
-if it is not already there, given a pointer to it}*/
-list addr_idemp(u32 key, list l);
-/*{It creates a vertex and it adds it to the end of the list
-if the vertex with that key is not in the list}*/
-vertice *search(u32 key, list l);
+u32 search(u32 key, list l);
 /*{Returns a pointer to the vertex with the given key
 NOTE: It returns a NULL pointer if the vertex isn't there}*/
 //Estos comentarios capaz que es bueno pasarlos todos a español
@@ -90,7 +65,7 @@ void concat(list l1, list l2);
 /*{Adds the elements of l2, in order, to l1 }*/
 
 /*{i < length(l)}*/
-vertice *index_ith(unsigned int i, list l);
+u32 *index_ith(unsigned int i, list l);
 /*{Returns the list's ith element}*/
 
 /*{i < length(l)}*/
