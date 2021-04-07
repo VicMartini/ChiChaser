@@ -1,6 +1,6 @@
 #include "munit.h"
 #include "../GrafoSt.h"
-
+#define L 0xFFFFFFFF
 //gcc test.c munit.c munit.h ../HashTable.c ../List.c
 
 /* This is just to disable an MSVC warning about conditional
@@ -32,9 +32,8 @@ test_list_is_null(const MunitParameter params[], void* fixture) {
 static MunitResult
 test_list_is_empty(const MunitParameter params[], void* fixture) {
   list q = (list) fixture;
-  vertice *item = NULL;
   // add a item 
-  q = addr(item, q);
+  q = addl(1, 2, q);
   munit_assert_false(is_empty(q));
   return MUNIT_OK;
 }
@@ -42,15 +41,15 @@ test_list_is_empty(const MunitParameter params[], void* fixture) {
 static MunitResult
 test_list_head(const MunitParameter params[], void* fixture) {
   list q = (list) fixture;
-  vertice * ver;
+  u32 v;
   // agrego 3 elementos 
-  q = addr_idemp(1, q);
-  q = addr_idemp(2, q);
-  q = addr_idemp(3, q);
+  q = addl(1,1, q);
+  q = addl(2,1, q);
+  q = addl(3,1, q);
   // tomo la cabeza de la lista
-  ver = head(q);
+  v = head(q);
 
-  munit_assert_uint32(ver->nombre, == , 1);
+  munit_assert_uint32(v, == , 1);
 
   return MUNIT_OK;
 }
@@ -58,17 +57,16 @@ test_list_head(const MunitParameter params[], void* fixture) {
 static MunitResult
 test_list_search(const MunitParameter params[], void* fixture) {
   list q = (list) fixture;
-  vertice *ptr;
+  u32 v;
   
   for (u32 i = 0; i <= 3; i++)
   {
-    vertice *v = malloc(sizeof(vertice));
-    v->nombre = i;
-    q = addl(i, v, q);
+
+    q = addl(i, i, q);
   }
   // busco el 2 
-  ptr = search(2, q);
-  munit_assert_uint32(ptr->nombre,==, 2);
+  v = search(2, q);
+  munit_assert_uint32(v ,==, 2);
   return MUNIT_OK;
 }
 
@@ -186,8 +184,12 @@ test_copy_graph(const MunitParameter params[], void* fixture) {
   munit_assert_uint32(NumeroDeVertices(graph), ==, NumeroDeVertices(clone_graph));
   for (int i = 0; i < NumeroDeVertices(graph); i++)
   {
-    munit_assert_uint32(Nombre(i, graph), == , Nombre( i, clone_graph));
+    munit_assert_uint32(Nombre(i, graph), == , Nombre(i, clone_graph));
     munit_assert_uint32(graph->orden[i], ==, clone_graph->orden[i]);
+    for (u32 j = 0; j < Grado(i, graph); j++){ 
+      //printf("ori=%d, clon=%d \n", NombreVecino(j, i, graph), NombreVecino(j, i, clone_graph));
+      munit_assert_uint32(NombreVecino(j, i, graph), == , NombreVecino(j, i, clone_graph));
+    }
   }
   
   return MUNIT_OK;
@@ -220,15 +222,76 @@ test_check_load_graph(const MunitParameter params[], void* fixture) {
   Grafo graph = NULL;
   Lado_st **array = NULL;
   Lado_st *info = NULL;
+  hash_table ht;
+  u32 v, w ;
+  filename = (const char *) munit_parameters_get(params, "file");
+  f = freopen(filename, "r", stdin);
+  // construccion del grafo
+  graph  = ConstruccionDelGrafo();
+  fclose(f);
+  // parseo y pongo en un array
+  f = freopen(filename, "r", stdin);
+  info = parse_p_edge_n_m();
+  ht = new_ht(info->v);
+  array = parse_edge(info);
+  for (u32 i = 0; i < info->w; i++)
+  { 
+    v = ht_get(array[i]->v, ht);
+    w = ht_get(array[i]->w, ht);
+    
+    if(v == L){
+  
+      u32 key = array[i]->v;
+      v = array[i]->v;
+      ht_put(key, v, ht);  
+    }
+    if(v == L){
+  
+      u32 key = array[i]->w;
+      w = array[i]->w;
+      ht_put(key, w, ht);  
+    }
+  }
+  
+  for (u32 i = 0; i < info->w; i++)
+  {
+    // obtengo el nombre real 
+    u32 n = Nombre(i, graph);
+    // como se guarda el key == nombreReal en la hash
+    // obtengo de la hash el vertice con nombre real
+    v = ht_get(n, ht);
+    if(v != L){
+      //check 
+      munit_assert_uint32(v, ==, n);
+    }
+  }
+  
+  return MUNIT_OK;
+}
+
+static MunitResult
+test_check_pesos(const MunitParameter params[], void* fixture) {
+  Grafo graph = NULL;
+  FILE *f;  
+  const char *filename;
   filename = (const char *) munit_parameters_get(params, "one_file");
   f = freopen(filename, "r", stdin);
   graph  = ConstruccionDelGrafo();
-  fclose(f);
-  f = freopen(filename, "r", stdin);
-  info = parse_p_edge_n_m();
-  array = parse_edge(info);
-  
-   //TO DO 
+
+  for (u32 i = 0; i < NumeroDeLados(graph); i++)
+  { 
+    for (u32 j = 0; j < Grado(i, graph); i++)
+    {
+      FijarPesoLadoConVecino(j, i, i, graph);
+    }
+  }
+  for (u32 i = 0; i < NumeroDeLados(graph); i++)
+  { 
+    for (u32 j = 0; j < Grado(i, graph); i++)
+    {
+      munit_assert_uint32 (PesoLadoConVecino(j, i, graph), ==, i);
+    }
+  }
   return MUNIT_OK;
 }
 /* To clean up after a test, you can use a tear down function.  The
@@ -323,6 +386,14 @@ static MunitTest test_suite_graph_basic[] = {
   {
     (char*) "/test_check_load_graph",
     test_check_load_graph,
+    NULL,
+    NULL,
+    MUNIT_TEST_OPTION_NONE,
+    test_params
+  },
+  {
+    (char*) "/test_check_pesos",
+    test_check_pesos,
     NULL,
     NULL,
     MUNIT_TEST_OPTION_NONE,
