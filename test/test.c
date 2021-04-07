@@ -294,6 +294,53 @@ test_check_pesos(const MunitParameter params[], void* fixture) {
   }
   return MUNIT_OK;
 }
+
+static MunitResult
+test_check_color_vertice(const MunitParameter params[], void* fixture) {
+  Grafo graph = NULL;
+  FILE *f;  
+  const char *filename;
+  filename = (const char *) munit_parameters_get(params, "one_file");
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+
+  for (u32 i = 0; i < NumeroDeVertices(graph); i++)
+  {
+    FijarColor(i, i, graph);
+  }
+  
+  for (u32 i = 0; i < NumeroDeVertices(graph); i++)
+  {
+    munit_assert_uint32(Color(i, graph), ==, i);
+  }
+  
+  return MUNIT_OK;
+}
+
+static MunitResult
+test_check_color_vecino(const MunitParameter params[], void* fixture) {
+  Grafo graph = NULL;
+  FILE *f;  
+  u32 i , vecino;
+  const char *filename;
+  filename = (const char *) munit_parameters_get(params, "one_file");
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+
+     i = 2;
+    for (u32 j = 0; j < Grado(i, graph); j++)
+    {
+      vecino = OrdenVecino(j, i, graph);
+      FijarColor(21 , vecino, graph);
+    }
+    
+    for (u32 j = 0; j < Grado(i, graph); j++)
+    {
+      munit_assert_uint32(ColorVecino(j, i, graph), == , 21); 
+    }
+  
+    return  MUNIT_OK;
+}
 /* To clean up after a test, you can use a tear down function.  The
  * fixture argument is the value returned by the setup function
  * above. */
@@ -394,6 +441,22 @@ static MunitTest test_suite_graph_basic[] = {
   {
     (char*) "/test_check_pesos",
     test_check_pesos,
+    NULL,
+    NULL,
+    MUNIT_TEST_OPTION_NONE,
+    test_params_one
+  },
+  {
+    (char*) "/test_check_color_vertice",
+    test_check_color_vertice,
+    NULL,
+    NULL,
+    MUNIT_TEST_OPTION_NONE,
+    test_params_one
+  },
+  {
+    (char*) "/test_check_color_vecino",
+    test_check_color_vecino,
     NULL,
     NULL,
     MUNIT_TEST_OPTION_NONE,
