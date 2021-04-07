@@ -57,36 +57,18 @@ test_list_head(const MunitParameter params[], void* fixture) {
 
 static MunitResult
 test_list_search(const MunitParameter params[], void* fixture) {
-   list q = (list) fixture;
-  vertice *v = NULL;
-  // agrego 3 elementos 
-  q = addl(1, v, q);
-
-  q = addl(2, v, q);
-
-  q = addl(3, v, q);
-  // busco un el 2 
-  v = search(2, q);
-
-  munit_assert_uint32(v->nombre, == , 2);
-  // check que devuelve  */
-
-  return MUNIT_OK;
-}
-
-static MunitResult
-test_search_not_in_list(const MunitParameter params[], void* fixture) {
   list q = (list) fixture;
-  vertice * v;
-  // agrego 3 elementos 
-  q = addl(1, v, q);
-  q = addl(2, v, q);
-  q = addl(3, v, q);
-  // busco el valor 4 , debe devolver null
-  v = search(4, q);
-
-  munit_assert_ptr_null(v);
-
+  vertice *ptr;
+  
+  for (u32 i = 0; i <= 3; i++)
+  {
+    vertice *v = malloc(sizeof(vertice));
+    v->nombre = i;
+    q = addl(i, v, q);
+  }
+  // busco el 2 
+  ptr = search(2, q);
+  munit_assert_uint32(ptr->nombre,==, 2);
   return MUNIT_OK;
 }
 
@@ -100,7 +82,7 @@ test_search_not_in_list(const MunitParameter params[], void* fixture) {
 static char* file_params[] = {
   (char *)"./dimacs_files/q10",
   (char *)"./dimacs_files/q13",
-  (char *)"./dimacs_files/school1",
+  /* (char *)"./dimacs_files/school1",
   (char *)"./dimacs_files/CBQsc100_200_11_1517",
   (char *)"./dimacs_files/CBQsv10_22_61.txt",
   (char *)"./dimacs_files/KC",
@@ -116,12 +98,12 @@ static char* file_params[] = {
   (char *)"./dimacs_files/GRD22154753987",
   (char *)"./dimacs_files/DG100",
   (char *)"./dimacs_files/PG64",
-  (char *)"./dimacs_files/GRD505041100",
+  (char *)"./dimacs_files/GRD505041100", */
    NULL
 };
 
 static char* one_file_params[] = {
-  (char *)"./dimacs_files/BxB1100_999_54_2017",
+  (char *)"./dimacs_files/q10",
    NULL
 };
 
@@ -143,7 +125,7 @@ test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
  
   Data->v = 0;
   Data->w = 0;
-  filename = (const char *) munit_parameters_get(params, (const char*)"file");
+  filename = (const char *) munit_parameters_get(params, (const char*)"one_file");
   /*
     The  freopen()  function  opens  the  file  whose name is the string
     pointed to by pathname and associates the stream pointed to by stream with it. 
@@ -152,9 +134,10 @@ test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
   */
   f = freopen(filename, "r", stdin);
   Data = parse_p_edge_n_m();
-  munit_assert_uint32(Data->v, !=, 0);
-  munit_assert_uint32(Data->w, !=, 0);
-  free(Data);
+
+  munit_assert_uint32(Data->v, ==, 100);
+  munit_assert_uint32(Data->w, ==, 1470);
+  
   return MUNIT_OK;
 }
 
@@ -164,12 +147,20 @@ test_read_graph(const MunitParameter params[], void* fixture) {
   FILE *f;
   const char *filename;
   Grafo graph = NULL;
+  u32 max_degree = 0;
+  u32 min_degree = 0xFFFFFFFF;
 
-  filename = (const char *) munit_parameters_get(params, "file");
+
+  filename = (const char *) munit_parameters_get(params, "one_file");
   f = freopen(filename, "r", stdin);
   graph  = ConstruccionDelGrafo();
+  fclose(f);
   // ckeck not null graph 
   munit_assert_ptr_not_null(graph);
+  munit_assert_uint32(NumeroDeVertices(graph),==, 100);
+  munit_assert_uint32(NumeroDeLados(graph),==, 1470);
+  munit_assert_uint32(delta(graph),!=, min_degree);
+  munit_assert_uint32(Delta(graph),!=, max_degree);
   return MUNIT_OK;
 }
 
@@ -221,6 +212,25 @@ test_delete_graph(const MunitParameter params[], void* fixture) {
   
   return MUNIT_OK;
 }
+
+static MunitResult
+test_check_load_graph(const MunitParameter params[], void* fixture) {
+  FILE *f;
+  const char *filename;
+  Grafo graph = NULL;
+  Lado_st **array = NULL;
+  Lado_st *info = NULL;
+  filename = (const char *) munit_parameters_get(params, "one_file");
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+  fclose(f);
+  f = freopen(filename, "r", stdin);
+  info = parse_p_edge_n_m();
+  array = parse_edge(info);
+  
+   //TO DO 
+  return MUNIT_OK;
+}
 /* To clean up after a test, you can use a tear down function.  The
  * fixture argument is the value returned by the setup function
  * above. */
@@ -270,14 +280,6 @@ static MunitTest test_list[] = {
     MUNIT_TEST_OPTION_NONE,
     NULL
   },
-  {
-    (char*) "/test_search_not_in_list",
-    test_search_not_in_list,
-    test_list_setup,
-    test_list_tear_down,
-    MUNIT_TEST_OPTION_NONE,
-    NULL
-  },
   
   /* Usually this is written in a much more compact format; all these
    * comments kind of ruin that, though.  Here is how you'll usually
@@ -292,7 +294,7 @@ static MunitTest test_suite_graph_basic[] = {
     test_list_setup,
     test_list_tear_down,
     MUNIT_TEST_OPTION_NONE,
-    test_params
+    test_params_one
   },
   {
     (char*) "/test_read_graph",
@@ -300,7 +302,7 @@ static MunitTest test_suite_graph_basic[] = {
     test_list_setup,
     test_list_tear_down,
     MUNIT_TEST_OPTION_NONE,
-    test_params
+    test_params_one
   },
   {
     (char*) "/test_copy_graph",
@@ -315,6 +317,14 @@ static MunitTest test_suite_graph_basic[] = {
     test_delete_graph,
     test_list_setup,
     test_list_tear_down,
+    MUNIT_TEST_OPTION_NONE,
+    test_params_one
+  },
+  {
+    (char*) "/test_check_load_graph",
+    test_check_load_graph,
+    NULL,
+    NULL,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
@@ -394,6 +404,6 @@ int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
    * is the user_data parameter which will be passed either to the
    * test or (if provided) the fixture setup function. */
   munit_suite_main(&test_suite_list, NULL, argc, argv);
-  //munit_suite_main(&test_suite_graph, NULL, argc, argv);
+  munit_suite_main(&test_suite_graph, NULL, argc, argv);
   return 0;
 }

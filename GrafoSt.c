@@ -72,6 +72,7 @@ Grafo ConstruccionDelGrafo(void)
     M = infoEdge->w;
     array = parse_edge(infoEdge);
     new_graph->num_vertices = N;
+    new_graph->num_lados = M;
     new_graph->vertices = calloc(N, sizeof(vertice));
     new_graph->orden = calloc(N, sizeof(u32));
 
