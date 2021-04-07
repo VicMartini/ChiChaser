@@ -59,7 +59,7 @@ u32 search(u32 key, list l)
   while (traverser && traverser->key != key)
     traverser = traverser->next;
 
-  return traverser ? traverser->val : NULL; //Notese que si el vertice no está devolvemos NULL (incluido el caso de la lista vacia)
+  return traverser ? traverser->val : 0xFFFFFFFF; //Notese que si el vertice no está devolvemos 0xFFFFFFFF (incluido el caso de la lista vacia)
 }
 
 bool in_list(u32 key, list l)
