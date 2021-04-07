@@ -97,7 +97,7 @@ void concat(list l1, list l2)
   traverser->next = l2;
 }
 
-u32 *index_ith(unsigned int i, list l)
+u32 index_ith(unsigned int i, list l)
 {
   assert(length(l) > i);
   list traverser = l;
