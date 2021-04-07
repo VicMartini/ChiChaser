@@ -18,8 +18,8 @@ typedef struct hash_table_s *hash_table;
 
 //---------------Métodos---------------------------
 
-hash_table new_ht(int size);                        //Crea una hashtist vacia dado su tamaño.
-void ht_put(u32 key, vertice *addr, hash_table ht); // Añade un vertice a la hashtable, si el vertice no esta ya en la tabla.
-vertice *ht_get(u32 key, hash_table ht);            //Busca un vertice en la hashtable
-u32 hash(u32 nombre_real, hash_table ht);           // Devuelve el hash para un vertice y una hashtist en particular.
+hash_table new_ht(int size);                  //Crea una hashtist vacia dado su tamaño.
+void ht_put(u32 key, u32 val, hash_table ht); // Añade un vertice a la hashtable, si el vertice no esta ya en la tabla.
+u32 ht_get(u32 key, hash_table ht);           //Busca un vertice en la hashtable
+u32 hash(u32 nombre_real, hash_table ht);     // Devuelve el hash para un vertice y una hashtist en particular.
 void destroy_ht(hash_table ht);
