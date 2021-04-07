@@ -36,18 +36,18 @@ char *parse_correct_form_edge(char *str)
 
 Lado_st *parse_p_edge_n_m(void)
 {
+  char buffer[80];
   char *readString = NULL;
   u32 strToULong;
   char *ptr = NULL;
   bool flag = false;
   Lado_st *Data = NULL;
-
+  
+  readString = buffer;
   Data = (Lado_st *)calloc(1, sizeof(struct Lado));
-  readString = (char *)calloc(1, sizeof(char));
-
   while (!flag)
   {
-    if (fgets(readString, 1024, stdin) == NULL)
+    if (fgets(readString, sizeof(buffer), stdin) == NULL)
       return NULL;
     if (readString[0] == 'p')
     {
@@ -56,26 +56,26 @@ Lado_st *parse_p_edge_n_m(void)
         return NULL;
       }
       strToULong = strtoul(readString, &ptr, 10);
-      printf("1-%d\n", strToULong);
       Data->v = strToULong;
       readString = strtok(NULL, " ");
       strToULong = strtoul(readString, &ptr, 10);
       Data->w = strToULong;
-      printf("2-%d\n", strToULong);
       flag = true;
     }
   }
+
 
   return Data;
 }
 
 Lado_st **parse_edge(Lado_st *lados)
 {
+  char buffer[80];
   char *readStr;
   char *token, *ptr;
   u32 a, b, M = 0;
   Lado_st **array_lados = NULL;
-  readStr = calloc(1, sizeof(char)*1024);
+  readStr = buffer;
   M = lados->w;
   array_lados = (Lado_st **)calloc(M, sizeof(Lado_st));
   for (int i = 0; i < M; i++)
@@ -85,7 +85,7 @@ Lado_st **parse_edge(Lado_st *lados)
 
   for (int i = 0; i < M; i++)
   {
-    if (fgets(readStr, 1024, stdin) == NULL)
+    if (fgets(readStr, sizeof(buffer), stdin) == NULL)
       return NULL;
     if (readStr[0] == 'e')
     {

@@ -69,6 +69,7 @@ Grafo ConstruccionDelGrafo(void)
     M = infoEdge->w;
     array = parse_edge(infoEdge);
     new_graph->num_vertices = N;
+    new_graph->num_lados = M;
     new_graph->vertices = calloc(N, sizeof(vertice));
     new_graph->orden = calloc(N, sizeof(u32));
 
@@ -92,6 +93,14 @@ Grafo ConstruccionDelGrafo(void)
     }
     new_graph->Delta = max_degree;
     new_graph->delta = min_degree;
+
+    for (u32 i = 0; i < M; i++)
+    {
+        free(array[i]);
+    }
+    free(array);
+    free(infoEdge);
+    
     return new_graph;
 }
 
@@ -158,9 +167,12 @@ void DestruccionDelGrafo(Grafo G)
     for (u32 i = 0; i < G->num_vertices; ++i)
     {
         delete_darray(G->vertices[i].vecinos);
+        free(G->vertices[i].pesos);
     }
     free(G->orden);
     free(G->vertices);
+    G->orden = NULL;
+    G->vertices = NULL;
     free(G);
 }
 

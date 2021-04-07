@@ -16,12 +16,12 @@ OBJ=check_build_time.o  GrafoSt.o dimacs.o List.o HashTable.o darray.o VerticeSt
 # the compilation in the file named on the left side of the :,
 # the $< is the first item in the dependencies list, and the CFLAGS macro is defined as above.
 %.o: %.c $(DEPS)
-	$(CC) -Wall -g -c -o $@ $< $(CFLAGS)
+	$(CC) -Wall -g -std=c11 -ggdb3 -c -o $@ $< $(CFLAGS)
 
 # use the special macros $@ and $^, which are the left and right sides of the :,
 # respectively, to make the overall compilation rule more general.
 check_build_time: $(OBJ)
-	$(CC) -Wall -g -o $@ $^ $(CFLAGS)
+	$(CC) -Wall -std=c11 -ggdb3 -g -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 
