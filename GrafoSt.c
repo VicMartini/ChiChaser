@@ -205,7 +205,7 @@ u32 NombreVecino(u32 j, u32 i, Grafo G)
         return 0;
     u32 *o = G->orden;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
-    return G->vertices[neigh_pos].color;
+    return G->vertices[neigh_pos].nombre;
 };
 //Funciones para modificar datos de vertices
 
