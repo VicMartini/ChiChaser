@@ -22,6 +22,8 @@ typedef struct GrafoSt *Grafo;
 u32 delta(Grafo g);
 u32 Delta(Grafo g);
 u32 print_graph(Grafo g, u32 lines);
+Lado_st parse_edge(void);
+void insert_edge(u32 v_key, u32 w_key, Grafo g, hash_table ht);
 Grafo ConstruccionDelGrafo(void);
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
 Grafo CopiarGrafo(Grafo G);
