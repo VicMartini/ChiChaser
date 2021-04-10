@@ -18,8 +18,9 @@ int main(void)
     Grafo h = CopiarGrafo(g);
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
-    print_graph(h, 5);
+    //print_graph(h, 5);
     printf("Time copying: %f\n", elapsed_time);
     printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
     DestruccionDelGrafo(g);
+    DestruccionDelGrafo(h);
 }
