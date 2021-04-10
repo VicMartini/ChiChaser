@@ -22,7 +22,7 @@ test_list_setup(const MunitParameter params[], void* user_data) {
 
 
 static void*
-test_graph_onefile_setup(const MunitParameter params[], void* user_data) {
+test_graph_one_file_setup(const MunitParameter params[], void* user_data) {
   Grafo graph = NULL;
   FILE *f;  
   const char *filename;
@@ -34,6 +34,19 @@ test_graph_onefile_setup(const MunitParameter params[], void* user_data) {
   
 }
 
+
+static void*
+test_graph_all_files_setup(const MunitParameter params[], void* user_data) {
+  Grafo graph = NULL;
+  FILE *f;  
+  const char *filename;
+  filename = (const char *) munit_parameters_get(params, "file");
+  f = freopen(filename, "r", stdin);
+  graph  = ConstruccionDelGrafo();
+  fclose(f);
+  return graph;
+  
+}
 
 static MunitResult
 test_list_is_null(const MunitParameter params[], void* fixture) {
@@ -131,7 +144,7 @@ static MunitParameterEnum test_params_one[] = {
 
 static MunitResult
 test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
-  FILE *f;
+  FILE *f = NULL;
   const char *filename;
   Lado_st *Data = calloc(1, sizeof(Lado_st));
  
@@ -149,24 +162,18 @@ test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
 
   munit_assert_uint32(Data->v, ==, 100);
   munit_assert_uint32(Data->w, ==, 1470);
-  
+  fclose(f);
   return MUNIT_OK;
 }
 
 
 static MunitResult
 test_read_graph(const MunitParameter params[], void* fixture) {
-  FILE *f;
-  const char *filename;
-  Grafo graph = NULL;
+  
+  Grafo graph = (Grafo) fixture;
   u32 max_degree = 0;
   u32 min_degree = 0xFFFFFFFF;
 
-
-  filename = (const char *) munit_parameters_get(params, "one_file");
-  f = freopen(filename, "r", stdin);
-  graph  = ConstruccionDelGrafo();
-  fclose(f);
   // ckeck not null graph 
   munit_assert_ptr_not_null(graph);
   munit_assert_uint32(NumeroDeVertices(graph),==, 100);
@@ -179,14 +186,10 @@ test_read_graph(const MunitParameter params[], void* fixture) {
 
 static MunitResult
 test_copy_graph(const MunitParameter params[], void* fixture) {
-  FILE *f;
-  const char *filename;
-  Grafo graph = NULL;
+  
+  Grafo graph = (Grafo) fixture;
   Grafo clone_graph = NULL;
 
-  filename = (const char *) munit_parameters_get(params, "file");
-  f = freopen(filename, "r", stdin);
-  graph  = ConstruccionDelGrafo();
   clone_graph = CopiarGrafo(graph);
   
   
@@ -196,7 +199,7 @@ test_copy_graph(const MunitParameter params[], void* fixture) {
 
   munit_assert_uint32(NumeroDeLados(graph), ==, NumeroDeLados(clone_graph));
   munit_assert_uint32(NumeroDeVertices(graph), ==, NumeroDeVertices(clone_graph));
-  for (int i = 0; i < NumeroDeVertices(graph); i++)
+  for (u32 i = 0; i < NumeroDeVertices(graph); i++)
   {
     munit_assert_uint32(Nombre(i, graph), == , Nombre(i, clone_graph));
     munit_assert_uint32(graph->orden[i], ==, clone_graph->orden[i]);
@@ -209,46 +212,25 @@ test_copy_graph(const MunitParameter params[], void* fixture) {
   return MUNIT_OK;
 }
 
-static MunitResult
-test_delete_graph(const MunitParameter params[], void* fixture) {
-  FILE *f;
-  const char *filename;
-  Grafo graph = NULL;
 
-  filename = (const char *) munit_parameters_get(params, "one_file");
-  f = freopen(filename, "r", stdin);
-  graph  = ConstruccionDelGrafo();
-  
-  DestruccionDelGrafo(graph);
-
-  // check vertices null
-  munit_assert_ptr_null(graph->vertices);
-  // check array orden es null
-  munit_assert_ptr_null(graph->orden);
-  
-  return MUNIT_OK;
-}
 
 static MunitResult
 test_check_load_graph(const MunitParameter params[], void* fixture) {
-  FILE *f;
-  const char *filename;
-  Grafo graph = NULL;
+  
+  Grafo graph = (Grafo) fixture;
   Lado_st **array = NULL;
   Lado_st *info = NULL;
   hash_table ht;
   u32 v, w ;
+  FILE *f = NULL;
+  const char *filename = NULL;
+  // parseo y pongo en un array
   filename = (const char *) munit_parameters_get(params, "file");
   f = freopen(filename, "r", stdin);
-  // construccion del grafo
-  graph  = ConstruccionDelGrafo();
-  fclose(f);
-  // parseo y pongo en un array
-  f = freopen(filename, "r", stdin);
   info = parse_p_edge_n_m();
-  ht = new_ht(info->v);
-  array = parse_edge(info);
-  for (u32 i = 0; i < info->w; i++)
+   ht = new_ht(info->v);
+   array = parse_edge(info);
+   for (u32 i = 0; i < info->w; i++)
   { 
     v = ht_get(array[i]->v, ht);
     w = ht_get(array[i]->w, ht);
@@ -279,7 +261,7 @@ test_check_load_graph(const MunitParameter params[], void* fixture) {
       munit_assert_uint32(v, ==, n);
     }
   }
-  
+  fclose(f);
   return MUNIT_OK;
 }
 
@@ -321,8 +303,8 @@ test_check_manos(const MunitParameter params[], void* fixture) {
 }
 
 static MunitResult
-test_check_FijarOrden(const MunitParameter params[], void* fixture) {
-  u32 orden_v, orden_w;
+test_check_fijar_orden(const MunitParameter params[], void* fixture) {
+  
   Grafo graph = (Grafo)fixture;
   
   printf("\n");
@@ -346,13 +328,8 @@ test_check_FijarOrden(const MunitParameter params[], void* fixture) {
 }
 static MunitResult
 test_check_color_vertice(const MunitParameter params[], void* fixture) {
-  Grafo graph = NULL;
-  FILE *f;  
-  const char *filename;
-  filename = (const char *) munit_parameters_get(params, "one_file");
-  f = freopen(filename, "r", stdin);
-  graph  = ConstruccionDelGrafo();
-
+  
+  Grafo graph = (Grafo)fixture;
   for (u32 i = 0; i < NumeroDeVertices(graph); i++)
   {
     FijarColor(i, i, graph);
@@ -412,9 +389,9 @@ Luego destruir la copia, crear otra copia, y repetir.
   // hago una nueva copia 
   copy_graph = CopiarGrafo(graph);
   
-  for (u32 i = 0; i < 10; i++)
+  for (u32 i = 0; i < N; i++)
   { // deberia tener el mismo color luego de la primera modificación
-    munit_assert_uint32(Color(i,graph),==, Color(i,copy_graph));
+    munit_assert_uint32(Color(i,graph), ==, Color(i,copy_graph));
   }
 
   return MUNIT_OK;
@@ -422,27 +399,21 @@ Luego destruir la copia, crear otra copia, y repetir.
 
 static MunitResult
 test_check_color_vecino(const MunitParameter params[], void* fixture) {
-  Grafo graph = NULL;
-  FILE *f;  
+  Grafo graph = (Grafo)fixture;
   u32 i , vecino;
-  const char *filename;
-  filename = (const char *) munit_parameters_get(params, "one_file");
-  f = freopen(filename, "r", stdin);
-  graph  = ConstruccionDelGrafo();
-
-     i = 2;
-    for (u32 j = 0; j < Grado(i, graph); j++)
-    {
-      vecino = OrdenVecino(j, i, graph);
-      FijarColor(21 , vecino, graph);
-    }
-    
-    for (u32 j = 0; j < Grado(i, graph); j++)
-    {
-      munit_assert_uint32(ColorVecino(j, i, graph), == , 21); 
-    }
+  i = 2;
+  for (u32 j = 0; j < Grado(i, graph); j++)
+  {
+    vecino = OrdenVecino(j, i, graph);
+    FijarColor(21 , vecino, graph);
+  }
   
-    return  MUNIT_OK;
+  for (u32 j = 0; j < Grado(i, graph); j++)
+  {
+    munit_assert_uint32(ColorVecino(j, i, graph), == , 21); 
+  }
+
+  return  MUNIT_OK;
 }
 /* To clean up after a test, you can use a tear down function.  The
  * fixture argument is the value returned by the setup function
@@ -453,11 +424,16 @@ test_list_tear_down(void* fixture) {
 }
 
 static void
-test_graph_onefile_tear_down(void* fixture) {
+test_graph_one_file_tear_down(void* fixture) {
   
   DestruccionDelGrafo(fixture);
 }
 
+static void
+test_graph_all_files_tear_down(void* fixture) {
+  
+  DestruccionDelGrafo(fixture);
+}
 
 /* Creating a test suite is pretty simple.  First, you'll need an
  * array of tests: */
@@ -505,88 +481,80 @@ static MunitTest test_suite_graph_basic[] = {
   {
     (char*) "/test_read_n_m_from_file",
     test_read_n_m_from_file,
-    NULL,
-    NULL,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_read_graph",
     test_read_graph,
-    NULL,
-    NULL,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_copy_graph",
     test_copy_graph,
-    NULL,
-    NULL,
+    test_graph_all_files_setup,
+    test_graph_all_files_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params
   },
   {
-    (char*) "/test_delete_graph",
-    test_delete_graph,
-    NULL,
-    NULL,
-    MUNIT_TEST_OPTION_NONE,
-    test_params_one
-  },
-  {
     (char*) "/test_check_load_graph",
     test_check_load_graph,
-    NULL,
-    NULL,
+    test_graph_all_files_setup,
+    test_graph_all_files_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params
   },
   {
     (char*) "/test_check_manos",
     test_check_manos,
-    test_graph_onefile_setup,
-    NULL,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_check_pesos",
     test_check_pesos,
-    test_graph_onefile_setup,
+    test_graph_one_file_setup,
     NULL,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_check_FijarOrden",
-    test_check_FijarOrden,
-    test_graph_onefile_setup,
-    test_graph_onefile_tear_down,
+    test_check_fijar_orden,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_check_color_vertice",
     test_check_color_vertice,
-    NULL,
-    NULL,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_check_color_vecino",
     test_check_color_vecino,
-    NULL,
-    NULL,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
   {
     (char*) "/test_check_copys",
     test_check_copys,
-    test_graph_onefile_setup,
-    test_graph_onefile_tear_down,
+    test_graph_one_file_setup,
+    test_graph_one_file_tear_down,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
