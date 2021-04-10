@@ -1,5 +1,6 @@
 #include "munit.h"
 #include "../GrafoSt.h"
+
 #define L 0xFFFFFFFF
 //gcc test.c munit.c munit.h ../HashTable.c ../List.c
 
@@ -159,13 +160,11 @@ test_read_n_m_from_file(const MunitParameter params[], void* fixture) {
   */
   f = freopen(filename, "r", stdin);
   Data = parse_p_edge_n_m();
-
   munit_assert_uint32(Data->v, ==, 100);
   munit_assert_uint32(Data->w, ==, 1470);
   fclose(f);
   return MUNIT_OK;
 }
-
 
 static MunitResult
 test_read_graph(const MunitParameter params[], void* fixture) {
@@ -570,6 +569,7 @@ static MunitTest test_suite_graph_basic[] = {
 
 /* Now we'll actually declare the test suite.  You could do this in
  * the main function, or on the heap, or whatever you want. */
+
 static const MunitSuite test_suite_list = {
   /* This string will be prepended to all test names in this suite;
    * for example, "/example/rand" will become "/µnit/example/rand".
@@ -603,6 +603,7 @@ static const MunitSuite test_suite_graph = {
    * Note that, while it doesn't really matter for the top-level
    * suite, NULL signal the end of an array of tests; you should use
    * an empty string ("") instead. */
+
   (char*) "test_suite_graph_basic",
   /* The first parameter is the array of test suites. */
   test_suite_graph_basic,
@@ -633,6 +634,7 @@ int main(int argc, char* argv[MUNIT_ARRAY_PARAM(argc + 1)]) {
   /* Finally, we'll actually run our test suite!  That second argument
    * is the user_data parameter which will be passed either to the
    * test or (if provided) the fixture setup function. */
+
   munit_suite_main(&test_suite_list, NULL, argc, argv);
   munit_suite_main(&test_suite_graph, NULL, argc, argv);
   return 0;
