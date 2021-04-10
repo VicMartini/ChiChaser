@@ -108,7 +108,7 @@ test_list_search(const MunitParameter params[], void* fixture) {
 static char* file_params[] = {
   (char *)"./dimacs_files/q10",
   (char *)"./dimacs_files/q13",
- /* (char *)"./dimacs_files/school1",
+ (char *)"./dimacs_files/school1",
   (char *)"./dimacs_files/CBQsc100_200_11_1517",
   (char *)"./dimacs_files/CBQsv10_22_61.txt",
   (char *)"./dimacs_files/KC",
@@ -124,7 +124,7 @@ static char* file_params[] = {
   (char *)"./dimacs_files/GRD22154753987",
   (char *)"./dimacs_files/DG100",
   (char *)"./dimacs_files/PG64",
-  (char *)"./dimacs_files/GRD505041100",  */
+  (char *)"./dimacs_files/GRD505041100", 
    NULL
 };
 
@@ -227,9 +227,9 @@ test_check_load_graph(const MunitParameter params[], void* fixture) {
   filename = (const char *) munit_parameters_get(params, "file");
   f = freopen(filename, "r", stdin);
   info = parse_p_edge_n_m();
-   ht = new_ht(info->v);
-   array = parse_edge(info);
-   for (u32 i = 0; i < info->w; i++)
+  ht = new_ht(info->v);
+  array = parse_edge_from_dimacs(info);
+  for (u32 i = 0; i < info->w; i++)
   { 
     v = ht_get(array[i]->v, ht);
     w = ht_get(array[i]->w, ht);
@@ -480,8 +480,8 @@ static MunitTest test_suite_graph_basic[] = {
   {
     (char*) "/test_read_n_m_from_file",
     test_read_n_m_from_file,
-    test_graph_one_file_setup,
-    test_graph_one_file_tear_down,
+    NULL,
+    NULL,
     MUNIT_TEST_OPTION_NONE,
     test_params_one
   },
