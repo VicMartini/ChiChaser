@@ -33,32 +33,29 @@ u32 print_graph(Grafo g, u32 lines)
     return 0;
 }
 
-int parse_edge(Lado_st *lados, Grafo graph, hash_table ht)
+Lado_st parse_edge(void)
 {
-  char buffer[80];
-  char *readStr;
-  char *token, *ptr;
-  u32 a, b, M = 0;
-  readStr = buffer;
-  M = lados->w;
-  
-  for (u32 i = 0; i < M; i++)
-  {
+    char buffer[80];
+    char *readStr;
+    char *token, *ptr;
+    Lado_st edge = {0xFFFFFFFF, 0xFFFFFFFF};
+    u32 a, b = 0;
+    readStr = buffer;
+
     if (fgets(readStr, sizeof(buffer), stdin) == NULL)
-      return -1;
+        return edge;
     if (readStr[0] == 'e')
     {
-      token = strtok(readStr, "e ");
-      a = (u32)strtoul(token, &ptr, 10);
-      token = strtok(NULL, " ");
-      b = (u32)strtoul(token, &ptr, 10);
-      insert_edge(a, b, graph, ht);
-      
+        token = strtok(readStr, "e ");
+        a = (u32)strtoul(token, &ptr, 10);
+        token = strtok(NULL, " ");
+        b = (u32)strtoul(token, &ptr, 10);
+        edge.v = a;
+        edge.w = b;
     }
-  }
-  return 0;
-}
 
+    return edge;
+}
 
 void insert_edge(u32 v_key, u32 w_key, Grafo g, hash_table ht)
 {
@@ -89,7 +86,7 @@ Grafo ConstruccionDelGrafo(void)
     u32 v_degree = 0;
     u32 max_degree = 0;
     u32 min_degree = 0xFFFFFFFF;
-
+    Lado_st edge;
     infoEdge = parse_p_edge_n_m();
     N = infoEdge->v;
     M = infoEdge->w;
@@ -100,8 +97,12 @@ Grafo ConstruccionDelGrafo(void)
 
     hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
                                   //construcción del grafo.
-    parse_edge(infoEdge, new_graph, index);
-    
+    for (u32 i = 0; i < M; ++i)
+    {
+        edge = parse_edge();
+        insert_edge(edge.v, edge.w, new_graph, index);
+    }
+
     //Ya no necesitamos la hashtable.
     destroy_ht(index);
     for (u32 j = 0; j < N; ++j)
@@ -192,7 +193,7 @@ void DestruccionDelGrafo(Grafo G)
     G->orden = NULL;
     G->vertices = NULL;
     free(G);
-    G=NULL;
+    G = NULL;
 }
 
 // Funciones para extraer información de los vertices
