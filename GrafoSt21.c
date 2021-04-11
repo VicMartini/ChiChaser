@@ -32,3 +32,8 @@ u32 print_graph(GrafoSt *g, u32 lines)
     }
     return 0;
 }
+
+u32 delta(GrafoSt *g)
+{
+    return g->Delta;
+}

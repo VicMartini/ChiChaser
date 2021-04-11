@@ -100,11 +100,6 @@ u32 Delta(Grafo g)
     return g->Delta;
 }
 
-u32 delta(Grafo g)
-{
-    return g->Delta;
-}
-
 u32 NumeroDeLados(Grafo G)
 {
     return G->num_lados;

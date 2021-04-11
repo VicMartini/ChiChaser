@@ -20,3 +20,4 @@ struct GrafoSt
 typedef struct GrafoSt GrafoSt;
 
 u32 print_graph(GrafoSt *g, u32 lines);
+u32 delta(GrafoSt *g);
