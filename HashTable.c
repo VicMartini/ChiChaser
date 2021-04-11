@@ -8,7 +8,7 @@ u32 hash(u32 nombre_real, hash_table ht)
     return nombre_real % ht->size; //Un hash modular muy sencillo que deberia servirnos por el momento
 };                                 //deberiamos ver cómo se comporta y decidir si necesitamos algo más sofisticado.
 
-hash_table new_ht(int size)
+hash_table new_ht(u32 size)
 {
     hash_table new_ht = malloc(sizeof(struct hash_table_s));
     new_ht->size = size;

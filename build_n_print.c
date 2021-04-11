@@ -2,19 +2,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include "GrafoSt.h"
-
-
+#include "RomaVictor.h"
 
 int main(void)
 {
     Grafo g = ConstruccionDelGrafo();
-    vertice **iterator = g -> vertices -> iterator;
-    for(u32 i = 0; i < g -> num_vertices; ++i)
+    vertice **iterator = g->vertices->iterator;
+    for (u32 i = 0; i < g->num_vertices; ++i)
     {
-        for(u32 j = 0; j < iterator[i] -> grado; ++j)
+        for (u32 j = 0; j < iterator[i]->grado; ++j)
         {
-            FijarPesoLadoConVecino(j,i,j+i,g);
+            FijarPesoLadoConVecino(j, i, j + i, g);
         }
     }
     print_graph(g);

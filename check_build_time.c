@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <time.h>
-#include "GrafoSt.h"
+#include "RomaVictor.h"
 
 int main(void)
 {

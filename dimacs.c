@@ -68,7 +68,7 @@ Lado_st *parse_p_edge_n_m(void)
   return Data;
 }
 
-Lado_st **parse_edge(Lado_st *lados)
+Lado_st **parse_edge_from_dimacs(Lado_st *lados)
 {
   char buffer[80];
   char *readStr;
@@ -78,12 +78,12 @@ Lado_st **parse_edge(Lado_st *lados)
   readStr = buffer;
   M = lados->w;
   array_lados = (Lado_st **)calloc(M, sizeof(Lado_st));
-  for (int i = 0; i < M; i++)
+  for (u32 i = 0; i < M; i++)
   {
     array_lados[i] = calloc(1, sizeof(struct Lado));
   }
 
-  for (int i = 0; i < M; i++)
+  for (u32 i = 0; i < M; i++)
   {
     if (fgets(readStr, sizeof(buffer), stdin) == NULL)
       return NULL;
