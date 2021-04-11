@@ -42,7 +42,7 @@ Lado_st *parse_p_edge_n_m(void)
   char *ptr = NULL;
   bool flag = false;
   Lado_st *Data = NULL;
-  
+
   readString = buffer;
   Data = (Lado_st *)calloc(1, sizeof(struct Lado));
   while (!flag)
@@ -63,7 +63,6 @@ Lado_st *parse_p_edge_n_m(void)
       flag = true;
     }
   }
-
 
   return Data;
 }
@@ -99,80 +98,3 @@ Lado_st **parse_edge_from_dimacs(Lado_st *lados)
   }
   return array_lados;
 }
-
-/*
-int func_insertar_vert(u32 nombre, hash_table ht){
-  
-    add_ht_entry(nombre, ht);
-
-  return 0;
-}
-*/
-/*
-int insert_edge(u32 v_key, u32 w_key, hash_table ht){
-  vertice *v = ht_put(v_key, ht);
-  vertice *w = ht_put(w_key, ht); //Notese que put es idempotente (No genera duplicados)
-  v -> vecinos = (in_list(w_key, v -> vecinos)) ? v -> vecinos : addl_ptr(w, v -> vecinos);
-  w -> vecinos = (in_list(v_key, w -> vecinos)) ? w -> vecinos : addl_ptr(v, w -> vecinos);
-  //Puede que eñ chequeo de si el vecino está en la lista sea inecesario. Hay que preguntarle
-  // al profe si podemos asumir que no hay lados duplicados en el dimacs.
-  return 0;
-}
-
-int print_graph(hash_table ht){
-  int M = ht->size;
-  list lista = NULL;
-  vertice *vert , *vecino = NULL;
-  u32 longitud_lista = 0;
-  for (u32 i = 0; i < M; i++)
-  {
-    vert = ht_get(i, ht);
-    if(vert != NULL){
-          printf("vertice: %d -> \n", vert->nombre);
-          printf("  vecinos:\n");
-          printf("( \n");
-          longitud_lista = length(vert->vecinos);
-          printf("longitud_lista: %d \n", longitud_lista);
-          for (u32 i=0; i < longitud_lista; i++)
-          {
-            vecino = index_ith(i , vert->vecinos); 
-            if(vecino!=NULL){
-              printf("%d ", vecino->nombre);
-            }
-
-          }
-          printf("\n ) \n");
-          printf("\n");     
-    } 
-  }
-}
-*/
-/*
-int main(int argc, char **argv)
-{
-  Lado_st *infoEdge = NULL;
-  Lado_st **array = NULL;
-  u32 M = 0;
-  hash_table ht = NULL;
-
-  infoEdge = parse_p_edge_n_m();
-  M = infoEdge->w;
-  array = parse_edge(infoEdge);
-
-  for (int i = 0; i < M; i++)
-  {
-    printf("array de carga (%d ,%d) \n", array[i]->v, array[i]->w);
-  }
-
-  ht = new_ht(M);
-
-  for (int i = 0; i < M; i++)
-  {
-    insert_edge(array[i]->v, array[i]->w, ht);
-  }
-
-  print_graph(ht);
-
-  return 0;
-}
-*/

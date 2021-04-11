@@ -7,14 +7,6 @@
 #include "List.h"
 typedef uint32_t u32;
 
-/*
-list addl(u32 key, list l)
-{
-  vertice *nv = new_vertex(key);
-  return addl_ptr(nv, l);
-}
-*/
-
 list addl(u32 key, u32 val, list l)
 {
   list new_head = malloc(sizeof(struct node));
@@ -59,7 +51,7 @@ u32 search(u32 key, list l)
   while (traverser && traverser->key != key)
     traverser = traverser->next;
 
-  return traverser ? traverser->val : 0xFFFFFFFF; //Notese que si el vertice no está devolvemos 0xFFFFFFFF (incluido el caso de la lista vacia)
+  return traverser ? traverser->val : 0xFFFFFFFF;
 }
 
 bool in_list(u32 key, list l)
@@ -69,9 +61,6 @@ bool in_list(u32 key, list l)
   {
     traverser = traverser->next;
   }
-  // En este punto, si el vertice existe ya en la lista estamos parados en él
-  // si no existe estamos parados al final de la lista
-  // Si salimos del loop porque traverser == NULL significa que no encontramos el vertice
   return !(traverser == NULL);
 }
 unsigned int length(list l)

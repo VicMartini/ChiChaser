@@ -5,8 +5,8 @@
 
 u32 hash(u32 nombre_real, hash_table ht)
 {
-    return nombre_real % ht->size; //Un hash modular muy sencillo que deberia servirnos por el momento
-};                                 //deberiamos ver cómo se comporta y decidir si necesitamos algo más sofisticado.
+    return nombre_real % ht->size;
+};
 
 hash_table new_ht(u32 size)
 {
