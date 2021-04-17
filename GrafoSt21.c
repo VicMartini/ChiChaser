@@ -16,8 +16,8 @@ u32 print_graph(GrafoSt *g, u32 lines)
         return 1;
     for (u32 i = 0; i < lines; i++)
     {
-        vert = g->vertices[i];
-        printf("%u: vertice: %u -> \n", g->orden[i], vert.nombre);
+        vert = g->vertices[g->orden[i]];
+        printf("%u: vertice: %u -> \n", i, vert.nombre);
         printf("  vecinos:\n");
         printf("( \n");
         longitud_lista = vert.grado;

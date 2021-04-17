@@ -239,3 +239,27 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
         return 1;
     }
 };
+
+char AleatorizarVertices(Grafo G, u32 R)
+{
+    srand(R);
+    //Vamos a usar la versión "inside-out" del
+    // Fisher-Yates shuffle para inicializar
+    //un arreglo con una permutación aleatoria
+    //de [0:N)
+    u32 *a = calloc(G->num_vertices, sizeof(u32));
+    u32 r;
+    for (u32 i = 0; i < G->num_vertices; ++i)
+    {
+        r = rand() % (i + 1);
+        if (r != i)
+            a[i] = a[r];
+        a[r] = i;
+    }
+    for (u32 j = 0; j < G->num_vertices; ++j)
+    {
+        FijarOrden(a[j], G, j);
+    }
+    free(a);
+    return 0;
+}
