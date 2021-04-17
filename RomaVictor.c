@@ -263,3 +263,31 @@ char AleatorizarVertices(Grafo G, u32 R)
     free(a);
     return 0;
 }
+
+u32 Greedy(Grafo G)
+{
+    u32 n = G->num_vertices;
+    hash_table ht; //Vamos a usar la ht para calcular
+                   //eficientemente el minimo color que ocurre en los vecinos
+    u32 neigh_color;
+    u32 degree;
+    u32 min_color = 0;
+    for (u32 i = 0; i < n; ++i)
+    {
+        degree = Grado(i, G);
+        ht = new_ht((degree > i + 1) ? i + 1 : degree);
+        for (u32 j = 0; j < degree; ++j)
+        {
+            neigh_color = ColorVecino(j, i, G);
+            if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
+            {
+                ht_put(neigh_color, 0, ht);
+            }
+        }
+        while (in_ht(min_color, ht))
+            ++min_color;
+        destroy_ht(ht);
+        FijarColor(min_color, i, G);
+    }
+    return 0;
+}

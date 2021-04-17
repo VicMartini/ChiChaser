@@ -54,4 +54,6 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
 
 char AleatorizarVertices(Grafo G, u32 R);
 
+u32 Greedy(Grafo G);
+
 #endif

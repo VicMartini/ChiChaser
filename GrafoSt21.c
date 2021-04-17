@@ -17,7 +17,7 @@ u32 print_graph(GrafoSt *g, u32 lines)
     for (u32 i = 0; i < lines; i++)
     {
         vert = g->vertices[g->orden[i]];
-        printf("%u: vertice: %u -> \n", i, vert.nombre);
+        printf("%u: vertice: %u c: %u -> \n", i, vert.nombre, vert.color);
         printf("  vecinos:\n");
         printf("( \n");
         longitud_lista = vert.grado;
@@ -25,7 +25,7 @@ u32 print_graph(GrafoSt *g, u32 lines)
         for (u32 i = 0; i < longitud_lista; i++)
         {
             vecino = g->vertices[darray_get(i, vert.vecinos)];
-            printf("(v: %u, peso: %u )", vecino.nombre, vert.pesos[i]);
+            printf("(v: %u, peso: %u, color: %u )", vecino.nombre, vert.pesos[i], vecino.color);
         }
         printf("\n ) \n");
         printf("\n");
