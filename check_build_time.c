@@ -17,7 +17,7 @@ int main(void)
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     Grafo h = CopiarGrafo(g);
     t = clock();
-    for (u32 i = 0; i < 100; ++i)
+    for (u32 i = 0; i < 1000; ++i)
     {
         AleatorizarVertices(h, time(0));
         Greedy(h);
