@@ -81,6 +81,7 @@ Grafo ConstruccionDelGrafo(void)
     for (u32 j = 0; j < N; ++j)
     {
         new_graph->orden[j] = j;
+        new_graph->vertices[j].orden = j;
         v_degree = new_graph->vertices[j].vecinos->ocupation;
         new_graph->vertices[j].pesos = calloc(v_degree, sizeof(u32));
         new_graph->vertices[j].grado = v_degree;
@@ -110,26 +111,6 @@ u32 NumeroDeVertices(Grafo G)
     return G->num_vertices;
 }
 
-u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
-{
-    u32 n = G->num_vertices;
-    if (i < n && j < G->vertices[i].grado)
-        return G->vertices[i].pesos[j];
-    else
-        return 0;
-};
-u32 OrdenVecino(u32 j, u32 i, Grafo G)
-{
-    if (i >= G->num_vertices || j >= G->vertices[i].grado)
-        return 0;
-    u32 *o = G->orden;
-    u32 k = 0;
-    while(o[k] != darray_get(j, G->vertices[i].vecinos))
-    {
-        ++k;
-    }
-    return k;
-}
 
 Grafo CopiarGrafo(Grafo G)
 {
@@ -212,6 +193,26 @@ u32 NombreVecino(u32 j, u32 i, Grafo G)
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].nombre;
 };
+
+u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
+{
+    u32 n = G->num_vertices;
+    u32 *o = G->orden;
+    if (i < n && j < G->vertices[i].grado)
+        return G->vertices[o[i]].pesos[j];
+    else
+        return 0;
+};
+u32 OrdenVecino(u32 j, u32 i, Grafo G)
+{
+    if (i >= G->num_vertices || j >= G->vertices[i].grado)
+        return 0;
+    u32 *o = G->orden;
+    u32 k = 0;
+    return darray_get(j, G->vertices[o[i]].vecinos);
+
+}
+
 //Funciones para modificar datos de vertices
 
 char FijarColor(u32 x, u32 i, Grafo G)
@@ -227,6 +228,7 @@ char FijarOrden(u32 i, Grafo G, u32 N)
     if (i >= G->num_vertices || N >= G->num_vertices)
         return 1;
     G->orden[N] = i;
+    G->vertices[i].orden = N;
     return 0;
 }
 
