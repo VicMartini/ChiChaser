@@ -17,7 +17,7 @@ int main(void)
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     Grafo h = CopiarGrafo(g);
     t = clock();
-    for (u32 i = 0; i < 1; ++i)
+    for (u32 i = 0; i < 1000; ++i)
     {
         AleatorizarVertices(h, time(0));
         Greedy(h);
@@ -25,7 +25,7 @@ int main(void)
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time shuffling order and running Greedy: %f\n SHUFFLED\n", elapsed_time / 60);
-    print_graph(h, 11);
+    //print_graph(h, 11);
     printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
     DestruccionDelGrafo(g);
     DestruccionDelGrafo(h);

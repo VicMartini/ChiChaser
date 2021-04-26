@@ -128,6 +128,7 @@ Grafo CopiarGrafo(Grafo G)
         clone->vertices[j].nombre = G->vertices[j].nombre;
         clone->vertices[j].grado = G->vertices[j].grado;
         clone->vertices[j].color = G->vertices[j].color;
+        clone->vertices[j].orden = G->vertices[j].orden;
         clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
         clone->vertices[j].vecinos = darray_copy(G->vertices[j].vecinos);
         memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, sizeof(u32) * G->vertices[j].grado);
