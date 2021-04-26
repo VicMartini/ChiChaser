@@ -208,18 +208,19 @@ u32 OrdenVecino(u32 j, u32 i, Grafo G)
     if (i >= G->num_vertices || j >= G->vertices[i].grado)
         return 0;
     u32 *o = G->orden;
-    u32 k = 0;
-    return darray_get(j, G->vertices[o[i]].vecinos);
+    u32 neigh_index = darray_get(j, G->vertices[o[i]].vecinos);
+    return G->vertices[neigh_index].orden;
 
 }
 
 //Funciones para modificar datos de vertices
 
 char FijarColor(u32 x, u32 i, Grafo G)
-{
+{   
+    u32 *o= G->orden;
     if (i >= G->num_vertices)
         return 1;
-    G->vertices[i].color = x;
+    G->vertices[o[i]].color = x;
     return 0;
 }
 
@@ -284,16 +285,19 @@ u32 Greedy(Grafo G)
         min_color = 0;
         degree = Grado(i, G);
         ht = new_ht((degree > i + 1) ? i + 1 : degree);
+        //printf("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
         {
             neigh_color = ColorVecino(j, i, G);
             if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
             {
                 ht_put(neigh_color, 0, ht);
+                //printf("%d ", neigh_color);
             }
         }
         while (in_ht(min_color, ht))
             ++min_color;
+        //printf("\n Chose color %d\n", min_color);
         destroy_ht(ht);
         FijarColor(min_color, i, G);
     }
