@@ -123,7 +123,12 @@ u32 OrdenVecino(u32 j, u32 i, Grafo G)
     if (i >= G->num_vertices || j >= G->vertices[i].grado)
         return 0;
     u32 *o = G->orden;
-    return o[darray_get(j, G->vertices[i].vecinos)];
+    u32 k = 0;
+    while(o[k] != darray_get(j, G->vertices[i].vecinos))
+    {
+        ++k;
+    }
+    return k;
 }
 
 Grafo CopiarGrafo(Grafo G)
@@ -271,23 +276,28 @@ u32 Greedy(Grafo G)
                    //eficientemente el minimo color que ocurre en los vecinos
     u32 neigh_color;
     u32 degree;
-    u32 min_color = 0;
+    u32 min_color;
     for (u32 i = 0; i < n; ++i)
-    {
+    {   
+        min_color = 0;
         degree = Grado(i, G);
         ht = new_ht((degree > i + 1) ? i + 1 : degree);
+        printf("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
         {
             neigh_color = ColorVecino(j, i, G);
             if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
             {
                 ht_put(neigh_color, 0, ht);
+                printf("%d  ",neigh_color);
             }
         }
         while (in_ht(min_color, ht))
             ++min_color;
         destroy_ht(ht);
         FijarColor(min_color, i, G);
+        printf("\nChosen color: %d", min_color);
+        printf("\n");
     }
     return 0;
 }
