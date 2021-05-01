@@ -286,19 +286,19 @@ u32 Greedy(Grafo G)
         min_color = 0;
         degree = Grado(i, G);
         ht = new_ht((degree > i + 1) ? i + 1 : degree);
-        //printf("%d: Coloring vertex: %d\n", i, Nombre(i, G));
+        printf("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
         {
             neigh_color = ColorVecino(j, i, G);
             if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
             {
                 ht_put(neigh_color, 0, ht);
-                //printf("%d ", neigh_color);
+                printf("%d ", neigh_color);
             }
         }
         while (in_ht(min_color, ht))
             ++min_color;
-        //printf("\n Chose color %d\n", min_color);
+        printf("\n Chose color %d\n", min_color);
         destroy_ht(ht);
         FijarColor(min_color, i, G);
     }
