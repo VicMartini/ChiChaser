@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "GrafoSt21.h"
+#include "queue.h"
 
 //Grafo es un puntero a una estructura, la cual debe estar definida en el .h de arriba
 //u32 tambien debe estar definida arriba

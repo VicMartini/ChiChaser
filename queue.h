@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 typedef uint32_t u32;
 
@@ -19,5 +20,6 @@ struct queue
 struct qnode *new_qnode(u32 k);
 struct queue *new_queue();
 void enqueue(struct queue *q, u32 k);
-void dequeue(struct queue *q);
-
+u32 dequeue(struct queue *q);
+bool queue_is_empty(struct queue *q);
+typedef struct queue *queue;

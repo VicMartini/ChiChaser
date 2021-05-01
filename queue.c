@@ -1,3 +1,4 @@
+#include "assert.h"
 #include "queue.h"
 
 struct qnode *new_qnode(u32 k)
@@ -27,14 +28,20 @@ void enqueue(struct queue *q, u32 k)
     q->rear = nq;
 }
 
-void dequeue(struct queue *q)
+u32 dequeue(struct queue *q)
 {
-    if (q->front == NULL)
-        return;
+    u32 elem;
+    assert(q->front == NULL);
     struct qnode *prev_front = q->front;
     q->front = q->front->next;
     if (q->front == NULL)
         q->rear = NULL; 
+    elem = prev_front->val;
     free(prev_front);
+    return elem;
+}
 
+bool queue_is_empty(struct queue *q)
+{
+    return q->front == NULL && q->front == NULL;
 }

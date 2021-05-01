@@ -306,3 +306,54 @@ u32 Greedy(Grafo G)
     }
     return max_chosen_color + 1;
 }
+
+char Bipartito(Grafo G) //Corre BFS en G creando un arbol
+{
+    u32 j = 0;
+    u32 n = G->num_vertices;
+    u32 k;
+    vertice x;
+    vertice p;
+    vertice w;
+    queue q;
+    while(j<n)
+    {
+        u32 v = j;
+        //Encontramos un vertice no coloreado.
+        while(G->vertices[v].color == 0xFFFFFFFF && v < n)
+        {
+            v++;
+        }
+        x = G->vertices[v]; // x es un vertice en V no coloreado
+        x.color = 1; //C(x) = 1
+        q = new_queue();
+        enqueue(q, v); // q es una cola con el indice de x como unico elemento
+        while(!queue_is_empty(q))
+        {
+            p = G->vertices[dequeue(q)];
+            for(u32 j=0; j<p.grado; ++j)
+            {   
+                k = p.vecinos->elements[j]; // Indice de w en el orden interno
+                w = G->vertices[k];
+                if(w.color == 0xFFFFFFFF)
+                {
+                    enqueue(q, k);
+                    w.color = 3 - p.color;
+                    ++j;
+                }
+            }
+        }
+    }
+    for (u32 i = 0; i < n; ++i)
+    {
+        x = G->vertices[i];
+        for (u32 j=0; j < x.grado; ++j)
+        {   
+            w = G->vertices[x.vecinos->elements[j]];
+            if ( x.color == w.color)
+                return 0;
+        }
+
+    }
+    return 1;
+}
