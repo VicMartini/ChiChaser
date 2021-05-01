@@ -281,6 +281,7 @@ u32 Greedy(Grafo G)
     u32 neigh_color;
     u32 degree;
     u32 min_color;
+    u32 max_chosen_color = 0;
     for (u32 i = 0; i < n; ++i)
     {   
         min_color = 0;
@@ -298,9 +299,10 @@ u32 Greedy(Grafo G)
         }
         while (in_ht(min_color, ht))
             ++min_color;
+        max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
         printf("\n Chose color %d\n", min_color);
         destroy_ht(ht);
         FijarColor(min_color, i, G);
     }
-    return 0;
+    return max_chosen_color + 1;
 }
