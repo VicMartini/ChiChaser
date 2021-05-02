@@ -17,16 +17,19 @@ int main(void)
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     Grafo h = CopiarGrafo(g);
     t = clock();
-    for (u32 i = 0; i < 1000; ++i)
+    u32 colors;
+    for (u32 i = 0; i < 1; ++i)
     {
         AleatorizarVertices(h, time(0));
-        Greedy(h);
+        colors = Bipartito(h);
     }
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
+    printf("Used %d colors\n", colors);
     printf("Time shuffling order and running Greedy: %f\n SHUFFLED\n", elapsed_time / 60);
-    //print_graph(h, 11);
+    print_graph(h, 4);
     printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
+    printf("Used %d colors\n", colors);
     DestruccionDelGrafo(g);
     DestruccionDelGrafo(h);
 }
