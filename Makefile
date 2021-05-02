@@ -1,6 +1,6 @@
 
 CC=gcc
-CFLAGS= -Wall -Wextra -O3 -std=c99 -g -std=c11 -ggdb3 
+CFLAGS= -Wall -Wextra -O0 -std=c99 -g -std=c11 -ggdb3 
 
 # the macro DEPS, which is the set of .h files on which the .c files depend
 DEPS=List.h HashTable.h GrafoSt21.h RomaVictor.h dimacs.h darray.h VerticeSt.h queue.h

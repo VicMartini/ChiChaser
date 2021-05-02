@@ -33,6 +33,7 @@ u32 dequeue(struct queue *q)
     u32 elem;
     assert(q->front != NULL);
     struct qnode *prev_front = q->front;
+    //printf("%d",q->front->val);
     q->front = q->front->next;
     if (q->front == NULL)
         q->rear = NULL; 
@@ -43,5 +44,5 @@ u32 dequeue(struct queue *q)
 
 bool queue_is_empty(struct queue *q)
 {
-    return q->front == NULL && q->rear == NULL;
+    return (q->front == NULL && q->rear == NULL);
 }
