@@ -310,31 +310,35 @@ u32 Greedy(Grafo G)
 char Bipartito(Grafo G) //Corre BFS en G creando un arbol
 {
     u32 j = 1;
-    u32 n = G->num_vertices;
-    u32 k;
-    vertice p;
+    u32 n = NumeroDeVertices(G);
+    u32 k, p, orden_vecino;
+    // vertice p;
     queue q;
-    while(j<n)
+    while(j < n)
     {
         u32 v = j;
         //Encontramos un vertice x no coloreado.
-        while(G->vertices[v].color != 0xFFFFFFFF && v < n - 1)
+        while(Color(v, G) /*G->vertices[v].color */ != 0xFFFFFFFF && v < n - 1)
         {
             v++;
         }
-        G->vertices[v].color = 1; // v es el indice de x en el orden de guardado
+        FijarColor(1, v, G);
+        // G->vertices[v].color = 1; // v es el indice de x en el orden de guardado
         q = new_queue();
         enqueue(q, v); // q es una cola con el indice de x como unico elemento
         while(!queue_is_empty(q))
         {   
-            p = G->vertices[dequeue(q)];          
-            for(u32 h=0; h<p.grado; ++h)
+            // p = G->vertices[dequeue(q)];
+            p = dequeue(q);
+            for(u32 h = 0; h < Grado(p, G); ++h)
             {   
-                k = p.vecinos->elements[h]; // Indice del vecino en el orden interno
-                if( G->vertices[k].color == 0xFFFFFFFF)
+                //k = p.vecinos->elements[h]; // Indice del vecino en el orden interno
+                orden_vecino = OrdenVecino(h, p, G);
+                if( Color(orden_vecino, G) == 0xFFFFFFFF)
                 {
-                    enqueue(q, k);
-                    G->vertices[k].color = 3 - p.color;
+                    enqueue(q, orden_vecino);
+                    FijarColor(3-Color(p, G), orden_vecino, G);
+                    //G->vertices[k].color = 3 - p.color;
                     ++j;
                 }
             }
@@ -344,11 +348,12 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
     vertice w;
     for (u32 i = 0; i < n; ++i)
     {
-        x = G->vertices[i];
-        for (u32 j=0; j < G->vertices[i].grado; ++j)
+        //x = G->vertices[i];
+        for (u32 j=0; j < Grado(i, G) /*G->vertices[i].grado*/; ++j)
         {   
-            w = G->vertices[x.vecinos->elements[j]];
-            if ( x.color == w.color)
+            //w = G->vertices[x.vecinos->elements[j]];
+            
+            if (Color(i, G) == ColorVecino(j, i, G))
                 return 0;
         }
 
