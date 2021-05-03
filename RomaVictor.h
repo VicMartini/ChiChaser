@@ -57,5 +57,5 @@ char AleatorizarVertices(Grafo G, u32 R);
 
 u32 Greedy(Grafo G);
 char Bipartito(Grafo G);
-
+char Biartitotwo(Grafo G);
 #endif

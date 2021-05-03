@@ -360,3 +360,41 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
     }
     return 1;
 }
+
+char Biartitotwo(Grafo G){
+
+    u32 n;
+    u32 orden_vecino;
+    queue q;
+
+    n = NumeroDeVertices(G);
+    for (u32 i = 0; i < n; i++)
+    {   
+        FijarColor(200, i, G);
+    }
+    
+    //asigno el primer color 
+    FijarColor(1, 0, G);
+    // creo la cola
+    q = new_queue();
+    enqueue(q, 0);
+
+    // corro bfs(x) 
+    while(!queue_is_empty(q)){        
+        u32 u = dequeue(q);
+        for(u32 j=0; j < Grado(u, G); j++){
+            
+            orden_vecino = OrdenVecino(j, u, G);
+            //printf("unombre:%d, orden_vecino:%d ,color(%d,%d) \n", Nombre(u, G) , orden_vecino, ColorVecino(j, u, G), Color(orden_vecino, G));
+            if(ColorVecino(j, u, G) == 200){
+                
+                FijarColor(1-Color(u, G), orden_vecino, G);
+                enqueue(q, orden_vecino);
+            }
+            else if(ColorVecino(j, u, G) == Color(u, G))
+                return 0;
+        }
+
+    }
+    return 1;
+}
