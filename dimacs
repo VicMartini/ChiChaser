@@ -3,7 +3,6 @@ c SOURCE: Michael Trick (trick@cmu.edu)
 c DESCRIPTION: Graph based on Mycielski transformation.
 c Triangle free (clique number 2) but increasing
 c coloring number
-
 p edge 5 6
 e 1 4 
 e 1 5
@@ -11,25 +10,3 @@ e 2 4
 e 2 5
 e 3 4
 e 3 5
-
-c p edge 11 20
-c e 1 2
-c e 1 4
-c e 1 7
-c e 1 9
-c e 2 3
-c e 2 6
-c e 2 8
-c e 3 5
-c e 3 7
-c e 3 10
-c e 4 5
-c e 4 6
-c e 4 10
-c e 5 8
-c e 5 9
-c e 6 11
-c e 7 11
-c e 8 11
-c e 9 11
-c e 10 11

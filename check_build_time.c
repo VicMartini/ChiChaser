@@ -21,13 +21,15 @@ int main(void)
     for (u32 i = 0; i < 1; ++i)
     {
         AleatorizarVertices(h, time(0));
-        colors = Bipartito(h);
+        colors = Biartitotwo(h);
     }
+
     t = clock() - t;
+    print_graph(h, NumeroDeLados(h)-1);
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Used %d colors\n", colors);
     printf("Time shuffling order and running Greedy: %f\n SHUFFLED\n", elapsed_time / 60);
-    print_graph(h, 4);
+    
     printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
     printf("Used %d colors\n", colors);
     DestruccionDelGrafo(g);
