@@ -17,21 +17,21 @@ int main(void)
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     Grafo h = CopiarGrafo(g);
     t = clock();
-    u32 colors;
+    u32 bipartite;
     for (u32 i = 0; i < 1; ++i)
     {
-        AleatorizarVertices(h, time(0));
-        colors = Biartitotwo(h);
+        //AleatorizarVertices(h, time(0));
+        bipartite = Biartitotwo(h);
     }
 
     t = clock() - t;
     print_graph(h, NumeroDeLados(h)-1);
     elapsed_time = (double)t / CLOCKS_PER_SEC;
-    printf("Used %d colors\n", colors);
+    printf("Used %d colors\n", bipartite);
     printf("Time shuffling order and running Greedy: %f\n SHUFFLED\n", elapsed_time / 60);
     
     printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
-    printf("Used %d colors\n", colors);
+    printf("Is bipartite? %d\n", bipartite);
     DestruccionDelGrafo(g);
     DestruccionDelGrafo(h);
 }

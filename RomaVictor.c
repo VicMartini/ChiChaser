@@ -329,7 +329,8 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
         while(!queue_is_empty(q))
         {   
             // p = G->vertices[dequeue(q)];
-            p = dequeue(q);
+            p = front(q); 
+            dequeue(q);
             for(u32 h = 0; h < Grado(p, G); ++h)
             {   
                 //k = p.vecinos->elements[h]; // Indice del vecino en el orden interno
@@ -360,41 +361,49 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
     }
     return 1;
 }
-
 char Biartitotwo(Grafo G){
-
+    u32 k = 1;
     u32 n;
     u32 orden_vecino;
     queue q;
-
+    u32 v = 0;
     n = NumeroDeVertices(G);
-    for (u32 i = 0; i < n; i++)
-    {   
-        FijarColor(200, i, G);
-    }
-    
-    //asigno el primer color 
-    FijarColor(1, 0, G);
-    // creo la cola
-    q = new_queue();
-    enqueue(q, 0);
+    while(k < n)
+    {
+        // Si k < n, tenemos asegurada la exitencia de un vertice que todavia no fué coloreado
+        while(Color(v, G) != 0xFFFFFFFF)
+            v++;
 
-    // corro bfs(x) 
-    while(!queue_is_empty(q)){        
-        u32 u = dequeue(q);
-        for(u32 j=0; j < Grado(u, G); j++){
-            
-            orden_vecino = OrdenVecino(j, u, G);
-            //printf("unombre:%d, orden_vecino:%d ,color(%d,%d) \n", Nombre(u, G) , orden_vecino, ColorVecino(j, u, G), Color(orden_vecino, G));
-            if(ColorVecino(j, u, G) == 200){
+
+        //asigno el primer color 
+        FijarColor(1, v, G);
+        //printf("Color: %u\n",Color(v, G));
+        ++k;
+        // creo la cola
+        q = new_queue();
+        enqueue(q, v);
+
+        // corro bfs(x) 
+        while(!queue_is_empty(q)){        
+            u32 u = front(q);
+            //print_queue(q);
+            dequeue(q);
+            //print_queue(q);
+            for(u32 j=0; j < Grado(u, G); j++){
                 
-                FijarColor(1-Color(u, G), orden_vecino, G);
-                enqueue(q, orden_vecino);
+                orden_vecino = OrdenVecino(j, u, G);
+                //printf("u:%u, orden_vecino:%u ,color(%u,%u) \n", u , orden_vecino, Color(u, G), ColorVecino(j, u, G));
+                if(ColorVecino(j, u, G) == 0xFFFFFFFF){
+                    
+                    FijarColor(1-Color(u, G), orden_vecino, G);
+                    //printf("FijarColor(%u,%u,Grafo)\n",1-Color(u, G),orden_vecino, G);
+                    ++k;
+                    enqueue(q, orden_vecino);
+                }
+                else if(ColorVecino(j, u, G) == Color(u, G))
+                    return 0;
             }
-            else if(ColorVecino(j, u, G) == Color(u, G))
-                return 0;
-        }
 
-    }
-    return 1;
+        }
+        return 1;}
 }
