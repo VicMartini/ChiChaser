@@ -180,17 +180,17 @@ u32 Grado(u32 i, Grafo G)
 // Funciones para extraer informacion de los vecinos de un vertice
 u32 ColorVecino(u32 j, u32 i, Grafo G)
 {
-    if (i >= G->num_vertices || j >= G->vertices[i].grado)
-        return 0;
     u32 *o = G->orden;
+    if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
+        return 0;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].color;
 };
 u32 NombreVecino(u32 j, u32 i, Grafo G)
 {
-    if (i >= G->num_vertices || j >= G->vertices[i].grado)
-        return 0;
     u32 *o = G->orden;
+    if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
+        return 0;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].nombre;
 };
@@ -206,10 +206,15 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
 };
 u32 OrdenVecino(u32 j, u32 i, Grafo G)
 {
-    if (i >= G->num_vertices || j >= G->vertices[i].grado)
-        return 0;
     u32 *o = G->orden;
+    if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
+    {
+        //printf("\nNumero de vertices : %u, i: %u, j: %u\n",G->num_vertices,i,j);
+        return 0;
+    }
     u32 neigh_index = darray_get(j, G->vertices[o[i]].vecinos);
+    //printf("\n| %d %d |\n",j, i);
+    //printf("\nNombreVecino: %d, Orden: %d\n", NombreVecino(j,i, G), G->vertices[neigh_index].orden);
     return G->vertices[neigh_index].orden;
 
 }
@@ -231,6 +236,7 @@ char FijarOrden(u32 i, Grafo G, u32 N)
         return 1;
     G->orden[N] = i;
     G->vertices[i].orden = N;
+    //printf(" %d : %d\n",N, i);
     return 0;
 }
 
@@ -392,7 +398,7 @@ char Biartitotwo(Grafo G){
             for(u32 j=0; j < Grado(u, G); j++){
                 
                 orden_vecino = OrdenVecino(j, u, G);
-                //printf("u:%u, orden_vecino:%u ,color(%u,%u) \n", u , orden_vecino, Color(u, G), ColorVecino(j, u, G));
+                //printf("u:%u, orden_vecino:%u ,color(%u,%u) \n", G->orden[u] , orden_vecino, Color(u, G), ColorVecino(j, u, G));
                 if(ColorVecino(j, u, G) == 0xFFFFFFFF){
                     
                     FijarColor(1-Color(u, G), orden_vecino, G);

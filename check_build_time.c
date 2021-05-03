@@ -20,12 +20,24 @@ int main(void)
     u32 bipartite;
     for (u32 i = 0; i < 1; ++i)
     {
-        //AleatorizarVertices(h, time(0));
+        /*
+        for(int j = 0; j < h->num_vertices; ++j)
+        {
+            printf("%d,%d - %d\n",Nombre(j,h),j,h->vertices[h->orden[j]].orden);
+        }
+        */
+        AleatorizarVertices(h, 42);
+        /*
+        for(int j = 0; j < h->num_vertices; ++j)
+        {
+            printf("%d,%d - %d\n",Nombre(j,h),j,h->vertices[h->orden[j]].orden);
+        }
+        */
         bipartite = Biartitotwo(h);
     }
 
     t = clock() - t;
-    print_graph(h, NumeroDeLados(h)-1);
+    //print_graph(h, NumeroDeLados(h)-1);
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Used %d colors\n", bipartite);
     printf("Time shuffling order and running Greedy: %f\n SHUFFLED\n", elapsed_time / 60);

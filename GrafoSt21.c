@@ -14,6 +14,12 @@ u32 print_graph(GrafoSt *g, u32 lines)
     u32 longitud_lista = 0;
     if (lines > M)
         return 1;
+    printf("-------------------------\n");
+    for (u32 k= 0; k < lines; k++ )
+    {
+        printf("Nombre: %d, Orden: %d\n", Nombre(k,g),k);
+    } 
+    printf("-------------------------\n");
     for (u32 i = 0; i < lines; i++)
     {
         vert = g->vertices[g->orden[i]];
@@ -25,7 +31,7 @@ u32 print_graph(GrafoSt *g, u32 lines)
         for (u32 j = 0; j < longitud_lista; j++)
         {
             vecino = g->vertices[darray_get(j, vert.vecinos)];
-            printf("(v: %u, orden: %u, color: %u )", vecino.nombre, OrdenVecino(j,i,g), vecino.color);
+            printf("(%d >> v: %u, orden: %u, color: %u )", j, vecino.nombre, OrdenVecino(j,i,g), vecino.color);
         }
         printf("\n ) \n");
         printf("\n");
