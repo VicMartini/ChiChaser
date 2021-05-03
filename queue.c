@@ -13,12 +13,14 @@ struct queue *new_queue()
 {
     struct queue *new_queue = malloc(sizeof(struct queue));
     new_queue->front = new_queue->rear = NULL;
+    new_queue->ocupation=0;
     return new_queue;
 }
 
 void enqueue(struct queue *q, u32 k)
 {
     struct qnode *nq = new_qnode(k);
+    q->ocupation+=1;
     if (q->rear == NULL)
     {
         q->front = q->rear = nq;
@@ -28,21 +30,38 @@ void enqueue(struct queue *q, u32 k)
     q->rear = nq;
 }
 
-u32 dequeue(struct queue *q)
+void dequeue(struct queue *q)
 {
-    u32 elem;
-    assert(q->front != NULL);
+    if(q->front == NULL)
+        return;
     struct qnode *prev_front = q->front;
     //printf("%d",q->front->val);
     q->front = q->front->next;
+    q->ocupation-=1;
     if (q->front == NULL)
         q->rear = NULL; 
-    elem = prev_front->val;
     free(prev_front);
-    return elem;
+}
+
+
+u32 front(struct queue *q)
+{
+    assert(q->front != NULL);
+    return q->front->val;
 }
 
 bool queue_is_empty(struct queue *q)
 {
     return (q->front == NULL && q->rear == NULL);
+}
+
+void print_queue(struct queue *q)
+{
+    struct qnode *t = q->front;
+    while(t != NULL)
+    {
+        printf("%d -> ", t->val);
+        t = t->next;
+    }
+    printf("[Ocupation: %d]\n",q->ocupation);
 }

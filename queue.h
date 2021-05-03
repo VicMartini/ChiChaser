@@ -15,11 +15,14 @@ struct qnode
 struct queue
 {
     struct qnode *front, *rear;
+    u32 ocupation;
 };
 
 struct qnode *new_qnode(u32 k);
 struct queue *new_queue();
 void enqueue(struct queue *q, u32 k);
-u32 dequeue(struct queue *q);
+void dequeue(struct queue *q);
+u32 front(struct queue *q);
 bool queue_is_empty(struct queue *q);
 typedef struct queue *queue;
+void print_queue(struct queue *q);
