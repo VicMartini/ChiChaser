@@ -7,6 +7,8 @@ DEPS=List.h HashTable.h GrafoSt21.h RomaVictor.h dimacs.h darray.h VerticeSt.h q
 
 OBJ=check_build_time.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o
 
+OBJ2=main.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o
+
 # we define a rule that applies to all files ending in the .o suffix.
 # The rule says that the .o file depends upon the .c version of the file and the .h
 # files included in the DEPS macro.
@@ -23,8 +25,14 @@ OBJ=check_build_time.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o dar
 check_build_time: $(OBJ)
 	$(CC)  -o $@ $^ $(CFLAGS)
 
+main: $(OBJ2)
+	$(CC) -o $@ $^ $(CFLAGS)
+
 .PHONY: clean
+
+all: check_build_time main
 
 clean:
 	rm -f *.o
 	rm -f check_build_time
+	rm -f main
