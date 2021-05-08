@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
 { 
     char *endptr;
     long val;
-    params param;// parametros 
+    params param; //parametros
+    u32 a,b,c,d,e,f;
 
     if(argc != 7){
         printf("Error Arguments \n");
@@ -43,10 +44,17 @@ int main(int argc, char *argv[])
             fprintf(stderr, "range out of u32 \n");
             exit(EXIT_FAILURE);
         }
-        // set val al struct
+        // set val al struct p[0]=a, p[1]=b,...,p[5]=f
         param.p[i] = (u32) val;
     }
-     
+
+    a = param.p[0];
+    b = param.p[1];
+    c = param.p[2];
+    d = param.p[3];
+    e = param.p[4];
+    f = param.p[5];
+
     double elapsed_time;
     clock_t t = clock();
     Grafo g = ConstruccionDelGrafo();
@@ -59,39 +67,43 @@ int main(int argc, char *argv[])
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     u32 esBipartito = Biartitotwo(g);
     
+    // 3
     if(esBipartito){
         printf("Es Bipartito: \n");
         return 0;
     }
     t = clock();
 
-    // u32 bipartite;
-    // for (u32 i = 0; i < 1; ++i)
-    // {
-    //     /*
-    //     for(int j = 0; j < h->num_vertices; ++j)
-    //     {
-    //         printf("%d,%d - %d\n",Nombre(j,h),j,h->vertices[h->orden[j]].orden);
-    //     }
-    //     */
-    //     AleatorizarVertices(h, 42);
-    //     /*
-    //     for(int j = 0; j < h->num_vertices; ++j)
-    //     {
-    //         printf("%d,%d - %d\n",Nombre(j,h),j,h->vertices[h->orden[j]].orden);
-    //     }
-    //     */
-    //     bipartite = Biartitotwo(h);
-    // }
 
-    // t = clock() - t;
-    // //print_graph(h, NumeroDeLados(h)-1);
-    // elapsed_time = (double)t / CLOCKS_PER_SEC;
-    // printf("Used %d colors\n", bipartite);
-    // printf("Time shuffling order and running Greedy: %f\n SHUFFLED\n", elapsed_time / 60);
+    //5
+    // orden natural 
+    // TODO:  
+    // aleatorizar vertices
+    u32 result = UINT_MAX;
+    u32 greedy, iorden;
+    for (u32 i = 0; i < a; i++)
+    {
+        AleatorizarVertices(g, f+i);
+        
+        if(greedy=Greedy(g) < result){
+            printf("(5)-Colores con Greedy: %d \n", greedy);
+            result = greedy;
+            iorden = f+i;
+        }
+    }
+    // salvo que sea el ultimo 
+    if(iorden != f+a){
+        AleatorizarVertices(g, iorden);
+        result = Greedy(g);
+        printf("mejor ordenamiento que da el mejor greedy:%d \n", result);
+    }
+
+
+    //6 
+    for (u32 i = 0; i < b; i++)
+    {
+        //OrdenPorBloqueDeColores(g, perm);
+    }
     
-    // printf("Δ = %u | δ = %u\n", h->Delta, h->delta);
-    // printf("Is bipartite? %d\n", bipartite);
-    // DestruccionDelGrafo(g);
-    // DestruccionDelGrafo(h);
+   
 }
