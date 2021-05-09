@@ -411,5 +411,49 @@ char Biartitotwo(Grafo G){
             }
 
         }
-        return 1;}
+        return 1;
+    }
+}
+
+void positionArray(Grafo G)
+{
+
+    u32 n = NumeroDeVertices(G);
+    u32 *array = calloc(n, sizeof(u32));
+
+    for (u32 i = 0; i < n; i++)
+    {
+        array[i] = Nombre(i, G);
+    }
+
+    u32 result=-1;
+
+    for (u32 i = 0; i < n; i++)
+    {    
+        result = getIndexInSortedArray(array, n, i);
+        FijarOrden(i, G, result);
+    }
+    
+    free(array);   
+    
+}
+
+u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx)
+{
+    /* Count of elements smaller than current
+        element plus the equal element occurring
+        before given index*/
+    u32 result = 0;
+    for (u32 i = 0; i < n; i++) {
+        // If element is smaller then increase
+        // the smaller count
+        if (arr[i] < arr[idx])
+            result++;
+ 
+        // If element is equal then increase count
+        // only if it occurs before
+        if (arr[i] == arr[idx] && i < idx)
+            result++;
+    }
+    return result;
 }

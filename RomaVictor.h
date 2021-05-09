@@ -58,4 +58,8 @@ char AleatorizarVertices(Grafo G, u32 R);
 u32 Greedy(Grafo G);
 char Bipartito(Grafo G);
 char Biartitotwo(Grafo G);
+
+void positionArray(Grafo G);
+u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx);
+
 #endif

@@ -76,8 +76,9 @@ int main(int argc, char *argv[])
 
 
     //5
-    // orden natural 
-    // TODO:  
+    positionArray(g);
+    u32 ordenNat = Greedy(g);
+    printf("Greedy Orden natural: %d \n", ordenNat);
     // aleatorizar vertices
     u32 result = UINT_MAX;
     u32 greedy, iorden;
