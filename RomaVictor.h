@@ -60,6 +60,7 @@ char Bipartito(Grafo G);
 char Biartitotwo(Grafo G);
 
 void positionArray(Grafo G);
+void OrdenNatural(Grafo G);
 u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx);
 
 #endif

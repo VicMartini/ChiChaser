@@ -111,7 +111,6 @@ u32 NumeroDeVertices(Grafo G)
     return G->num_vertices;
 }
 
-
 Grafo CopiarGrafo(Grafo G)
 {
     Grafo clone = malloc(sizeof(struct GrafoSt));
@@ -209,21 +208,20 @@ u32 OrdenVecino(u32 j, u32 i, Grafo G)
     u32 *o = G->orden;
     if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
     {
-        //printf("\nNumero de vertices : %u, i: %u, j: %u\n",G->num_vertices,i,j);
+        //pru32f("\nNumero de vertices : %u, i: %u, j: %u\n",G->num_vertices,i,j);
         return 0;
     }
     u32 neigh_index = darray_get(j, G->vertices[o[i]].vecinos);
-    //printf("\n| %d %d |\n",j, i);
-    //printf("\nNombreVecino: %d, Orden: %d\n", NombreVecino(j,i, G), G->vertices[neigh_index].orden);
+    //pru32f("\n| %d %d |\n",j, i);
+    //pru32f("\nNombreVecino: %d, Orden: %d\n", NombreVecino(j,i, G), G->vertices[neigh_index].orden);
     return G->vertices[neigh_index].orden;
-
 }
 
 //Funciones para modificar datos de vertices
 
 char FijarColor(u32 x, u32 i, Grafo G)
-{   
-    u32 *o= G->orden;
+{
+    u32 *o = G->orden;
     if (i >= G->num_vertices)
         return 1;
     G->vertices[o[i]].color = x;
@@ -236,7 +234,7 @@ char FijarOrden(u32 i, Grafo G, u32 N)
         return 1;
     G->orden[N] = i;
     G->vertices[i].orden = N;
-    //printf(" %d : %d\n",N, i);
+    //pru32f(" %d : %d\n",N, i);
     return 0;
 }
 
@@ -289,24 +287,24 @@ u32 Greedy(Grafo G)
     u32 min_color;
     u32 max_chosen_color = 0;
     for (u32 i = 0; i < n; ++i)
-    {   
+    {
         min_color = 0;
         degree = Grado(i, G);
         ht = new_ht((degree > i + 1) ? i + 1 : degree);
-        //printf("%d: Coloring vertex: %d\n", i, Nombre(i, G));
+        //pru32f("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
         {
             neigh_color = ColorVecino(j, i, G);
             if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
             {
                 ht_put(neigh_color, 0, ht);
-                //printf("%d ", neigh_color);
+                //pru32f("%d ", neigh_color);
             }
         }
         while (in_ht(min_color, ht))
             ++min_color;
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
-        //printf("\n Chose color %d\n", min_color);
+        //pru32f("\n Chose color %d\n", min_color);
         destroy_ht(ht);
         FijarColor(min_color, i, G);
     }
@@ -320,11 +318,11 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
     u32 k, p, orden_vecino;
     // vertice p;
     queue q;
-    while(j < n)
+    while (j < n)
     {
         u32 v = j;
         //Encontramos un vertice x no coloreado.
-        while(Color(v, G) /*G->vertices[v].color */ != 0xFFFFFFFF && v < n - 1)
+        while (Color(v, G) /*G->vertices[v].color */ != 0xFFFFFFFF && v < n - 1)
         {
             v++;
         }
@@ -332,19 +330,19 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
         // G->vertices[v].color = 1; // v es el indice de x en el orden de guardado
         q = new_queue();
         enqueue(q, v); // q es una cola con el indice de x como unico elemento
-        while(!queue_is_empty(q))
-        {   
+        while (!queue_is_empty(q))
+        {
             // p = G->vertices[dequeue(q)];
-            p = front(q); 
+            p = front(q);
             dequeue(q);
-            for(u32 h = 0; h < Grado(p, G); ++h)
-            {   
-                //k = p.vecinos->elements[h]; // Indice del vecino en el orden interno
+            for (u32 h = 0; h < Grado(p, G); ++h)
+            {
+                //k = p.vecinos->elements[h]; // Indice del vecino en el orden u32erno
                 orden_vecino = OrdenVecino(h, p, G);
-                if( Color(orden_vecino, G) == 0xFFFFFFFF)
+                if (Color(orden_vecino, G) == 0xFFFFFFFF)
                 {
                     enqueue(q, orden_vecino);
-                    FijarColor(3-Color(p, G), orden_vecino, G);
+                    FijarColor(3 - Color(p, G), orden_vecino, G);
                     //G->vertices[k].color = 3 - p.color;
                     ++j;
                 }
@@ -356,60 +354,61 @@ char Bipartito(Grafo G) //Corre BFS en G creando un arbol
     for (u32 i = 0; i < n; ++i)
     {
         //x = G->vertices[i];
-        for (u32 j=0; j < Grado(i, G) /*G->vertices[i].grado*/; ++j)
-        {   
+        for (u32 j = 0; j < Grado(i, G) /*G->vertices[i].grado*/; ++j)
+        {
             //w = G->vertices[x.vecinos->elements[j]];
-            
+
             if (Color(i, G) == ColorVecino(j, i, G))
                 return 0;
         }
-
     }
     return 1;
 }
-char Biartitotwo(Grafo G){
+char Biartitotwo(Grafo G)
+{
     u32 k = 1;
     u32 n;
     u32 orden_vecino;
     queue q;
     u32 v = 0;
     n = NumeroDeVertices(G);
-    while(k < n)
+    while (k < n)
     {
         // Si k < n, tenemos asegurada la exitencia de un vertice que todavia no fué coloreado
-        while(Color(v, G) != 0xFFFFFFFF)
+        while (Color(v, G) != 0xFFFFFFFF)
             v++;
 
-
-        //asigno el primer color 
+        //asigno el primer color
         FijarColor(1, v, G);
-        //printf("Color: %u\n",Color(v, G));
+        //pru32f("Color: %u\n",Color(v, G));
         ++k;
         // creo la cola
         q = new_queue();
         enqueue(q, v);
 
-        // corro bfs(x) 
-        while(!queue_is_empty(q)){        
+        // corro bfs(x)
+        while (!queue_is_empty(q))
+        {
             u32 u = front(q);
-            //print_queue(q);
+            //pru32_queue(q);
             dequeue(q);
-            //print_queue(q);
-            for(u32 j=0; j < Grado(u, G); j++){
-                
+            //pru32_queue(q);
+            for (u32 j = 0; j < Grado(u, G); j++)
+            {
+
                 orden_vecino = OrdenVecino(j, u, G);
-                //printf("u:%u, orden_vecino:%u ,color(%u,%u) \n", G->orden[u] , orden_vecino, Color(u, G), ColorVecino(j, u, G));
-                if(ColorVecino(j, u, G) == 0xFFFFFFFF){
-                    
-                    FijarColor(1-Color(u, G), orden_vecino, G);
-                    //printf("FijarColor(%u,%u,Grafo)\n",1-Color(u, G),orden_vecino, G);
+                //pru32f("u:%u, orden_vecino:%u ,color(%u,%u) \n", G->orden[u] , orden_vecino, Color(u, G), ColorVecino(j, u, G));
+                if (ColorVecino(j, u, G) == 0xFFFFFFFF)
+                {
+
+                    FijarColor(1 - Color(u, G), orden_vecino, G);
+                    //pru32f("FijarColor(%u,%u,Grafo)\n",1-Color(u, G),orden_vecino, G);
                     ++k;
                     enqueue(q, orden_vecino);
                 }
-                else if(ColorVecino(j, u, G) == Color(u, G))
+                else if (ColorVecino(j, u, G) == Color(u, G))
                     return 0;
             }
-
         }
         return 1;
     }
@@ -426,16 +425,15 @@ void positionArray(Grafo G)
         array[i] = Nombre(i, G);
     }
 
-    u32 result=-1;
+    u32 result = -1;
 
     for (u32 i = 0; i < n; i++)
-    {    
+    {
         result = getIndexInSortedArray(array, n, i);
         FijarOrden(i, G, result);
     }
-    
-    free(array);   
-    
+
+    free(array);
 }
 
 u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx)
@@ -444,16 +442,100 @@ u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx)
         element plus the equal element occurring
         before given index*/
     u32 result = 0;
-    for (u32 i = 0; i < n; i++) {
+    for (u32 i = 0; i < n; i++)
+    {
         // If element is smaller then increase
         // the smaller count
         if (arr[i] < arr[idx])
             result++;
- 
+
         // If element is equal then increase count
         // only if it occurs before
         if (arr[i] == arr[idx] && i < idx)
             result++;
     }
     return result;
+}
+
+u32 compare(const void *pa, const void *pb)
+{
+    const u32 *a = pa;
+    const u32 *b = pb;
+    return a[0] - b[0];
+}
+
+void swap(u32 *a, u32 *b) {
+  u32 t = *a;
+  *a = *b;
+  *b = t;
+}
+
+// function to find the partition position
+u32 partition(u32 array[], u32 b[], int low, int high) {
+  
+  // select the rightmost element as pivot
+  u32 pivot = array[high];
+  
+  // pou32er for greater element
+  u32 i = (low - 1);
+
+  // traverse each element of the array
+  // compare them with the pivot
+  for (u32 j = low; j < high; j++) {
+    if (array[j] <= pivot) {
+        
+      // if element smaller than pivot is found
+      // swap it with the greater element pou32ed by i
+      i++;
+      
+      // swap element at i with element at j
+      swap(&array[i], &array[j]);
+      swap(&b[i], &b[j]);
+
+    }
+  }
+
+  // swap the pivot element with the greater element at i
+  swap(&array[i + 1], &array[high]);
+  swap(&b[i + 1], &b[high]);
+  
+  // return the partition pou32
+  return (i + 1);
+}
+
+void quickSort(u32 array[],u32 b[], int low, int high) {
+  if (low < high) {
+    
+    // find the pivot element such that
+    // elements smaller than pivot are on left of pivot
+    // elements greater than pivot are on right of pivot
+    u32 pi = partition(array,b, low, high);
+    
+    // recursive call on the left of pivot
+    quickSort(array,b, low, pi - 1);
+    
+    // recursive call on the right of pivot
+    quickSort(array,b, pi + 1, high);
+  }
+}
+
+void OrdenNatural(Grafo G)
+{
+    u32 n = G->num_vertices;
+    //u32 **array = calloc(n, sizeof(u32 *));
+    //for(u32 i = 0; i < n ; ++i)
+    //    array[i] = calloc(2, sizeof(u32));
+    //u32 array[n][2];
+    u32 *a = calloc(n, sizeof(u32));
+    u32 *b = calloc(n, sizeof(u32));
+    for(u32 i = 0; i < n; ++i)
+    {   
+        a[i] = Nombre(i, G);
+        b[i] = i;
+    }
+    quickSort(a, b, 0, n-1);
+    for(u32 j = 0; j<n; ++j)
+    {   
+        FijarOrden(b[j], G, j);
+    }
 }

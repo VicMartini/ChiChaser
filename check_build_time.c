@@ -12,7 +12,7 @@ int main(void)
     Grafo g = ConstruccionDelGrafo();
     t = clock() - t;
 
-    positionArray(g);
+    OrdenNatural(g);
     u32 greedy = Greedy(g);
     printf("Greedy:%d \n", greedy);
     elapsed_time = (double)t / CLOCKS_PER_SEC;
