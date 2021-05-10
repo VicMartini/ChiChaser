@@ -7,6 +7,7 @@
 #include <time.h>
 #include "RomaVictor.h"
 
+
 typedef struct params_st{
     u32 p[6]; // struct para a,b,c,d,e,f
 }params;
@@ -63,11 +64,12 @@ int main(int argc, char *argv[])
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time creating: %f\n ORIGINAL\n", elapsed_time);
-    printf("numero vertices, n = %d, numero lados, m = %d", n, m);
+    printf("numero vertices, n = %d, numero lados, m = %d \n", n, m);
     printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     u32 esBipartito = Biartitotwo(g);
     
     // 3
+    printf("Item-3\n");
     if(esBipartito){
         printf("Es Bipartito: \n");
         return 0;
@@ -76,6 +78,7 @@ int main(int argc, char *argv[])
 
 
     //5
+    printf("Item-5\n");
     OrdenNatural(g);
     u32 ordenNat = Greedy(g);
     printf("Greedy Orden natural: %d \n", ordenNat);
@@ -86,8 +89,8 @@ int main(int argc, char *argv[])
     {
         AleatorizarVertices(g, f+i);
         
-        if(greedy=Greedy(g) < result){
-            printf("(5)-Colores con Greedy: %d \n", greedy);
+        if((greedy = Greedy(g)) < result){
+            printf("Greedy con AleatorizarVertices: %d \n", greedy);
             result = greedy;
             iorden = f+i;
         }
@@ -96,14 +99,39 @@ int main(int argc, char *argv[])
     if(iorden != f+a){
         AleatorizarVertices(g, iorden);
         result = Greedy(g);
-        printf("mejor ordenamiento que da el mejor greedy:%d \n", result);
+        printf("Greedy con AleatorizarVertices:%d \n", result);
     }
 
 
     //6 
+    /*
+        . Luego de esto, a partir de ese coloreo que se ha obtenido, se hacen b ordenamientos 
+        usando OrdenPorBloqueDeColores() con distintos ordenes pseudoaleatorios de los colores,
+        y corre Greedy() luego de cada uno de ellos, imprimiendo el n´umero de colores obtenido.
+        Por el teorema dado en clase, si programaron OrdenPorBloqueDeColores() y Greedy()
+        bien, la cantidad de colores no puede aumentar luego de cadar orden por bloque de
+        colores mas greedy, asi que no hace falta salvar al mejor coloreo porque siempre ser´a el
+        ´ultimo.
+    */
+    
+    // result tiene el n° de colores 
+    u32 result_greedy;
+    printf("Item-6\n");
+    printf("Greedy antes de inciar orden por bloques :%d \n", result);
+    u32 r = UINT_MAX;
+    u32 *array_perm = NULL;
     for (u32 i = 0; i < b; i++)
-    {
-        //OrdenPorBloqueDeColores(g, perm);
+    {   
+        array_perm = suff_array(result); // aleatoriza perm
+        OrdenPorBloquesDeColores(g, array_perm);
+        result_greedy = Greedy(g);
+        if(result_greedy < r){
+            r = result_greedy;
+            printf("6- greedy con orden por bloques: %d \n", r);
+        }
+        
+        free(array_perm); // free array allocado en suff_array
+        array_perm = NULL;
     }
     
    

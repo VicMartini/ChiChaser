@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 #include "RomaVictor.h"
 typedef uint32_t u32;
 
@@ -602,4 +603,28 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
         //printf("%d \n", Color(i, G));
     return 0;
 
+}
+
+
+/*
+  toma el tamaño de arreglo
+  crea un array , lo inicializa y luego aleatoriza los valores.
+  se debe liberar memoria
+*/
+u32* suff_array(u32 ncolor){
+    u32 *array_perm = calloc(ncolor, sizeof(u32));
+    for (u32 i = 0; i < ncolor; i++)
+    {
+        array_perm[i] = i;
+    }
+    srand(time(NULL));
+    for (u32 i = 0; i < ncolor; i++)
+    {
+        u32 temp = array_perm[i];
+        u32 randomIndex = rand()%ncolor;
+        array_perm[i] = array_perm[randomIndex];
+        array_perm[randomIndex] = temp;
+    }
+    
+    return array_perm;
 }
