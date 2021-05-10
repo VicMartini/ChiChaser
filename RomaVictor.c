@@ -67,6 +67,7 @@ Grafo ConstruccionDelGrafo(void)
     new_graph->num_lados = M;
     new_graph->vertices = calloc(N, sizeof(vertice));
     new_graph->orden = calloc(N, sizeof(u32));
+    new_graph->ordenNatural = calloc(N, sizeof(u32));
 
     hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
                                   //construcción del grafo.
@@ -88,6 +89,7 @@ Grafo ConstruccionDelGrafo(void)
         min_degree = (v_degree < min_degree) ? v_degree : min_degree;
         max_degree = (v_degree > max_degree) ? v_degree : max_degree;
     }
+    OrdenNatural(new_graph);
     new_graph->Delta = max_degree;
     new_graph->delta = min_degree;
 
@@ -124,6 +126,7 @@ Grafo CopiarGrafo(Grafo G)
     for (u32 j = 0; j < G->num_vertices; ++j)
     {
         clone->orden[j] = G->orden[j];
+        clone->ordenNatural[j] = G->ordenNatural[j];
         clone->vertices[j].nombre = G->vertices[j].nombre;
         clone->vertices[j].grado = G->vertices[j].grado;
         clone->vertices[j].color = G->vertices[j].color;
@@ -232,8 +235,10 @@ char FijarOrden(u32 i, Grafo G, u32 N)
 {
     if (i >= G->num_vertices || N >= G->num_vertices)
         return 1;
-    G->orden[N] = i;
-    G->vertices[i].orden = N;
+    u32 *o = G->orden;
+    u32 *oN = G->ordenNatural;
+    G->orden[i] = oN[N];
+    G->vertices[oN[N]].orden = i;
     //pru32f(" %d : %d\n",N, i);
     return 0;
 }
@@ -474,10 +479,11 @@ void swap(u32 *a, u32 *b) {
 u32 partition(u32 array[], u32 b[], int low, int high) {
   
   // select the rightmost element as pivot
-  u32 pivot = array[high];
+  int pivotIndex = rand() % (high - low + 1) + low; //(high - low) / 2;
+  u32 pivot = array[pivotIndex];
   
-  // pou32er for greater element
-  u32 i = (low - 1);
+  // pointer for greater element
+  int i = (low - 1);
 
   // traverse each element of the array
   // compare them with the pivot
@@ -485,7 +491,7 @@ u32 partition(u32 array[], u32 b[], int low, int high) {
     if (array[j] <= pivot) {
         
       // if element smaller than pivot is found
-      // swap it with the greater element pou32ed by i
+      // swap it with the greater element pointed by i
       i++;
       
       // swap element at i with element at j
@@ -496,20 +502,21 @@ u32 partition(u32 array[], u32 b[], int low, int high) {
   }
 
   // swap the pivot element with the greater element at i
-  swap(&array[i + 1], &array[high]);
-  swap(&b[i + 1], &b[high]);
+  swap(&array[i + 1], &array[pivotIndex]);
+  swap(&b[i + 1], &b[pivotIndex]);
   
-  // return the partition pou32
+  // return the partition pointer
   return (i + 1);
 }
 
 void quickSort(u32 array[],u32 b[], int low, int high) {
-  if (low < high) {
+    if (low < high) {
     
     // find the pivot element such that
     // elements smaller than pivot are on left of pivot
     // elements greater than pivot are on right of pivot
     u32 pi = partition(array,b, low, high);
+    //if ((high-low) % 10 == 0)printf("h-l : %d, pi: %d\n", high-low, pi);
     
     // recursive call on the left of pivot
     quickSort(array,b, low, pi - 1);
@@ -536,6 +543,63 @@ void OrdenNatural(Grafo G)
     quickSort(a, b, 0, n-1);
     for(u32 j = 0; j<n; ++j)
     {   
-        FijarOrden(b[j], G, j);
+        G->ordenNatural[j] = b[j];
     }
+    free(a);
+    free(b);
+}
+
+
+char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
+{
+    u32 n = G->num_vertices;
+    u32 i;
+
+    //Vamos a usar la ht a modo de HashSet para averiguar cual es el numero de colores
+    hash_table colors = new_ht(n); //En el peor de los casos cada vertice tiene un color
+    for(i = 0; i<n; ++i)
+    {
+        if(!in_ht(Color(i, G), colors))
+            ht_put(Color(i, G), 0, colors);
+    }
+    u32 r = colors ->ocupation; //La ht contiene a todos los colores sin repeticiones
+    destroy_ht(colors);
+    //Chequeamos que cada uno de los números en el rango 0..r-1 esten exactamente una vez
+    // para comprobar que perm es una permutación.
+    u32 *counts = calloc(r, sizeof(u32));
+    for(i = 0; i < r; ++i)
+        ++counts[perm[i]];
+    for(i = 0; i < r; ++i)
+        if(counts[i] != 1) return 0;
+    free(counts);
+    //Vamos a necesitar tener acceso al orden natural, por eso primero vamos a hacer que el orden interno
+    //coincida con el orden natural.
+    for(i = 0; i < n; ++i)
+        FijarOrden(i, G, i);
+    //Cada queue va a guardar las posiciones del orden natural que tienen vertices con un determinado color.
+    struct queue **bloques = calloc(r, sizeof(struct queue));
+    for(i = 0; i < r; ++i)
+        bloques[i] = new_queue();
+    for(i = 0; i < n; ++i)
+        enqueue(bloques[Color(i, G)], i);
+    //Ahora vamos a usar FijarOrden() para ir ubicando los bloques de vertices del mismo color
+    //en el orden dado por perm
+    u32 k = 0;
+    u32 p = 0;
+    for(i = 0; i < r; ++i)
+    {
+        //printf("\nBloque : %d\n", perm[i]);
+        while(!queue_is_empty(bloques[perm[i]]))
+        {
+            p = front(bloques[perm[i]]); // El p-esimo vertice del orden natural es de color perm[i]
+            //printf(" %d ",Color(p,G));
+            dequeue(bloques[perm[i]]);
+            FijarOrden(k, G, p);
+            ++k;
+        }
+    }
+    //for(i = 0; i < n; ++i)
+        //printf("%d \n", Color(i, G));
+    return 0;
+
 }

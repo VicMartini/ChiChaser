@@ -14,6 +14,7 @@ struct GrafoSt
   u32 num_lados;
   u32 Delta;
   u32 delta;
+  u32 *ordenNatural;
   u32 *orden;
   vertice *vertices; //Array de vertices
 };
