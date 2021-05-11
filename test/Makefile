@@ -1,14 +1,17 @@
 #gcc test.c munit.c munit.h ../HashTable.c ../List.c
 CC = gcc
-#OBJ = test.o munit.o GrafoSt21.o List.o HashTable.o RomaVictor.o dimacs.o
+CFLAGS = -Wall -O3 -std=c99
 
-test: test.c munit.c 
 
-	$(CC)  -Wall -O3 -std=c99 -g -c test.c munit.c ../GrafoSt21.c ../RomaVictor.c ../List.c ../HashTable.c ../dimacs.c ../darray.c ../VerticeSt.c ../queue.c munit.h
-	$(CC)  -Wall -O3 -std=c99 -g -o test $(OBJ) munit.o test.o GrafoSt21.o RomaVictor.o List.o HashTable.o dimacs.o darray.o VerticeSt.o queue.o
+SOURCES = test.c munit.c ../RomaVictor.c ../GrafoSt21.c ../List.c ../HashTable.c ../dimacs.c ../darray.c ../VerticeSt.c ../queue.c
+OBJ = $(SOURCES:.c=.o)
+TARGET = test
+
+$(TARGET): $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^
+
 
 .PHONY: clean
 
 clean:
-	rm -f *.o
-	rm -f test
+	rm -f $(TARGET) $(OBJ)

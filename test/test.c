@@ -129,9 +129,14 @@ static MunitResult
 orden_natural(const MunitParameter params[], void *fixture)
 {
   Grafo G = (Grafo)fixture;
+  u32 n = NumeroDeVertices(G);
   u32 result;
-  OrdenNatural(G);
+  for(u32 i = 0; i < n; ++i)
+    {
+        FijarOrden(i, G, i);
+    }
   result = Greedy(G);
+  printf("Result:%d \n", result);
 
   if(result == 16 ||
      result == 21 ||

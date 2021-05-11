@@ -19,10 +19,10 @@ int main(void)
     printf("Greedy:%d \n", greedy);
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time creating: %f\n ORIGINAL\n", elapsed_time);
-    u32 perm[greedy];
-    for(u32 i = 0; i < greedy; ++i)
-        perm[i] = i;
-    printf("Resultado orden por bloques : %d\n",OrdenPorBloquesDeColores(g,perm));
+    // u32 perm[greedy];
+    // for(u32 i = 0; i < greedy; ++i)
+    //     perm[i] = i;
+    // printf("Resultado orden por bloques : %d\n",OrdenPorBloquesDeColores(g,perm));
     //print_graph(g,20);
     /*
     for(u32 i = 0; i < g->num_vertices;++i)
