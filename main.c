@@ -58,15 +58,15 @@ int main(int argc, char *argv[])
 
     double elapsed_time;
     clock_t t = clock();
-    Grafo g = ConstruccionDelGrafo();
-    u32 n = NumeroDeVertices(g);
-    u32 m = NumeroDeLados(g);
+    Grafo G = ConstruccionDelGrafo();
+    u32 n = NumeroDeVertices(G);
+    u32 m = NumeroDeLados(G);
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time creating: %f\n ORIGINAL\n", elapsed_time);
     printf("numero vertices, n = %d, numero lados, m = %d \n", n, m);
-    printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
-    u32 esBipartito = Biartitotwo(g);
+    printf("Δ = %u | δ = %u\n", Delta(G), G->delta);
+    u32 esBipartito = Biartitotwo(G);
     
     // 3
     printf("Item-3\n");
@@ -79,17 +79,17 @@ int main(int argc, char *argv[])
 
     //5
     printf("Item-5\n");
-    OrdenNatural(g);
-    u32 ordenNat = Greedy(g);
+    OrdenNatural(G);
+    u32 ordenNat = Greedy(G);
     printf("Greedy Orden natural: %d \n", ordenNat);
     // aleatorizar vertices
     u32 result = UINT_MAX;
     u32 greedy, iorden;
     for (u32 i = 0; i < a; i++)
     {
-        AleatorizarVertices(g, f+i);
+        AleatorizarVertices(G, f+i);
         
-        if((greedy = Greedy(g)) < result){
+        if((greedy = Greedy(G)) < result){
             printf("Greedy con AleatorizarVertices: %d \n", greedy);
             result = greedy;
             iorden = f+i;
@@ -97,8 +97,8 @@ int main(int argc, char *argv[])
     }
     // salvo que sea el ultimo 
     if(iorden != f+a){
-        AleatorizarVertices(g, iorden);
-        result = Greedy(g);
+        AleatorizarVertices(G, iorden);
+        result = Greedy(G);
         printf("Greedy con AleatorizarVertices:%d \n", result);
     }
 
@@ -123,8 +123,8 @@ int main(int argc, char *argv[])
     for (u32 i = 0; i < b; i++)
     {   
         array_perm = suff_array(result); // aleatoriza perm
-        OrdenPorBloquesDeColores(g, array_perm);
-        result_greedy = Greedy(g);
+        OrdenPorBloquesDeColores(G, array_perm);
+        result_greedy = Greedy(G);
         if(result_greedy < r){
             r = result_greedy;
             printf("6- greedy con orden por bloques: %d \n", r);
@@ -134,5 +134,48 @@ int main(int argc, char *argv[])
         array_perm = NULL;
     }
     
-   
+
+    // 7
+    printf("Item-7 \n");
+
+    for (u32 i = 0; i < c; i++) // ciclo externo
+    {  
+        u32 color_G, color_H, color_W = UINT_MAX;
+        u32 res_G, res_H, res_W;
+        Grafo H = CopiarGrafo(G); 
+        Grafo W = CopiarGrafo(G);
+        for (u32 j = 0; i < d; j++) 
+        {   
+            // rama 1 
+            AleatorizarVertices(G, f+j);
+            res_G = Greedy(G);
+            if(res_G < color_G)
+                color_G = res_G;
+
+            // rama 2 
+        
+
+            // rama 3
+
+        }
+        if(color_W < color_G && color_W < color_H){
+            G = W;
+            DestruccionDelGrafo(G);
+            DestruccionDelGrafo(H);
+        }
+        else if(color_H < color_G && color_H < color_W){
+            G = H;
+            DestruccionDelGrafo(G);
+            DestruccionDelGrafo(W);
+        }
+        else{
+            DestruccionDelGrafo(H);
+            DestruccionDelGrafo(W);
+        }
+    }
+    
+
 }
+
+
+
