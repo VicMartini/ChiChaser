@@ -479,7 +479,9 @@ void swap(u32 *a, u32 *b) {
 u32 partition(u32 array[], u32 b[], int low, int high) {
   
   // select the rightmost element as pivot
-  int pivotIndex = rand() % (high - low + 1) + low; //(high - low) / 2;
+  srand(time(NULL));
+  int pivotIndex = low + rand() % (high - low  + 1); //(high - low) / 2;
+  //int pivotIndex = high; //(high - low) / 2;
   u32 pivot = array[pivotIndex];
   
   // pointer for greater element
@@ -487,6 +489,9 @@ u32 partition(u32 array[], u32 b[], int low, int high) {
 
   // traverse each element of the array
   // compare them with the pivot
+  swap(&array[pivotIndex], &array[high]);
+  swap(&b[pivotIndex], &b[high]);
+  pivotIndex = high;
   for (u32 j = low; j < high; j++) {
     if (array[j] <= pivot) {
         
@@ -500,10 +505,10 @@ u32 partition(u32 array[], u32 b[], int low, int high) {
 
     }
   }
-
-  // swap the pivot element with the greater element at i
   swap(&array[i + 1], &array[pivotIndex]);
   swap(&b[i + 1], &b[pivotIndex]);
+
+  // swap the pivot element with the greater element at i
   
   // return the partition pointer
   return (i + 1);
@@ -541,8 +546,10 @@ void OrdenNatural(Grafo G)
         b[i] = i;
     }
     quickSort(a, b, 0, n-1);
+    u32 e;
     for(u32 j = 0; j<n; ++j)
     {   
+        if(j > 0 && a[j] < a[j-1])printf("ERROR : %d",++e);
         G->ordenNatural[j] = b[j];
     }
     free(a);
