@@ -24,10 +24,12 @@ int main(void)
         perm[i] = i;
     printf("Resultado orden por bloques : %d\n",OrdenPorBloquesDeColores(g,perm));
     //print_graph(g,20);
+    /*
     for(u32 i = 0; i < g->num_vertices;++i)
     {
         printf("Nombre : %u, Color: %u\n", Nombre(i, g), Color(i, g));
     }
+    */
     // printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     // Grafo h = CopiarGrafo(g);
     // t = clock();

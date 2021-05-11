@@ -486,8 +486,9 @@ u32 partition(u32 array[], u32 b[], int low, int high) {
   // pointer for greater element
   int i = (low - 1);
 
-  // traverse each element of the array
-  // compare them with the pivot
+  swap(&array[pivotIndex], &array[high]);
+  swap(&b[pivotIndex], &b[high]);
+  pivotIndex = high;
   for (u32 j = low; j < high; j++) {
     if (array[j] <= pivot) {
         
