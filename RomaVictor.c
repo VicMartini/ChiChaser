@@ -123,7 +123,8 @@ Grafo CopiarGrafo(Grafo G)
     clone->num_lados = G->num_lados;
     clone->vertices = calloc(G->num_vertices, sizeof(vertice));
     clone->orden = calloc(G->num_vertices, sizeof(u32));
-
+    clone->ordenNatural = calloc(G->num_vertices, sizeof(u32));
+    
     for (u32 j = 0; j < G->num_vertices; ++j)
     {
         clone->orden[j] = G->orden[j];
