@@ -138,12 +138,13 @@ int main(int argc, char *argv[])
     // 7
     printf("Item-7 \n");
 
-    for (u32 i = 0; i < c; i++) // ciclo externo
+    for (u32 i = 0; i < c; i++) // ciclo externo 
     {  
         u32 color_G, color_H, color_W = UINT_MAX;
         u32 res_G, res_H, res_W;
         Grafo H = CopiarGrafo(G); 
         Grafo W = CopiarGrafo(G);
+        // ciclo interno
         for (u32 j = 0; i < d; j++) 
         {   
             // rama 1 
@@ -153,13 +154,22 @@ int main(int argc, char *argv[])
                 color_G = res_G;
 
             // rama 2 
-        
+            array_perm[r];
+            for (u32 i = r-1; i > 0 ; i--)
+            {   //ordena array de mayor a menor
+                array_perm[i];
+            }
+            OrdenPorBloquesDeColores(H, array_perm);
+            res_H = Greedy(H);
+            if(res_H < color_H)
+                color_H = res_H;
 
             // rama 3
 
+
         }
         if(color_W < color_G && color_W < color_H){
-            G = W;
+            G = W; // asigo a G el grafo W para correr en la otra iteración        
             DestruccionDelGrafo(G);
             DestruccionDelGrafo(H);
         }
@@ -169,6 +179,7 @@ int main(int argc, char *argv[])
             DestruccionDelGrafo(W);
         }
         else{
+            // me quedo con G 
             DestruccionDelGrafo(H);
             DestruccionDelGrafo(W);
         }
