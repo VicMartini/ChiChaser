@@ -64,5 +64,5 @@ void OrdenNatural(Grafo G);
 u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx);
 char OrdenPorBloquesDeColores(Grafo G, u32 *perm);
 u32* suff_array(u32 ncolor);
-
+void swap(u32 *a, u32 *b);
 #endif

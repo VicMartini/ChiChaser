@@ -7,6 +7,7 @@
 #include <time.h>
 #include "RomaVictor.h"
 
+void swap(u32 *a, u32 *b);
 
 typedef struct params_st{
     u32 p[6]; // struct para a,b,c,d,e,f
@@ -104,15 +105,6 @@ int main(int argc, char *argv[])
 
 
     //6 
-    /*
-        . Luego de esto, a partir de ese coloreo que se ha obtenido, se hacen b ordenamientos 
-        usando OrdenPorBloqueDeColores() con distintos ordenes pseudoaleatorios de los colores,
-        y corre Greedy() luego de cada uno de ellos, imprimiendo el n´umero de colores obtenido.
-        Por el teorema dado en clase, si programaron OrdenPorBloqueDeColores() y Greedy()
-        bien, la cantidad de colores no puede aumentar luego de cadar orden por bloque de
-        colores mas greedy, asi que no hace falta salvar al mejor coloreo porque siempre ser´a el
-        ´ultimo.
-    */
     
     // result tiene el n° de colores 
     u32 result_greedy;
@@ -147,29 +139,47 @@ int main(int argc, char *argv[])
         // ciclo interno
         for (u32 j = 0; i < d; j++) 
         {   
-            // rama 1 
+            // rama 1  
             AleatorizarVertices(G, f+j);
             res_G = Greedy(G);
             if(res_G < color_G)
                 color_G = res_G;
 
             // rama 2 
-            array_perm[r];
+            u32 *perm2 = calloc(r, sizeof(u32));
             for (u32 i = r-1; i > 0 ; i--)
             {   //ordena array de mayor a menor
-                array_perm[i];
+                perm2[i] = i;
             }
-            OrdenPorBloquesDeColores(H, array_perm);
+            OrdenPorBloquesDeColores(H, perm2);
             res_H = Greedy(H);
             if(res_H < color_H)
                 color_H = res_H;
-
+            
             // rama 3
-
-
+            u32 *perm3 = calloc(r, sizeof(u32));
+            u32 random;
+            for (u32 i = r-1; i > 0; i--)
+            {
+                perm3[i] = i;
+            }
+            for (u32 i = 0; i < r; i++)
+            {  
+               random = rand() % e;
+               if(random == 0){
+                   swap(&perm3[i], &perm3[rand() % r]);
+               }
+            }
+            res_W = Greedy(W);
+            if(res_W < color_W)
+                color_W = res_W;
         }
+        printf("G:%d    ||  H:%d    ||    W:%d  \n",color_G, color_H, color_W);
+
+        // aqui seleccionamos el menor color para la proxima
+        // copiar en la proxima del ciclo externa 
         if(color_W < color_G && color_W < color_H){
-            G = W; // asigo a G el grafo W para correr en la otra iteración        
+            G = W; 
             DestruccionDelGrafo(G);
             DestruccionDelGrafo(H);
         }
@@ -179,14 +189,10 @@ int main(int argc, char *argv[])
             DestruccionDelGrafo(W);
         }
         else{
-            // me quedo con G 
+            // se queda con G 
             DestruccionDelGrafo(H);
             DestruccionDelGrafo(W);
         }
     }
     
-
 }
-
-
-
