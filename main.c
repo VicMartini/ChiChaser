@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     long val;
     params param; //parametros
     u32 a,b,c,d,e,f;
+    u32 count_greedys = 0;
 
     if(argc != 7){
         printf("Error Arguments \n");
@@ -65,7 +66,7 @@ int main(int argc, char *argv[])
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time creating: %f\n ORIGINAL\n", elapsed_time);
-    printf("numero vertices, n = %d, numero lados, m = %d \n", n, m);
+    printf("numero vertices n = %d, numero lados m = %d \n", n, m);
     printf("Δ = %u | δ = %u\n", Delta(G), G->delta);
     u32 esBipartito = Biartitotwo(G);
     
@@ -75,8 +76,9 @@ int main(int argc, char *argv[])
         printf("Es Bipartito: \n");
         return 0;
     }
+    
+    
     t = clock();
-
 
     //5
     printf("Item-5\n");
@@ -88,10 +90,11 @@ int main(int argc, char *argv[])
     u32 greedy, iorden;
     for (u32 i = 0; i < a; i++)
     {
-        AleatorizarVertices(G, f+i);
-        
-        if((greedy = Greedy(G)) < result){
-            printf("Greedy con AleatorizarVertices: %d \n", greedy);
+        AleatorizarVertices(G, f+i);      
+        greedy = Greedy(G);
+        count_greedys++;
+        if(greedy < result){
+            printf("%d iteraciones para Greedy con AleatorizarVertices: %d \n",a , greedy);
             result = greedy;
             iorden = f+i;
         }
@@ -100,6 +103,9 @@ int main(int argc, char *argv[])
     if(iorden != f+a){
         AleatorizarVertices(G, iorden);
         result = Greedy(G);
+        if(result!=UINT_MAX){
+            count_greedys++;
+        }
         printf("Greedy con AleatorizarVertices:%d \n", result);
     }
 
@@ -117,11 +123,13 @@ int main(int argc, char *argv[])
         array_perm = suff_array(result); // aleatoriza perm
         OrdenPorBloquesDeColores(G, array_perm);
         result_greedy = Greedy(G);
+        count_greedys++;
+        result = result_greedy; // set nuevo valor para array_perm
         if(result_greedy < r){
             r = result_greedy;
             printf("6- greedy con orden por bloques: %d \n", r);
+            
         }
-        
         free(array_perm); // free array allocado en suff_array
         array_perm = NULL;
     }
@@ -129,70 +137,103 @@ int main(int argc, char *argv[])
 
     // 7
     printf("Item-7 \n");
-
+    u32 r_colors = r; // inicializo con el ultimo coloreo de greedy en item 6
+    u32 color_G = UINT_MAX;
+    u32 color_H = UINT_MAX;
+    u32 color_W = UINT_MAX;
+    u32 res_G = UINT_MAX;
+    u32 res_H = UINT_MAX;
+    u32 res_W = UINT_MAX;
+    Grafo H;
+    Grafo W;
     for (u32 i = 0; i < c; i++) // ciclo externo 
     {  
-        u32 color_G, color_H, color_W = UINT_MAX;
-        u32 res_G, res_H, res_W;
-        Grafo H = CopiarGrafo(G); 
-        Grafo W = CopiarGrafo(G);
+        color_G = UINT_MAX;
+        color_H = UINT_MAX;
+        color_W = UINT_MAX;
+        // copia el grafo G 
+        H = CopiarGrafo(G); 
+        W = CopiarGrafo(G);
         // ciclo interno
-        for (u32 j = 0; i < d; j++) 
+        for (u32 j = 0; j < d; j++)  // ciclo interno
         {   
             // rama 1  
             AleatorizarVertices(G, f+j);
             res_G = Greedy(G);
+            count_greedys++; // contamos la cantidad de greedy hechos
             if(res_G < color_G)
-                color_G = res_G;
-
+                color_G = res_G; // color_G ,color_H , color_W seran para comparar cual es el menor
+                
+            
             // rama 2 
-            u32 *perm2 = calloc(r, sizeof(u32));
-            for (u32 i = r-1; i > 0 ; i--)
+            u32 *perm2 = calloc(r_colors, sizeof(u32));
+            for (u32 i = r_colors-1; i > 0 ; i--)
             {   //ordena array de mayor a menor
-                perm2[i] = i;
+                perm2[r_colors-1-i] = i;
             }
             OrdenPorBloquesDeColores(H, perm2);
             res_H = Greedy(H);
+            count_greedys++;
             if(res_H < color_H)
                 color_H = res_H;
             
             // rama 3
-            u32 *perm3 = calloc(r, sizeof(u32));
-            u32 random;
-            for (u32 i = r-1; i > 0; i--)
+            printf("debug: r_colors %d \n", r_colors);
+            u32 *perm3 = calloc(r_colors, sizeof(u32));
+            u32 n_random;
+            for (u32 i = r_colors-1; i > 0; i--)
             {
-                perm3[i] = i;
+                perm3[r_colors-1-i] = i;
             }
-            for (u32 i = 0; i < r; i++)
+            for (u32 i = 0; i < r_colors; i++)
             {  
-               random = rand() % e;
-               if(random == 0){
-                   swap(&perm3[i], &perm3[rand() % r]);
+               n_random = rand() % e;
+               if(n_random == 0){
+                   swap(&perm3[i], &perm3[rand() % r_colors]);
                }
+            
             }
+            OrdenPorBloquesDeColores(W, perm3);
             res_W = Greedy(W);
+            count_greedys++;
             if(res_W < color_W)
                 color_W = res_W;
+            
+            free(perm2);
+            free(perm3);
         }
-        printf("G:%d    ||  H:%d    ||    W:%d  \n",color_G, color_H, color_W);
+        printf(" G=%d | H=%d | W=%d  \n",color_G, color_H, color_W);
 
-        // aqui seleccionamos el menor color para la proxima
-        // copiar en la proxima del ciclo externa 
-        if(color_W < color_G && color_W < color_H){
-            G = W; 
+        // aqui seleccionamos el grafo con menor color para
+        // copiar en la proxima iteración del ciclo externa 
+        if(color_W <= color_G && color_W <= color_H){
+            r_colors = color_W;
             DestruccionDelGrafo(G);
             DestruccionDelGrafo(H);
+            // asignamos el grafo que sobrevive
+            G = W; 
         }
-        else if(color_H < color_G && color_H < color_W){
-            G = H;
+        else if(color_H <= color_G && color_H <= color_W){
+            // asignamos r para el tamaño de perm
+            r_colors = color_H;
             DestruccionDelGrafo(G);
             DestruccionDelGrafo(W);
+            // asignamos el grafo que sobrevive
+            G = H;
         }
         else{
             // se queda con G 
+            // asignamos r para el tamaño de perm
+            r_colors = color_G;
             DestruccionDelGrafo(H);
             DestruccionDelGrafo(W);
         }
     }
+    t = clock() - t;
+    elapsed_time = (double)t / CLOCKS_PER_SEC;
+    printf("Time Finish: %f\n \n", elapsed_time);
+    printf("numeros de greedy:%d \n", count_greedys);
+    printf("\n");
+    printf("ultimo obtenidos : G = %d | H = %d | W = %d  \n",color_G, color_H, color_W);
     
 }
