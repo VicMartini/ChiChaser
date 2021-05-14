@@ -146,67 +146,74 @@ int main(int argc, char *argv[])
     u32 res_W = UINT_MAX;
     Grafo grafos[3];
     u32 greedy_results[3];
-    u32 *perms[2];
+    u32 *perms[3];
     grafos[0] = G;
     grafos[1] = CopiarGrafo(G);
     grafos[2] = CopiarGrafo(G);
-    for (u32 i = 0; i < 3; i++)
-    {
-        greedy_results[i] = r;
-    }
-    u32 best_coloring = 0;
-    for( u32 i = 0; i < c; ++i)
-    {          
-        perms[0] = calloc(greedy_results[best_coloring], sizeof(u32));
-        perms[1] = calloc(greedy_results[best_coloring], sizeof(u32));
-        for (u32 i = 0; i < greedy_results[best_coloring]; i++)
-        {
-            perms[0][i] = greedy_results[best_coloring] - i;
-            perms[1][i] = greedy_results[best_coloring] - i;
-        }
-        for (u32 i = 0; i < greedy_results[best_coloring]; i++)
-        {
-            if(rand() % e == 0) 
+    greedy_results[0] = greedy_results[1] = greedy_results[2] = r;
+    u32 best_branch = 0;
+    for (u32 k = 0; k < c; k++)
+    {   printf("\n-----> Beggining round number  %u of independent evolution <--------\n",k);
+        for (u32 i = 0; i < d; i++)
+        {   
+            // Permutacion acendente para la rama 0
+            perms[0] = suff_array(greedy_results[0]);
+            // Permutaciones con orden acendente para las ramas 1 y 2
+            for (u32 j = 1; j < 3; j++)
             {
-                u32 temp = perms[1][i];
-                u32 rand_pos = rand() % greedy_results[best_coloring];
-                perms[1][i] = perms[1][rand_pos];
-                perms[1][rand_pos] = temp;
+                perms[j] = calloc(greedy_results[j],sizeof(u32));
+                for (u32 i = 0; i < greedy_results[j]; i++)
+                {
+                    perms[j][i] = (greedy_results[j] - 1) - i;
+                    //printf(" ->%u",perms[j][i]);
+                }
             }
-        }
-        
-        for (u32 i = 0; i < d; ++i)
-        {
-            //Rama 1
-            AleatorizarVertices(grafos[0], f+i);
-            greedy_results[0] = Greedy(grafos[0]);
-            printf("Rama 2 \n");
-            //Rama 2
-            OrdenPorBloquesDeColores(grafos[1], perms[0]);
-            greedy_results[1] = Greedy(grafos[1]);
-
-            //Rama 3
-            printf("Rama 3 \n");
-            OrdenPorBloquesDeColores(grafos[2], perms[1]);
-            greedy_results[2] = Greedy(grafos[2]);
+            //Para la permutacion de la rama 2 cada elemento tiene
+            //una probabilidad de 1/e de ser intercambiado con otro
+            //elemento que sera elegido aleatoriamente
+            for (u32 i = 0; i < greedy_results[2]; i++)
+            {
+                if((rand() % e) == 0)
+                    swap(&perms[2][i],&perms[2][rand() % greedy_results[2]]);
+            }
+            
+            printf("\n");
+            /*
+            for (u32 i = 1; i <= greedy_results[i]; i++)
+            {
+            }
+            */
+            printf("i : %u ",i);
+            for (u32 h = 0; h < 3; h++)
+            {
+                OrdenPorBloquesDeColores(grafos[h], perms[h]);
+                free(perms[h]);
+                greedy_results[h] = Greedy(grafos[h]);
+            }
+            printf("Branch 0 : %u Branch 1 : %u, Branch 2 : %u\n",greedy_results[0],greedy_results[1], greedy_results[2]);
             
         }
         for (u32 i = 0; i < 3; i++)
         {
-            best_coloring = (greedy_results[i] < greedy_results[best_coloring])? i : best_coloring;
+            if(greedy_results[i] < greedy_results[best_branch]) best_branch = i;
         }
+        printf("!!-----Round %u of independent evolution has finished, branch %u has been chosen as the fitest branch----!!\n\n",k,best_branch);
         for (u32 i = 0; i < 3; i++)
         {
-            if(i != best_coloring)
+            if(i != best_branch)
             {
                 DestruccionDelGrafo(grafos[i]);
-                grafos[i] = CopiarGrafo(grafos[best_coloring]);
+                grafos[i] = CopiarGrafo(grafos[best_branch]);
+                greedy_results[i] = greedy_results[best_branch];
+                printf("Branch %u is now a clone of the fitest branch\n",i);
             }
         }
-        printf("Grafo elegido %u", best_coloring);
-        printf("resultados ciclo externo %d : G = %d | H = %d | W = %d  \n",i,greedy_results[0], greedy_results[1], greedy_results[2]);
+        printf("Proceeding to the next cycle...\n");
+        
+        
         
     }
+    
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
     printf("Time Finish: %f\n \n", elapsed_time);

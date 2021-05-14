@@ -569,14 +569,23 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
             ht_put(Color(i, G), 0, colors);
     }
     u32 r = colors ->ocupation; //La ht contiene a todos los colores sin repeticiones
+    //printf("Number of colors in OrdenPorBloque: %u\n",r);
     destroy_ht(colors);
     //Chequeamos que cada uno de los números en el rango 0..r-1 esten exactamente una vez
     // para comprobar que perm es una permutación.
     u32 *counts = calloc(r, sizeof(u32));
     for(i = 0; i < r; ++i)
+    {
+        //printf("%u / %u \n", perm[i], r - 1);
+        if(perm[i]>r - 1)
+        {
+            printf("No es una permutación!\n");
+            return 1;
+        }
         ++counts[perm[i]];
+    }
     for(i = 0; i < r; ++i)
-        if(counts[i] != 1) return 0;
+        if(counts[i] != 1) return 1;
     free(counts);
     //Vamos a necesitar tener acceso al orden natural, por eso primero vamos a hacer que el orden interno
     //coincida con el orden natural.
