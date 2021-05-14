@@ -315,6 +315,7 @@ u32 Greedy(Grafo G)
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
         //pru32f("\n Chose color %d\n", min_color);
         destroy_ht(ht);
+        ht = NULL;
         FijarColor(min_color, i, G);
     }
     return max_chosen_color + 1;

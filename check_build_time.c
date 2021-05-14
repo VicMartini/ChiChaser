@@ -30,7 +30,7 @@ int main(void)
         printf("Nombre : %u, Color: %u\n", Nombre(i, g), Color(i, g));
     }
     */
-    // printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
+    printf("Δ = %u | δ = %u\n", g->Delta, g->delta);
     // Grafo h = CopiarGrafo(g);
     // t = clock();
     // u32 bipartite;
