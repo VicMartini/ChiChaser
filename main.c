@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
     printf(ANSI_COLOR_GREEN"\n└────────────────────────────────────────────────────────────────────┘\n\n"ANSI_COLOR_RESET);        
     OrdenNatural(G);
     u32 ordenNat = Greedy(G);
-    printf("\nResult using natural order: %d \n\n", ordenNat);
+    printf("Result using natural order: %d \n\n", ordenNat);
     // aleatorizar vertices
     u32 best_result = UINT_MAX;
     u32 greedy, iorden;
@@ -146,7 +146,7 @@ int main(int argc, char *argv[])
             iorden = f+i;
         }
     }
-    printf("\n\nBest result after running Greedy %u times using random orders : %u\n", a, best_result);
+    printf(ANSI_COLOR_CYAN"\n\nBest result after running Greedy %u times using random orders : %u\n\n"ANSI_COLOR_RESET, a, best_result);
     printf("Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
     printf("Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
     printf("Restoring best order...\n");
@@ -186,7 +186,7 @@ int main(int argc, char *argv[])
         free(array_perm); // free array allocado en suff_array
         array_perm = NULL;
     }
-    printf("\n\nResult of running Greedy %u times, grouping vertices that have the same color\nand shuffling the order of the groups : %u\n", b, new_result);
+    printf(ANSI_COLOR_CYAN"\n\nResult after running Greedy %u times, grouping vertices that have the \nsame color and shuffling the order of the groups : %u\n\n"ANSI_COLOR_RESET, b, new_result);
     printf("Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
     printf("Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);   
 
@@ -254,7 +254,7 @@ int main(int argc, char *argv[])
         {
             if(greedy_results[i] < greedy_results[best_branch]) best_branch = i;
         }
-        printf(ANSI_COLOR_GREEN"\n\nRound %u of independent evolution has finished, branch %u has been chosen\nas the fittest branch\n\n"ANSI_COLOR_RESET,k+1,best_branch);
+        printf(ANSI_COLOR_CYAN"\n\nRound %u of independent evolution has finished, branch %u has been chosen\nas the fittest branch\n\n"ANSI_COLOR_RESET,k+1,best_branch);
         for (u32 i = 0; i < 3; i++)
         {
             if(i != best_branch)
