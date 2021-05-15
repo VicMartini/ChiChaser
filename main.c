@@ -247,7 +247,7 @@ int main(int argc, char *argv[])
                 ++count_greedys;
             }
 
-            printf("\r Branch 0 : %u Branch 1 : %u, Branch 2 : %u [Progress : %u/%u]",greedy_results[0],greedy_results[1], greedy_results[2],i+1,d);
+            printf("\r  Branch 0 : %u Branch 1 : %u, Branch 2 : %u [Progress : %u/%u]",greedy_results[0],greedy_results[1], greedy_results[2],i+1,d);
             fflush(stdout);            
         }
         for (u32 i = 0; i < 3; i++)
