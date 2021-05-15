@@ -275,7 +275,6 @@ int main(int argc, char *argv[])
     
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
-    printf("Time to finish: %f\n \n", elapsed_time / 60);
     printf("\n");
     printf(ANSI_COLOR_CYAN"\n ─────────── The search for the best coloring has finished! ───────────────"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_CYAN"\n                                                                       "ANSI_COLOR_RESET);
