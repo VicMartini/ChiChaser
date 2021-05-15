@@ -68,7 +68,7 @@ Grafo ConstruccionDelGrafo(void)
     new_graph->num_lados = M;
     new_graph->vertices = calloc(N, sizeof(vertice));
     new_graph->orden = calloc(N, sizeof(u32));
-    new_graph->ordenNatural = calloc(N, sizeof(u32));
+    new_graph->orden_natural = calloc(N, sizeof(u32));
 
     hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
                                   //construcción del grafo.
@@ -123,12 +123,12 @@ Grafo CopiarGrafo(Grafo G)
     clone->num_lados = G->num_lados;
     clone->vertices = calloc(G->num_vertices, sizeof(vertice));
     clone->orden = calloc(G->num_vertices, sizeof(u32));
-    clone->ordenNatural = calloc(G->num_vertices, sizeof(u32));
+    clone->orden_natural = calloc(G->num_vertices, sizeof(u32));
 
     for (u32 j = 0; j < G->num_vertices; ++j)
     {
         clone->orden[j] = G->orden[j];
-        clone->ordenNatural[j] = G->ordenNatural[j];
+        clone->orden_natural[j] = G->orden_natural[j];
         clone->vertices[j].nombre = G->vertices[j].nombre;
         clone->vertices[j].grado = G->vertices[j].grado;
         clone->vertices[j].color = G->vertices[j].color;
@@ -149,8 +149,8 @@ void DestruccionDelGrafo(Grafo G)
     }
     free(G->orden);
     free(G->vertices);
-    free(G->ordenNatural);
-    G->ordenNatural = NULL;
+    free(G->orden_natural);
+    G->orden_natural = NULL;
     G->orden = NULL;
     G->vertices = NULL;
     free(G);
@@ -240,7 +240,7 @@ char FijarOrden(u32 i, Grafo G, u32 N)
     if (i >= G->num_vertices || N >= G->num_vertices)
         return 1;
     u32 *o = G->orden;
-    u32 *oN = G->ordenNatural;
+    u32 *oN = G->orden_natural;
     G->orden[i] = oN[N];
     G->vertices[oN[N]].orden = i;
     //pru32f(" %d : %d\n",N, i);
@@ -549,7 +549,7 @@ void OrdenNatural(Grafo G)
     quickSort(a, b, 0, n-1);
     for(u32 j = 0; j<n; ++j)
     {   
-        G->ordenNatural[j] = b[j];
+        G->orden_natural[j] = b[j];
     }
     free(a);
     free(b);

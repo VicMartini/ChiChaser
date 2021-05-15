@@ -7,14 +7,45 @@
 #include <time.h>
 #include "RomaVictor.h"
 
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE    "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
+
 void swap(u32 *a, u32 *b);
 
 typedef struct params_st{
     u32 p[6]; // struct para a,b,c,d,e,f
 }params;
 
+void print_image(FILE *fptr)
+{
+    char read_string[128];
+ 
+    while(fgets(read_string,sizeof(read_string),fptr) != NULL)
+        printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET,read_string);
+}
+
+
+
 int main(int argc, char *argv[])
 { 
+    char *filename = "logo.txt";
+    FILE *fptr = NULL;
+ 
+    if((fptr = fopen(filename,"r")) == NULL)
+    {
+        fprintf(stderr,"error opening %s\n",filename);
+        return 1;
+    }
+ 
+    print_image(fptr);
+ 
+    fclose(fptr);
+    printf("\n");
     char *endptr;
     long val;
     params param; //parametros
@@ -58,6 +89,7 @@ int main(int argc, char *argv[])
     e = param.p[4];
     f = param.p[5];
 
+    printf("Building graph...\n");
     double elapsed_time;
     clock_t t = clock();
     Grafo G = ConstruccionDelGrafo();
@@ -65,78 +97,105 @@ int main(int argc, char *argv[])
     u32 m = NumeroDeLados(G);
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
-    printf("Time creating: %f\n ORIGINAL\n", elapsed_time);
-    printf("numero vertices n = %d, numero lados m = %d \n", n, m);
-    printf("Δ = %u | δ = %u\n", Delta(G), G->delta);
+    printf("Time creating: %f\n", elapsed_time);
+    printf(ANSI_COLOR_GREEN "\n       |---------------- Graph specs -------------------|\n\n" ANSI_COLOR_RESET);
+    printf(                 "                 N = %d | M = %d \n", n, m);
+    printf(                 "                 Δ = %u | δ = %u\n", Delta(G), G->delta);
+
     u32 esBipartito = Biartitotwo(G);
     
     // 3
-    printf("Item-3\n");
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    |"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                    Is the graph bipartite?                         |"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    |"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------\n\n"ANSI_COLOR_RESET);   
     if(esBipartito){
-        printf("Es Bipartito: \n");
+        printf("Yes, this graph's chromatic number is two, halting execution... \n");
         return 0;
+    }
+    else
+    {
+        printf("No, proceeding... \n");        
     }
     
     
     t = clock();
 
     //5
-    printf("Item-5\n");
-    OrdenNatural(G);
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    |"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                         Random orders.                             | "ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    | "ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------\n\n"ANSI_COLOR_RESET);      OrdenNatural(G);
     u32 ordenNat = Greedy(G);
-    printf("Greedy Orden natural: %d \n", ordenNat);
+    printf("\nResult using natural order: %d \n\n", ordenNat);
     // aleatorizar vertices
-    u32 result = UINT_MAX;
+    u32 best_result = UINT_MAX;
     u32 greedy, iorden;
     for (u32 i = 0; i < a; i++)
     {
         AleatorizarVertices(G, f+i);      
         greedy = Greedy(G);
         count_greedys++;
-        if(greedy < result){
-            printf("%d iteraciones para Greedy con AleatorizarVertices: %d \n",a , greedy);
-            result = greedy;
+        printf("\rLatest result : %u [Progress : %u/%u]",greedy,i+1,a);
+        fflush(stdout);
+        if(greedy < best_result){
+            best_result = greedy;
             iorden = f+i;
         }
     }
-    // salvo que sea el ultimo 
+    printf("\n\nBest result after running Greedy %u times using random orders : %u\n", a, best_result);
+    printf("Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
+    printf("Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3));
+    printf("Restoring best order...\n");
+
+    // Salvo que sea el ultimo 
     if(iorden != f+a){
         AleatorizarVertices(G, iorden);
-        result = Greedy(G);
-        if(result!=UINT_MAX){
+        best_result = Greedy(G);
+        if(best_result!=UINT_MAX){
             count_greedys++;
         }
-        printf("Greedy con AleatorizarVertices:%d \n", result);
     }
 
 
-    //6 
-    
-    // result tiene el n° de colores 
-    u32 result_greedy;
-    printf("Item-6\n");
-    printf("Greedy antes de inciar orden por bloques :%d \n", result);
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    | "ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                    Random orders by block of colors                | "ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    | "ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------\n\n"ANSI_COLOR_RESET);
+    u32 new_result = best_result; // La primera iteracion se hace usando el mejor orden obtenido anteriormente.
     u32 r = UINT_MAX;
     u32 *array_perm = NULL;
     for (u32 i = 0; i < b; i++)
     {   
-        array_perm = suff_array(result); // aleatoriza perm
+        array_perm = suff_array(new_result); // aleatoriza perm
         OrdenPorBloquesDeColores(G, array_perm);
-        result_greedy = Greedy(G);
+        new_result = Greedy(G);
         count_greedys++;
-        result = result_greedy; // set nuevo valor para array_perm
-        if(result_greedy < r){
-            r = result_greedy;
+        /*
+        if(new_result < r){
+            r = new_result;
             printf("6- greedy con orden por bloques: %d \n", r);
             
-        }
+        */
+        printf("\rLatest result : %u [Progress : %u/%u]",new_result,i+1,b);
+        fflush(stdout);           
         free(array_perm); // free array allocado en suff_array
         array_perm = NULL;
     }
-    
+    printf("\n\nResult of running Greedy %u times, grouping vertices that have the same color\nand shuffling the order of the groups : %u\n", b, new_result);
+    printf("Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
+    printf("Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3));   
 
     // 7
-    printf("Item-7 \n");
+    
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    | "ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                          Genetic strategy                          |"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n|                                                                    |"ANSI_COLOR_RESET);
+    printf(ANSI_COLOR_GREEN"\n --------------------------------------------------------------------\n\n"ANSI_COLOR_RESET);
     u32 r_colors = r; // inicializo con el ultimo coloreo de greedy en item 6
     u32 color_G = UINT_MAX;
     u32 color_H = UINT_MAX;
@@ -150,10 +209,11 @@ int main(int argc, char *argv[])
     grafos[0] = G;
     grafos[1] = CopiarGrafo(G);
     grafos[2] = CopiarGrafo(G);
-    greedy_results[0] = greedy_results[1] = greedy_results[2] = r;
+    greedy_results[0] = greedy_results[1] = greedy_results[2] = new_result;
     u32 best_branch = 0;
     for (u32 k = 0; k < c; k++)
-    {   printf("\n-----> Beggining round number  %u of independent evolution <--------\n",k);
+    {   printf(ANSI_COLOR_GREEN"\n---------> Beginning round number  %u of independent evolution <------------\n\n"ANSI_COLOR_RESET,k);
+        double et = clock();
         for (u32 i = 0; i < d; i++)
         {   
             // Permutacion acendente para la rama 0
@@ -177,27 +237,23 @@ int main(int argc, char *argv[])
                     swap(&perms[2][i],&perms[2][rand() % greedy_results[2]]);
             }
             
-            printf("\n");
-            /*
-            for (u32 i = 1; i <= greedy_results[i]; i++)
-            {
-            }
-            */
-            printf("i : %u ",i);
+
             for (u32 h = 0; h < 3; h++)
             {
                 OrdenPorBloquesDeColores(grafos[h], perms[h]);
                 free(perms[h]);
                 greedy_results[h] = Greedy(grafos[h]);
+                ++count_greedys;
             }
-            printf("Branch 0 : %u Branch 1 : %u, Branch 2 : %u\n",greedy_results[0],greedy_results[1], greedy_results[2]);
-            
+
+            printf("\r      Branch 0 : %u Branch 1 : %u, Branch 2 : %u [Progress : %u/%u]",greedy_results[0],greedy_results[1], greedy_results[2],i+1,d);
+            fflush(stdout);            
         }
         for (u32 i = 0; i < 3; i++)
         {
             if(greedy_results[i] < greedy_results[best_branch]) best_branch = i;
         }
-        printf("!!-----Round %u of independent evolution has finished, branch %u has been chosen as the fitest branch----!!\n\n",k,best_branch);
+        printf(ANSI_COLOR_GREEN"\n\nRound %u of independent evolution has finished, branch %u has been chosen as the fitest branch\n\n"ANSI_COLOR_RESET,k,best_branch);
         for (u32 i = 0; i < 3; i++)
         {
             if(i != best_branch)
@@ -208,6 +264,8 @@ int main(int argc, char *argv[])
                 printf("Branch %u is now a clone of the fitest branch\n",i);
             }
         }
+        printf("Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
+        printf("Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3));
         printf("Proceeding to the next cycle...\n");
         
         
@@ -216,8 +274,8 @@ int main(int argc, char *argv[])
     
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;
-    printf("Time Finish: %f\n \n", elapsed_time);
-    printf("numeros de greedy:%d \n", count_greedys);
+    printf("Time to finish: %f\n \n", elapsed_time / 60);
+    printf("Number of times the Greedy algorithm was run:%d \n", count_greedys);
     printf("\n");
     printf("ultimo obtenidos : G = %d | H = %d | W = %d  \n",greedy_results[0], greedy_results[1], greedy_results[2]);
     
