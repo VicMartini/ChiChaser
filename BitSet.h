@@ -15,5 +15,5 @@ bitset new_bs(u32 logical_size);
 char bs_set(bitset set, u32 k);
 char bs_clear(bitset set, u32 k);
 char bs_in(bitset set, u32 k);
-void bs_clear_all(bitset set, u32 k);
-void bs_destroy(bitset set, u32 k);
+void bs_clear_all(bitset set, u32 limit);
+void bs_destroy(bitset set);

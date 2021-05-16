@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <time.h>
 #include "RomaVictor.h"
+#include "BitSet.h"
 typedef uint32_t u32;
 
 Lado_st parse_edge(void)
@@ -296,13 +297,13 @@ u32 Greedy(Grafo G)
     u32 min_color;
     u32 max_chosen_color = 0;
     unsigned char *used;
-    used = calloc(Delta(G),sizeof(unsigned char));
+    bitset used_colors;
+    used_colors = new_bs(Delta(G)+1);
     for (u32 i = 0; i < n; ++i)
     {   
-        memset(used, 0, (Delta(G)+1)*sizeof(*used));
         min_color = 0;
-        
         degree = Grado(i, G);
+        /*
         ht = new_ht((degree > i + 1) ? i + 1 : degree);
         //pru32f("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
@@ -316,27 +317,31 @@ u32 Greedy(Grafo G)
         }
         while (in_ht(min_color, ht))
             ++min_color;
+        */
         
-       /*
-        for (u32 j = 0; j < Grado(i, G); j++)
-        {
+        for (u32 j = 0; j < degree; j++)
+        {   
+            //printf("i: %u, grado: %u",i, degree);
             neigh_color = ColorVecino(j, i, G);
-            if(OrdenVecino(j, i, G) < i && !used[neigh_color])
+            if(OrdenVecino(j, i, G) < i)
             {
-                used[neigh_color] = 1;
+                bs_set(used_colors, neigh_color);
             }
         }
-        while (used[min_color])
+        while (bs_in(used_colors, min_color))
             ++min_color;
-        */
+        
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
         //pru32f("\n Chose color %d\n", min_color);
         //destroy_ht(ht);
         //free(used);
         //ht = NULL;
         FijarColor(min_color, i, G);
+        bs_clear_all(used_colors,(Delta(G)+1 < i+1) ? Delta(G)+1 : i+1);
+
+        
     }
-    free(used);
+    bs_destroy(used_colors);
     return max_chosen_color + 1;
 }
 
