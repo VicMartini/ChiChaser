@@ -13,7 +13,11 @@ char bs_set(bitset set, u32 k)
 {
     if(k<set->logical_size)
     {
-        set->bits[k/32] |= 1 << (k%32);
+        if(!bs_in(set, k))
+        {
+            set->bits[k/32] |= 1 << (k%32);
+            ++set->ocupation;
+        }
         return 0;
     }
     else
@@ -26,7 +30,11 @@ char bs_clear(bitset set, u32 k)
 {
     if(k<set->logical_size)
     {
-        set->bits[k/32] &= ~(1 << (k%32));
+        if(bs_in(set, k))
+        {
+            set->bits[k/32] &= ~(1 << (k%32));
+            --set->ocupation;
+        }
         return 0;
     }
     else
