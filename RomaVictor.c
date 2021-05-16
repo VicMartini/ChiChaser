@@ -295,9 +295,13 @@ u32 Greedy(Grafo G)
     u32 degree;
     u32 min_color;
     u32 max_chosen_color = 0;
+    unsigned char *used;
+    used = calloc(Delta(G),sizeof(unsigned char));
     for (u32 i = 0; i < n; ++i)
-    {
+    {   
+        memset(used, 0, (Delta(G)+1)*sizeof(*used));
         min_color = 0;
+        
         degree = Grado(i, G);
         ht = new_ht((degree > i + 1) ? i + 1 : degree);
         //pru32f("%d: Coloring vertex: %d\n", i, Nombre(i, G));
@@ -312,12 +316,27 @@ u32 Greedy(Grafo G)
         }
         while (in_ht(min_color, ht))
             ++min_color;
+        
+       /*
+        for (u32 j = 0; j < Grado(i, G); j++)
+        {
+            neigh_color = ColorVecino(j, i, G);
+            if(OrdenVecino(j, i, G) < i && !used[neigh_color])
+            {
+                used[neigh_color] = 1;
+            }
+        }
+        while (used[min_color])
+            ++min_color;
+        */
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
         //pru32f("\n Chose color %d\n", min_color);
-        destroy_ht(ht);
-        ht = NULL;
+        //destroy_ht(ht);
+        //free(used);
+        //ht = NULL;
         FijarColor(min_color, i, G);
     }
+    free(used);
     return max_chosen_color + 1;
 }
 

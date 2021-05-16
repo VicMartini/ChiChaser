@@ -3,9 +3,9 @@ CC=gcc
 CFLAGS= -Wall -Wextra -O0 -std=c99 -g -std=c11 -ggdb3 
 
 # the macro DEPS, which is the set of .h files on which the .c files depend
-DEPS=List.h HashTable.h GrafoSt21.h RomaVictor.h dimacs.h darray.h VerticeSt.h queue.h
+DEPS=List.h HashTable.h GrafoSt21.h RomaVictor.h dimacs.h darray.h VerticeSt.h queue.h BitSet.h
 
-OBJ=check_build_time.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o
+OBJ=check_build_time.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o BitSet.o
 
 OBJ2=main.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o
 
