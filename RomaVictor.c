@@ -299,32 +299,21 @@ u32 Greedy(Grafo G)
     unsigned char *used;
     bitset used_colors;
     used_colors = new_bs(Delta(G)+1);
-    for (u32 i = 0; i < n; ++i)
+    queue used_colors_queue = new_queue();
+    FijarColor(0,0,G);
+    for (u32 i = 1; i < n; ++i)
     {   
         min_color = 0;
         degree = Grado(i, G);
-        /*
-        ht = new_ht((degree > i + 1) ? i + 1 : degree);
-        //pru32f("%d: Coloring vertex: %d\n", i, Nombre(i, G));
-        for (u32 j = 0; j < degree; ++j)
-        {
-            neigh_color = ColorVecino(j, i, G);
-            if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
-            {
-                ht_put(neigh_color, 0, ht);
-                //pru32f("%d ", neigh_color);
-            }
-        }
-        while (in_ht(min_color, ht))
-            ++min_color;
-        */
-        
+
         for (u32 j = 0; j < degree; j++)
         {   
             //printf("i: %u, grado: %u",i, degree);
             neigh_color = ColorVecino(j, i, G);
             if(OrdenVecino(j, i, G) < i)
             {
+                if(!bs_in(used_colors, neigh_color))
+                    enqueue(used_colors_queue,neigh_color);
                 bs_set(used_colors, neigh_color);
             }
         }
@@ -332,14 +321,14 @@ u32 Greedy(Grafo G)
             ++min_color;
         
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
-        //pru32f("\n Chose color %d\n", min_color);
-        //destroy_ht(ht);
-        //free(used);
-        //ht = NULL;
         FijarColor(min_color, i, G);
-        bs_clear_all(used_colors,(Delta(G)+1 < i+1) ? Delta(G)+1 : i+1);
-
-        
+        u32 index_to_clear;
+        while(!queue_is_empty(used_colors_queue))
+        {
+            index_to_clear = front(used_colors_queue);
+            bs_clear(used_colors, index_to_clear);
+            dequeue(used_colors_queue);   
+        }
     }
     bs_destroy(used_colors);
     return max_chosen_color + 1;
@@ -583,38 +572,34 @@ void OrdenNatural(Grafo G)
 char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
 {
     u32 n = G->num_vertices;
+    
     u32 i;
-
-    //Vamos a usar la ht a modo de HashSet para averiguar cual es el numero de colores
-    hash_table colors = new_ht(n); //En el peor de los casos cada vertice tiene un color
-    for(i = 0; i<n; ++i)
+    u32 max_color = 0;
+    //Por la forma en la cual colorea greedy la cantidad de colores es máximo color + 1
+    for (u32 i = 0; i < n; i++)
     {
-        if(!in_ht(Color(i, G), colors))
-            ht_put(Color(i, G), 0, colors);
+        if(max_color < Color(i, G)) max_color = Color(i, G);
     }
-    u32 r = colors ->ocupation; //La ht contiene a todos los colores sin repeticiones
-    //printf("Number of colors in OrdenPorBloque: %u\n",r);
-    destroy_ht(colors);
+    
+    u32 r = max_color + 1; 
     //Chequeamos que cada uno de los números en el rango 0..r-1 esten exactamente una vez
     // para comprobar que perm es una permutación.
     u32 *counts = calloc(r, sizeof(u32));
     for(i = 0; i < r; ++i)
     {
-        //printf("%u / %u \n", perm[i], r - 1);
         if(perm[i]>r - 1)
         {
-            printf("No es una permutación!\n");
             return 1;
         }
+        
         ++counts[perm[i]];
     }
+
     for(i = 0; i < r; ++i)
-        if(counts[i] != 1) return 1;
+        if(counts[i] != 1) return 1;    
     free(counts);
-    //Vamos a necesitar tener acceso al orden natural, por eso primero vamos a hacer que el orden interno
-    //coincida con el orden natural.
-    for(i = 0; i < n; ++i)
-        FijarOrden(i, G, i);
+
+
     //Cada queue va a guardar las posiciones del orden natural que tienen vertices con un determinado color.
     struct queue **bloques = calloc(r, sizeof(struct queue));
     for(i = 0; i < r; ++i)
@@ -637,8 +622,6 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
             ++k;
         }
     }
-    //for(i = 0; i < n; ++i)
-        //printf("%d \n", Color(i, G));
     return 0;
 
 }
