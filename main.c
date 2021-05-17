@@ -92,6 +92,7 @@ int main(int argc, char *argv[])
     printf("Building graph...\n");
     double elapsed_time;
     clock_t t = clock();
+    double total_time;
     Grafo G = ConstruccionDelGrafo();
     u32 n = NumeroDeVertices(G);
     u32 m = NumeroDeLados(G);
@@ -146,8 +147,12 @@ int main(int argc, char *argv[])
             iorden = f+i;
         }
     }
-    printf(ANSI_COLOR_CYAN"\n\n  Best result after running Greedy %u times using random orders : %u\n\n"ANSI_COLOR_RESET, a, best_result);
-    printf("  Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
+    elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
+    printf("  Running time : %f\n", elapsed_time);
+    if(count_greedys != 0)
+        total_time = (double)(elapsed_time / count_greedys) * (a+b+(c*d*3)+1) ;
+        printf("  Estimated remaining time : %f\n",total_time - elapsed_time);
+        printf("  Estimated total time : %f\n",total_time);
     printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
     printf("  Restoring best order...\n");
 
@@ -175,20 +180,18 @@ int main(int argc, char *argv[])
         OrdenPorBloquesDeColores(G, array_perm);
         new_result = Greedy(G);
         count_greedys++;
-        /*
-        if(new_result < r){
-            r = new_result;
-            printf("6- greedy con orden por bloques: %d \n", r);
-            
-        */
         printf("\r  Latest result : %u [Progress : %u/%u]",new_result,i+1,b);
         fflush(stdout);           
         free(array_perm); // free array allocado en suff_array
-        array_perm = NULL;
     }
     printf(ANSI_COLOR_CYAN"\n\n  Result after running Greedy %u times, grouping vertices that have \n  the same color and shuffling the order of the groups : %u\n\n"ANSI_COLOR_RESET, b, new_result);
-    printf("  Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
-    printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);   
+    elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
+    printf("  Running time : %f\n", elapsed_time);
+    if(count_greedys != 0)
+        total_time = (double)(elapsed_time / count_greedys) * (a+b+(c*d*3)+1) ;
+        printf("  Estimated remaining time : %f\n",total_time - elapsed_time);
+        printf("  Estimated total time : %f\n",total_time);
+    printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
 
     // 7
     
@@ -265,8 +268,13 @@ int main(int argc, char *argv[])
                 printf("  Branch %u is now a clone of the fittest branch\n",i);
             }
         }
-        printf("  Running time : %f\n", (double) ((clock() - t) / CLOCKS_PER_SEC) / 60.0);
-        printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
+        elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
+        printf("  Running time : %f\n", elapsed_time);
+        if(count_greedys != 0)
+            total_time = (double)(elapsed_time / count_greedys) * (a+b+(c*d*3)+1) ;
+            printf("  Estimated remaining time : %f\n",total_time - elapsed_time);
+            printf("  Estimated total time : %f\n",total_time);
+        printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);         
         printf("  Proceeding to the next cycle...\n");
         
         

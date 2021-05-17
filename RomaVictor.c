@@ -326,6 +326,7 @@ u32 Greedy(Grafo G)
         
         FijarColor(min_color, i, G);
     }
+    destroy_ht(ht);
     return max_chosen_color + 1;
 }
 
