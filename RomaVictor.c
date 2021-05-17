@@ -135,7 +135,7 @@ Grafo CopiarGrafo(Grafo G)
         clone->vertices[j].orden = G->vertices[j].orden;
         clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
         clone->vertices[j].vecinos = darray_copy(G->vertices[j].vecinos);
-        memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, sizeof(u32) * G->vertices[j].grado);
+        //memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, sizeof(u32) * G->vertices[j].grado);
     }
     return clone;
 }
@@ -558,7 +558,7 @@ void OrdenNatural(Grafo G)
 
 char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
 {
-    u32 n = G->num_vertices;
+    u32 n =NumeroDeVertices(G);
     u32 i;
     u32 max_color = 0;
     for (u32 i = 0; i < n; i++)
@@ -574,7 +574,6 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
         //printf("%u / %u \n", perm[i], r - 1);
         if(perm[i]>r - 1)
         {
-            printf("No es una permutación!\n");
             return 1;
         }
         ++counts[perm[i]];
@@ -586,6 +585,7 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
     //coincida con el orden natural.
     for(i = 0; i < n; ++i)
         FijarOrden(i, G, i);
+    /*
     //Cada queue va a guardar las posiciones del orden natural que tienen vertices con un determinado color.
     struct queue **bloques = calloc(r, sizeof(struct queue));
     for(i = 0; i < r; ++i)
@@ -610,6 +610,7 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
     }
     //for(i = 0; i < n; ++i)
         //printf("%d \n", Color(i, G));
+        */
     return 0;
 
 }
