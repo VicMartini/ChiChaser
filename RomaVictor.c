@@ -560,17 +560,12 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
 {
     u32 n = G->num_vertices;
     u32 i;
-
-    //Vamos a usar la ht a modo de HashSet para averiguar cual es el numero de colores
-    hash_table colors = new_ht(n); //En el peor de los casos cada vertice tiene un color
-    for(i = 0; i<n; ++i)
+    u32 max_color = 0;
+    for (u32 i = 0; i < n; i++)
     {
-        if(!in_ht(Color(i, G), colors))
-            ht_put(Color(i, G), 0, colors);
+        if(max_color < Color(i,G)) max_color = Color(i,G);
     }
-    u32 r = colors ->ocupation; //La ht contiene a todos los colores sin repeticiones
-    //printf("Number of colors in OrdenPorBloque: %u\n",r);
-    destroy_ht(colors);
+    u32 r = max_color + 1;
     //Chequeamos que cada uno de los números en el rango 0..r-1 esten exactamente una vez
     // para comprobar que perm es una permutación.
     u32 *counts = calloc(r, sizeof(u32));
