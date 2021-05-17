@@ -135,7 +135,7 @@ Grafo CopiarGrafo(Grafo G)
         clone->vertices[j].orden = G->vertices[j].orden;
         clone->vertices[j].pesos = calloc(clone->vertices[j].grado, sizeof(u32));
         clone->vertices[j].vecinos = darray_copy(G->vertices[j].vecinos);
-        //memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, sizeof(u32) * G->vertices[j].grado);
+        memcpy(clone->vertices[j].pesos, G->vertices[j].pesos, sizeof(u32) * G->vertices[j].grado);
     }
     return clone;
 }
@@ -295,11 +295,12 @@ u32 Greedy(Grafo G)
     u32 degree;
     u32 min_color;
     u32 max_chosen_color = 0;
+    ht = new_ht(Delta(G)+1);
+    queue q = new_queue();
     for (u32 i = 0; i < n; ++i)
     {
         min_color = 0;
         degree = Grado(i, G);
-        ht = new_ht((degree > i + 1) ? i + 1 : degree);
         //pru32f("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
         {
@@ -307,6 +308,7 @@ u32 Greedy(Grafo G)
             if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
             {
                 ht_put(neigh_color, 0, ht);
+                enqueue(q, neigh_color);
                 //pru32f("%d ", neigh_color);
             }
         }
@@ -314,8 +316,14 @@ u32 Greedy(Grafo G)
             ++min_color;
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
         //pru32f("\n Chose color %d\n", min_color);
-        destroy_ht(ht);
-        ht = NULL;
+        u32 f;
+        while (!queue_is_empty(q))
+        {
+            f = front(q);
+            dequeue(q);
+            ht_delete(f, ht);
+        }
+        
         FijarColor(min_color, i, G);
     }
     return max_chosen_color + 1;
@@ -585,7 +593,6 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
     //coincida con el orden natural.
     for(i = 0; i < n; ++i)
         FijarOrden(i, G, i);
-    /*
     //Cada queue va a guardar las posiciones del orden natural que tienen vertices con un determinado color.
     struct queue **bloques = calloc(r, sizeof(struct queue));
     for(i = 0; i < r; ++i)
@@ -610,7 +617,6 @@ char OrdenPorBloquesDeColores(Grafo G, u32 *perm)
     }
     //for(i = 0; i < n; ++i)
         //printf("%d \n", Color(i, G));
-        */
     return 0;
 
 }

@@ -41,6 +41,13 @@ void ht_put(u32 key, u32 val, hash_table ht)
     ht->ocupation += 1;
 }
 
+void ht_delete(u32 key, hash_table ht)
+{
+    u32 hsh = hash(key, ht);
+    destroy_list(ht->buckets[key]);
+    ht->buckets[key] = new_list();
+}
+
 u32 ht_get(u32 key, hash_table ht)
 {
     u32 hsh = hash(key, ht);
