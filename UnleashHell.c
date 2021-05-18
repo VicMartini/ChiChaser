@@ -40,31 +40,23 @@ char Bipartito(Grafo G)
         while (Color(v, G) != 0xFFFFFFFF)
             v++;
 
-        //asigno el primer color
         FijarColor(1, v, G);
-        //pru32f("Color: %u\n",Color(v, G));
         ++k;
-        // creo la cola
         q = new_queue();
         enqueue(q, v);
 
-        // corro bfs(x)
         while (!queue_is_empty(q))
         {
             u32 u = front(q);
-            //pru32_queue(q);
             dequeue(q);
-            //pru32_queue(q);
             for (u32 j = 0; j < Grado(u, G); j++)
             {
 
                 orden_vecino = OrdenVecino(j, u, G);
-                //pru32f("u:%u, orden_vecino:%u ,color(%u,%u) \n", G->orden[u] , orden_vecino, Color(u, G), ColorVecino(j, u, G));
                 if (ColorVecino(j, u, G) == 0xFFFFFFFF)
                 {
 
                     FijarColor(1 - Color(u, G), orden_vecino, G);
-                    //pru32f("FijarColor(%u,%u,Grafo)\n",1-Color(u, G),orden_vecino, G);
                     ++k;
                     enqueue(q, orden_vecino);
                 }
@@ -74,8 +66,6 @@ char Bipartito(Grafo G)
                 }
             }
         }
-
-        //return 1; 
     }
     destroy_queue(q);
     return 1;
@@ -125,7 +115,7 @@ u32 Greedy(Grafo G)
 
 char OrdenPorBloqueDeColores(Grafo G, u32 *perm)
 {
-    u32 n =NumeroDeVertices(G);
+    u32 n = NumeroDeVertices(G);
     u32 i;
     u32 max_color = 0;
     for (u32 i = 0; i < n; i++)
@@ -138,7 +128,6 @@ char OrdenPorBloqueDeColores(Grafo G, u32 *perm)
     u32 *counts = calloc(r, sizeof(u32));
     for(i = 0; i < r; ++i)
     {
-        //printf("%u / %u \n", perm[i], r - 1);
         if(perm[i]>r - 1)
         {
             return 1;
@@ -164,24 +153,20 @@ char OrdenPorBloqueDeColores(Grafo G, u32 *perm)
     u32 p = 0;
     for(i = 0; i < r; ++i)
     {
-        //printf("\nBloque : %d\n", perm[i]);
         while(!queue_is_empty(bloques[perm[i]]))
         {
             p = front(bloques[perm[i]]); // El p-esimo vertice del orden natural es de color perm[i]
-            //printf(" %d ",Color(p,G));
             dequeue(bloques[perm[i]]);
             FijarOrden(k, G, p);
             ++k;
         }
     }
-    //for(i = 0; i < n; ++i)
-        //printf("%d \n", Color(i, G));
+
     for (u32 i = 0; i < r; i++)
     {   
         destroy_queue(bloques[i]);
     }
     free(bloques);
-    bloques=NULL;
     return 0;
 
 }

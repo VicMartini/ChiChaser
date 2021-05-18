@@ -215,12 +215,10 @@ u32 OrdenVecino(u32 j, u32 i, Grafo G)
     u32 *o = G->orden;
     if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
     {
-        //pru32f("\nNumero de vertices : %u, i: %u, j: %u\n",G->num_vertices,i,j);
         return 0;
     }
     u32 neigh_index = darray_get(j, G->vertices[o[i]].vecinos);
-    //pru32f("\n| %d %d |\n",j, i);
-    //pru32f("\nNombreVecino: %d, Orden: %d\n", NombreVecino(j,i, G), G->vertices[neigh_index].orden);
+
     return G->vertices[neigh_index].orden;
 }
 
@@ -239,11 +237,9 @@ char FijarOrden(u32 i, Grafo G, u32 N)
 {
     if (i >= G->num_vertices || N >= G->num_vertices)
         return 1;
-    u32 *o = G->orden;
     u32 *oN = G->orden_natural;
     G->orden[i] = oN[N];
     G->vertices[oN[N]].orden = i;
-    //pru32f(" %d : %d\n",N, i);
     return 0;
 }
 
@@ -264,177 +260,49 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 
 
 
-// char Bipartito(Grafo G) //Corre BFS en G creando un arbol
-// {
-//     u32 j = 1;
-//     u32 n = NumeroDeVertices(G);
-//     u32 k, p, orden_vecino;
-//     // vertice p;
-//     queue q;
-//     while (j < n)
-//     {
-//         u32 v = j;
-//         //Encontramos un vertice x no coloreado.
-//         while (Color(v, G) /*G->vertices[v].color */ != 0xFFFFFFFF && v < n - 1)
-//         {
-//             v++;
-//         }
-//         FijarColor(1, v, G);
-//         // G->vertices[v].color = 1; // v es el indice de x en el orden de guardado
-//         q = new_queue();
-//         enqueue(q, v); // q es una cola con el indice de x como unico elemento
-//         while (!queue_is_empty(q))
-//         {
-//             // p = G->vertices[dequeue(q)];
-//             p = front(q);
-//             dequeue(q);
-//             for (u32 h = 0; h < Grado(p, G); ++h)
-//             {
-//                 //k = p.vecinos->elements[h]; // Indice del vecino en el orden u32erno
-//                 orden_vecino = OrdenVecino(h, p, G);
-//                 if (Color(orden_vecino, G) == 0xFFFFFFFF)
-//                 {
-//                     enqueue(q, orden_vecino);
-//                     FijarColor(3 - Color(p, G), orden_vecino, G);
-//                     //G->vertices[k].color = 3 - p.color;
-//                     ++j;
-//                 }
-//             }
-//         }
-//     }
-//     vertice x;
-//     vertice w;
-//     for (u32 i = 0; i < n; ++i)
-//     {
-//         //x = G->vertices[i];
-//         for (u32 j = 0; j < Grado(i, G) /*G->vertices[i].grado*/; ++j)
-//         {
-//             //w = G->vertices[x.vecinos->elements[j]];
-
-//             if (Color(i, G) == ColorVecino(j, i, G))
-//                 return 0;
-//         }
-//     }
-//     return 1;
-// }
-
-
-
-void positionArray(Grafo G)
-{
-
-    u32 n = NumeroDeVertices(G);
-    u32 *array = calloc(n, sizeof(u32));
-
-    for (u32 i = 0; i < n; i++)
-    {
-        array[i] = Nombre(i, G);
-    }
-
-    u32 result = -1;
-
-    for (u32 i = 0; i < n; i++)
-    {
-        result = getIndexInSortedArray(array, n, i);
-        FijarOrden(i, G, result);
-    }
-
-    free(array);
-}
-
-u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx)
-{
-    /* Count of elements smaller than current
-        element plus the equal element occurring
-        before given index*/
-    u32 result = 0;
-    for (u32 i = 0; i < n; i++)
-    {
-        // If element is smaller then increase
-        // the smaller count
-        if (arr[i] < arr[idx])
-            result++;
-
-        // If element is equal then increase count
-        // only if it occurs before
-        if (arr[i] == arr[idx] && i < idx)
-            result++;
-    }
-    return result;
-}
-
-u32 compare(const void *pa, const void *pb)
-{
-    const u32 *a = pa;
-    const u32 *b = pb;
-    return a[0] - b[0];
-}
-
 void swap(u32 *a, u32 *b) {
   u32 t = *a;
   *a = *b;
   *b = t;
 }
 
-// function to find the partition position
 u32 partition(u32 array[], u32 b[], int low, int high) {
   
-  // select the rightmost element as pivot
   int pivotIndex = rand() % (high - low + 1) + low; //(high - low) / 2;
   u32 pivot = array[pivotIndex];
   
-  // pointer for greater element
   int i = (low - 1);
 
   swap(&array[pivotIndex], &array[high]);
   swap(&b[pivotIndex], &b[high]);
   pivotIndex = high;
-  for (u32 j = low; j < high; j++) {
+  for (int j = low; j < high; j++) {
     if (array[j] <= pivot) {
         
-      // if element smaller than pivot is found
-      // swap it with the greater element pointed by i
       i++;
       
-      // swap element at i with element at j
       swap(&array[i], &array[j]);
       swap(&b[i], &b[j]);
 
     }
   }
 
-  // swap the pivot element with the greater element at i
   swap(&array[i + 1], &array[pivotIndex]);
   swap(&b[i + 1], &b[pivotIndex]);
-  
-  // return the partition pointer
   return (i + 1);
 }
 
 void quickSort(u32 array[],u32 b[], int low, int high) {
     if (low < high) {
-    
-    // find the pivot element such that
-    // elements smaller than pivot are on left of pivot
-    // elements greater than pivot are on right of pivot
-    u32 pi = partition(array,b, low, high);
-    //if ((high-low) % 10 == 0)printf("h-l : %d, pi: %d\n", high-low, pi);
-    
-    // recursive call on the left of pivot
-    quickSort(array,b, low, pi - 1);
-    
-    // recursive call on the right of pivot
-    quickSort(array,b, pi + 1, high);
+        u32 pi = partition(array,b, low, high);
+        quickSort(array,b, low, pi - 1);
+        quickSort(array,b, pi + 1, high);
   }
 }
 
 void OrdenNatural(Grafo G)
 {
     u32 n = G->num_vertices;
-    //u32 **array = calloc(n, sizeof(u32 *));
-    //for(u32 i = 0; i < n ; ++i)
-    //    array[i] = calloc(2, sizeof(u32));
-    //u32 array[n][2];
     u32 *a = calloc(n, sizeof(u32));
     u32 *b = calloc(n, sizeof(u32));
     for(u32 i = 0; i < n; ++i)

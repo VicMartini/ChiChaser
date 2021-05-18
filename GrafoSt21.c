@@ -6,6 +6,12 @@
 #include "GrafoSt21.h"
 typedef uint32_t u32;
 
+//Forward declarations para que no se queje gcc
+u32 Nombre(u32 i, GrafoSt *G);
+u32 OrdenVecino(u32 j, u32 i, GrafoSt *G);
+
+
+
 u32 print_graph(GrafoSt *g, u32 lines)
 {
     u32 M = g->num_vertices;

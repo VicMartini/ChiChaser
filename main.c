@@ -10,7 +10,6 @@
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
 #define ANSI_COLOR_YELLOW  "\x1b[33m"
-#define ANSI_COLOR_CYAN    "\x1b[34m"
 #define ANSI_COLOR_MAGENTA "\x1b[35m"
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
@@ -150,9 +149,11 @@ int main(int argc, char *argv[])
     elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
     printf("  Running time : %f\n", elapsed_time);
     if(count_greedys != 0)
+    {
         total_time = (double)(elapsed_time / count_greedys) * (a+b+(c*d*3)+1) ;
         printf("  Estimated remaining time : %f\n",total_time - elapsed_time);
         printf("  Estimated total time : %f\n",total_time);
+    }
     printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
     printf("  Restoring best order...\n");
 
@@ -187,9 +188,11 @@ int main(int argc, char *argv[])
     elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
     printf("  Running time : %f\n", elapsed_time);
     if(count_greedys != 0)
+    {
         total_time = (double)(elapsed_time / count_greedys) * (a+b+(c*d*3)+1) ;
         printf("  Estimated remaining time : %f\n",total_time - elapsed_time);
         printf("  Estimated total time : %f\n",total_time);
+    }
     printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
 
     // 7
@@ -209,7 +212,6 @@ int main(int argc, char *argv[])
     u32 best_branch = 0;
     for (u32 k = 0; k < c; k++)
     {   printf(ANSI_COLOR_GREEN"\n───────── Beginning round number  %u of independent evolution ───────── \n\n"ANSI_COLOR_RESET,k+1);
-        double et = clock();
         for (u32 i = 0; i < d; i++)
         {   
             // Permutacion acendente para la rama 0
@@ -221,7 +223,6 @@ int main(int argc, char *argv[])
                 for (u32 i = 0; i < greedy_results[j]; i++)
                 {
                     perms[j][i] = (greedy_results[j] - 1) - i;
-                    //printf(" ->%u",perms[j][i]);
                 }
             }
             //Para la permutacion de la rama 2 cada elemento tiene
@@ -263,9 +264,11 @@ int main(int argc, char *argv[])
         elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
         printf("  Running time : %f\n", elapsed_time);
         if(count_greedys != 0)
+        {
             total_time = (double)(elapsed_time / count_greedys) * (a+b+(c*d*3)+1) ;
             printf("  Estimated remaining time : %f\n",total_time - elapsed_time);
             printf("  Estimated total time : %f\n",total_time);
+        }
         printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);         
         printf("  Proceeding to the next cycle...\n");
         
