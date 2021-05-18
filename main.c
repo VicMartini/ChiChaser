@@ -295,4 +295,3 @@ int main(int argc, char *argv[])
 }
 
 
-// resultados ciclo externo 0 : G = 172 | H = 169 | W = 169  
