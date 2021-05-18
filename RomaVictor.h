@@ -55,14 +55,11 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
 
 char AleatorizarVertices(Grafo G, u32 R);
 
-u32 Greedy(Grafo G);
-char Bipartito(Grafo G);
-char Biartitotwo(Grafo G);
 
 void positionArray(Grafo G);
 void OrdenNatural(Grafo G);
 u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx);
-char OrdenPorBloquesDeColores(Grafo G, u32 *perm);
+
 u32* suff_array(u32 ncolor);
 void swap(u32 *a, u32 *b);
 #endif

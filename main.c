@@ -5,7 +5,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <time.h>
-#include "RomaVictor.h"
+#include "UnleashHell.h"
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     printf(                 "  N = %d | M = %d \n", n, m);
     printf(                 "  Δ = %u | δ = %u\n", Delta(G), G->delta);
 
-    u32 esBipartito = Biartitotwo(G);
+    u32 esBipartito = Bipartito(G);
     
     // 3
     printf(ANSI_COLOR_GREEN"\n┌────────────────────────────────────────────────────────────────────┐"ANSI_COLOR_RESET);
@@ -172,12 +172,11 @@ int main(int argc, char *argv[])
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n└────────────────────────────────────────────────────────────────────┘\n\n"ANSI_COLOR_RESET);  
     u32 new_result = best_result; // La primera iteracion se hace usando el mejor orden obtenido anteriormente.
-    u32 r = UINT_MAX;
     u32 *array_perm = NULL;
     for (u32 i = 0; i < b; i++)
     {   
         array_perm = suff_array(new_result); // aleatoriza perm
-        OrdenPorBloquesDeColores(G, array_perm);
+        OrdenPorBloqueDeColores(G, array_perm);
         new_result = Greedy(G);
         count_greedys++;
         printf("\r  Latest result : %u [Progress : %u/%u]",new_result,i+1,b);
@@ -200,13 +199,6 @@ int main(int argc, char *argv[])
     printf(ANSI_COLOR_GREEN"\n│                         Genetic strategy                           │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n└────────────────────────────────────────────────────────────────────┘\n\n"ANSI_COLOR_RESET);  
-    u32 r_colors = r; // inicializo con el ultimo coloreo de greedy en item 6
-    u32 color_G = UINT_MAX;
-    u32 color_H = UINT_MAX;
-    u32 color_W = UINT_MAX;
-    u32 res_G = UINT_MAX;
-    u32 res_H = UINT_MAX;
-    u32 res_W = UINT_MAX;
     Grafo grafos[3];
     u32 greedy_results[3];
     u32 *perms[3];
@@ -244,7 +236,7 @@ int main(int argc, char *argv[])
 
             for (u32 h = 0; h < 3; h++)
             {
-                OrdenPorBloquesDeColores(grafos[h], perms[h]);
+                OrdenPorBloqueDeColores(grafos[h], perms[h]);
                 free(perms[h]);
                 greedy_results[h] = Greedy(grafos[h]);
                 ++count_greedys;
