@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
+#include "BitArray.h"
 #include "RomaVictor.h"
 typedef uint32_t u32;
 
@@ -289,44 +290,39 @@ char AleatorizarVertices(Grafo G, u32 R)
 u32 Greedy(Grafo G)
 {
     u32 n = G->num_vertices;
-    hash_table ht; //Vamos a usar la ht para calcular
-                   //eficientemente el minimo color que ocurre en los vecinos
     u32 neigh_color;
     u32 degree;
     u32 min_color;
     u32 max_chosen_color = 0;
-    ht = new_ht(Delta(G)+1);
+    bool *used = calloc(Delta(G)+1,sizeof(bool));
     queue q = new_queue();
     for (u32 i = 0; i < n; ++i)
     {
         min_color = 0;
         degree = Grado(i, G);
-        //pru32f("%d: Coloring vertex: %d\n", i, Nombre(i, G));
         for (u32 j = 0; j < degree; ++j)
         {
             neigh_color = ColorVecino(j, i, G);
-            if (OrdenVecino(j, i, G) < i && !in_ht(neigh_color, ht))
+            if (OrdenVecino(j, i, G) < i && !used[neigh_color])
             {
-                ht_put(neigh_color, 0, ht);
+                used[neigh_color] = 1;
                 enqueue(q, neigh_color);
-                //pru32f("%d ", neigh_color);
             }
         }
-        while (in_ht(min_color, ht))
+        while (used[min_color])
             ++min_color;
         max_chosen_color = (max_chosen_color > min_color) ? max_chosen_color : min_color;
-        //pru32f("\n Chose color %d\n", min_color);
         u32 f;
         while (!queue_is_empty(q))
         {
             f = front(q);
             dequeue(q);
-            ht_delete(f, ht);
+            used[f] = false;
         }
         
         FijarColor(min_color, i, G);
     }
-    destroy_ht(ht);
+    free(used);
     return max_chosen_color + 1;
 }
 
