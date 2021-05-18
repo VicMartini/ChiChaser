@@ -30,10 +30,10 @@ void enqueue(struct queue *q, u32 k)
     q->rear = nq;
 }
 
-void dequeue(struct queue *q)
+struct queue *dequeue(struct queue *q)
 {
     if(q->front == NULL)
-        return;
+        return q;
     struct qnode *prev_front = q->front;
     //printf("%d",q->front->val);
     q->front = q->front->next;
@@ -41,6 +41,7 @@ void dequeue(struct queue *q)
     if (q->front == NULL)
         q->rear = NULL; 
     free(prev_front);
+    return q;
 }
 
 
@@ -64,4 +65,13 @@ void print_queue(struct queue *q)
         t = t->next;
     }
     printf("[Ocupation: %d]\n",q->ocupation);
+}
+
+void destroy_queue(struct queue *q){
+
+    while (!queue_is_empty(q))
+    {
+        q = dequeue(q);
+    }
+    free(q);
 }

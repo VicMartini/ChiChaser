@@ -21,8 +21,9 @@ struct queue
 struct qnode *new_qnode(u32 k);
 struct queue *new_queue();
 void enqueue(struct queue *q, u32 k);
-void dequeue(struct queue *q);
+struct queue *dequeue(struct queue *q);
 u32 front(struct queue *q);
 bool queue_is_empty(struct queue *q);
 typedef struct queue *queue;
 void print_queue(struct queue *q);
+void destroy_queue(struct queue *q);

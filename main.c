@@ -272,6 +272,10 @@ int main(int argc, char *argv[])
         
         
     }
+    for (u32 i = 0; i < 3; i++)
+    {
+        DestruccionDelGrafo(grafos[i]);
+    }
     
     t = clock() - t;
     elapsed_time = (double)t / CLOCKS_PER_SEC;

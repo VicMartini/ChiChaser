@@ -68,12 +68,17 @@ char Bipartito(Grafo G)
                     ++k;
                     enqueue(q, orden_vecino);
                 }
-                else if (ColorVecino(j, u, G) == Color(u, G))
+                else if (ColorVecino(j, u, G) == Color(u, G)){
+                    destroy_queue(q);
                     return 0;
+                }
             }
         }
-        return 1;
+
+        //return 1; 
     }
+    destroy_queue(q);
+    return 1;
 }
 
 u32 Greedy(Grafo G)
@@ -112,6 +117,7 @@ u32 Greedy(Grafo G)
         FijarColor(min_color, i, G);
     }
     free(used);
+    destroy_queue(q);
     return max_chosen_color + 1;
 }
 
@@ -170,6 +176,12 @@ char OrdenPorBloqueDeColores(Grafo G, u32 *perm)
     }
     //for(i = 0; i < n; ++i)
         //printf("%d \n", Color(i, G));
+    for (u32 i = 0; i < r; i++)
+    {   
+        destroy_queue(bloques[i]);
+    }
+    free(bloques);
+    bloques=NULL;
     return 0;
 
 }
