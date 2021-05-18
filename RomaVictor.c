@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <time.h>
 #include "RomaVictor.h"
+#include "rQuickSort.h"
 typedef uint32_t u32;
 
 Lado_st parse_edge(void)
@@ -260,45 +261,7 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 
 
 
-void swap(u32 *a, u32 *b) {
-  u32 t = *a;
-  *a = *b;
-  *b = t;
-}
 
-u32 partition(u32 array[], u32 b[], int low, int high) {
-  
-  int pivotIndex = rand() % (high - low + 1) + low; //(high - low) / 2;
-  u32 pivot = array[pivotIndex];
-  
-  int i = (low - 1);
-
-  swap(&array[pivotIndex], &array[high]);
-  swap(&b[pivotIndex], &b[high]);
-  pivotIndex = high;
-  for (int j = low; j < high; j++) {
-    if (array[j] <= pivot) {
-        
-      i++;
-      
-      swap(&array[i], &array[j]);
-      swap(&b[i], &b[j]);
-
-    }
-  }
-
-  swap(&array[i + 1], &array[pivotIndex]);
-  swap(&b[i + 1], &b[pivotIndex]);
-  return (i + 1);
-}
-
-void quickSort(u32 array[],u32 b[], int low, int high) {
-    if (low < high) {
-        u32 pi = partition(array,b, low, high);
-        quickSort(array,b, low, pi - 1);
-        quickSort(array,b, pi + 1, high);
-  }
-}
 
 void OrdenNatural(Grafo G)
 {
@@ -326,20 +289,16 @@ void OrdenNatural(Grafo G)
   crea un array , lo inicializa y luego aleatoriza los valores.
   se debe liberar memoria
 */
-u32* suff_array(u32 ncolor){
-    u32 *array_perm = calloc(ncolor, sizeof(u32));
-    for (u32 i = 0; i < ncolor; i++)
+u32* shuffle_array(u32 n){
+    u32 *a = calloc(n, sizeof(u32));
+    u32 r;
+    for (u32 i = 0; i < n; ++i)
     {
-        array_perm[i] = i;
-    }
-    srand(time(NULL));
-    for (u32 i = 0; i < ncolor; i++)
-    {
-        u32 temp = array_perm[i];
-        u32 randomIndex = rand()%ncolor;
-        array_perm[i] = array_perm[randomIndex];
-        array_perm[randomIndex] = temp;
+        r = rand() % (i + 1);
+        if (r != i)
+            a[i] = a[r];
+        a[r] = i;
     }
     
-    return array_perm;
+    return a;
 }

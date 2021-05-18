@@ -60,6 +60,6 @@ void positionArray(Grafo G);
 void OrdenNatural(Grafo G);
 u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx);
 
-u32* suff_array(u32 ncolor);
+u32* shuffle_array(u32 ncolor);
 void swap(u32 *a, u32 *b);
 #endif

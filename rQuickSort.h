@@ -1,4 +1,6 @@
 #include <stdint.h>
+#include <stdlib.h>
+
 typedef uint32_t u32;
 
 void swap(u32 *a, u32 *b);

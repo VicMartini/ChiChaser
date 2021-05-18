@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
     u32 *array_perm = NULL;
     for (u32 i = 0; i < b; i++)
     {   
-        array_perm = suff_array(new_result); // aleatoriza perm
+        array_perm = shuffle_array(new_result); // aleatoriza perm
         OrdenPorBloqueDeColores(G, array_perm);
         new_result = Greedy(G);
         count_greedys++;
@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
         for (u32 i = 0; i < d; i++)
         {   
             // Permutacion acendente para la rama 0
-            perms[0] = suff_array(greedy_results[0]);
+            perms[0] = shuffle_array(greedy_results[0]);
             // Permutaciones con orden acendente para las ramas 1 y 2
             for (u32 j = 1; j < 3; j++)
             {
