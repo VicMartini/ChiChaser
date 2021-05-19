@@ -48,6 +48,6 @@ void delete_darray(darray d)
 }
 u32 darray_get(u32 index, darray d)
 {
-    assert(index < d->ocupation);
+    //assert(index < d->ocupation);
     return d->elements[index];
 }
