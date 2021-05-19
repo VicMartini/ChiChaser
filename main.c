@@ -134,6 +134,7 @@ int main(int argc, char *argv[])
     // aleatorizar vertices
     u32 best_result = UINT_MAX;
     u32 greedy, iorden;
+    greedy = iorden = 0;
     for (u32 i = 0; i < a; i++)
     {
         AleatorizarVertices(G, f+i);      

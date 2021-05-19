@@ -31,7 +31,7 @@ char Bipartito(Grafo G)
     u32 k = 1;
     u32 n;
     u32 orden_vecino;
-    queue q;
+    queue q = NULL;
     u32 v = 0;
     n = NumeroDeVertices(G);
     while (k < n)
