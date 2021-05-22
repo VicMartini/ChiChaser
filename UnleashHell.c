@@ -8,16 +8,16 @@ char AleatorizarVertices(Grafo G, u32 R)
     // Fisher-Yates shuffle para inicializar
     //un arreglo con una permutación aleatoria
     //de [0:N)
-    u32 *a = calloc(G->num_vertices, sizeof(u32));
+    u32 *a = calloc(NumeroDeVertices(G), sizeof(u32));
     u32 r;
-    for (u32 i = 0; i < G->num_vertices; ++i)
+    for (u32 i = 0; i < NumeroDeVertices(G); ++i)
     {
         r = rand() % (i + 1);
         if (r != i)
             a[i] = a[r];
         a[r] = i;
     }
-    for (u32 j = 0; j < G->num_vertices; ++j)
+    for (u32 j = 0; j < NumeroDeVertices(G); ++j)
     {
         FijarOrden(a[j], G, j);
     }
@@ -73,7 +73,7 @@ char Bipartito(Grafo G)
 
 u32 Greedy(Grafo G)
 {
-    u32 n = G->num_vertices;
+    u32 n = NumeroDeVertices(G);
     u32 neigh_color;
     u32 degree;
     u32 min_color;
@@ -168,5 +168,4 @@ char OrdenPorBloqueDeColores(Grafo G, u32 *perm)
     }
     free(bloques);
     return 0;
-
 }
