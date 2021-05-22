@@ -110,7 +110,6 @@ void GenerarOrdenNatural(GrafoSt *G)
     free(b);
 }
 
-
 u32 delta(GrafoSt *g)
 {
     return g->Delta;

@@ -157,8 +157,8 @@ int main(int argc, char *argv[])
     printf("  Result using natural order: %d \n\n", ordenNat);
     // Aleatorizar vertices
     u32 br_random_orders = UINT_MAX;
-    u32 greedy, iorden;
-    greedy = iorden = 0;
+    u32 greedy, best_seed;
+    greedy = best_seed = 0;
     for (u32 i = 0; i < a; i++)
     {
         AleatorizarVertices(G, f+i);      
@@ -168,7 +168,7 @@ int main(int argc, char *argv[])
         fflush(stdout);
         if(greedy < br_random_orders){
             br_random_orders = greedy;
-            iorden = f+i;
+            best_seed = f+i;
         }
     }
     elapsed_time = ((clock() - t) / CLOCKS_PER_SEC) / 60.0;
@@ -182,9 +182,9 @@ int main(int argc, char *argv[])
     printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
 
     // Salvo que sea el ultimo 
-    if(iorden != f+a){
+    if(best_seed != f+a){
         printf("  Restoring best order...\n");
-        AleatorizarVertices(G, iorden);
+        AleatorizarVertices(G, best_seed);
         br_random_orders = Greedy(G);
         if(br_random_orders!=UINT_MAX){
             count_greedys++;
