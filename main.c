@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
     u32 count_greedys = 0;
 
     if(argc != 7){
-        printf("Error Arguments \n");
+        printf("Bad arguments \n");
         return -1;
     }
     
