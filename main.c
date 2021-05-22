@@ -156,7 +156,7 @@ int main(int argc, char *argv[])
     u32 ordenNat = Greedy(G);
     printf("  Result using natural order: %d \n\n", ordenNat);
     // Aleatorizar vertices
-    u32 best_result = UINT_MAX;
+    u32 br_random_orders = UINT_MAX;
     u32 greedy, iorden;
     greedy = iorden = 0;
     for (u32 i = 0; i < a; i++)
@@ -166,8 +166,8 @@ int main(int argc, char *argv[])
         count_greedys++;
         printf("\r  Latest result : %u [Progress : %u/%u]",greedy,i+1,a);
         fflush(stdout);
-        if(greedy < best_result){
-            best_result = greedy;
+        if(greedy < br_random_orders){
+            br_random_orders = greedy;
             iorden = f+i;
         }
     }
@@ -185,8 +185,8 @@ int main(int argc, char *argv[])
     if(iorden != f+a){
         printf("  Restoring best order...\n");
         AleatorizarVertices(G, iorden);
-        best_result = Greedy(G);
-        if(best_result!=UINT_MAX){
+        br_random_orders = Greedy(G);
+        if(br_random_orders!=UINT_MAX){
             count_greedys++;
         }
     }
@@ -197,7 +197,7 @@ int main(int argc, char *argv[])
     printf(ANSI_COLOR_GREEN"\n│               Random orders by block of colors                     │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n└────────────────────────────────────────────────────────────────────┘\n\n"ANSI_COLOR_RESET);  
-    u32 new_result = best_result; // La primera iteracion se hace usando el mejor orden obtenido anteriormente.
+    u32 new_result = br_random_orders; // La primera iteracion se hace usando el mejor orden obtenido anteriormente.
     u32 *array_perm = NULL;
     for (u32 i = 0; i < b; i++)
     {   
