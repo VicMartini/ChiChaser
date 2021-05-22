@@ -56,9 +56,7 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
 char AleatorizarVertices(Grafo G, u32 R);
 
 
-void positionArray(Grafo G);
-void OrdenNatural(Grafo G);
-u32 getIndexInSortedArray(u32 *arr, u32 n, u32 idx);
+void GenerarOrdenNatural(Grafo G);
 
 u32* shuffle_array(u32 ncolor);
 void swap(u32 *a, u32 *b);

@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     printf(ANSI_COLOR_GREEN"\n│                         Random orders                              │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n└────────────────────────────────────────────────────────────────────┘\n\n"ANSI_COLOR_RESET);        
-    OrdenNatural(G);
+    GenerarOrdenNatural(G);
     u32 ordenNat = Greedy(G);
     printf("  Result using natural order: %d \n\n", ordenNat);
     // aleatorizar vertices
