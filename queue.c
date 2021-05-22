@@ -1,4 +1,3 @@
-#include "assert.h"
 #include "queue.h"
 
 struct qnode *new_qnode(u32 k)
@@ -35,7 +34,6 @@ struct queue *dequeue(struct queue *q)
     if(q->front == NULL)
         return q;
     struct qnode *prev_front = q->front;
-    //printf("%d",q->front->val);
     q->front = q->front->next;
     q->ocupation-=1;
     if (q->front == NULL)
@@ -47,7 +45,6 @@ struct queue *dequeue(struct queue *q)
 
 u32 front(struct queue *q)
 {
-    assert(q->front != NULL);
     return q->front->val;
 }
 
