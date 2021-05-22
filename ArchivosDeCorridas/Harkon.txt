@@ -1,0 +1,1303 @@
+❯ ./chichaser 8 1 82 4 3 42 < Graphs/Harkon.txt
+_________ .__    .___________ .__                                
+\_   ___ \|  |__ |__\_   ___ \|  |__ _____    ______ ___________ 
+/    \  \/|  |  \|  /    \  \/|  |  \\__  \  /  ___// __ \_  __ \
+\     \___|   Y  \  \     \___|   Y  \/ __ \_\___ \\  ___/|  | \/
+ \______  /___|  /__|\______  /___|  (____  /____  >\___  >__|   
+        \/     \/           \/     \/     \/     \/     \/       
+
+ChiChaser - An heuristic based chromatic number estimation tool.
+
+Building graph...
+Time creating: 2.306158
+
+ ─────────────────────────── Graph specs ────────────────────────────
+
+  N = 6160 | M = 18092520 
+  Δ = 6057 | δ = 5776
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│                    Is the graph bipartite?                         │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+  No, proceeding... 
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│                         Random orders                              │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+  Result using natural order: 671 
+
+  Latest result : 679 [Progress : 8/8]  Running time : 0.050000
+  Estimated remaining time : 6.162500
+  Estimated total time : 6.212500
+  Greedy runs : 8/994
+  Restoring best order...
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│               Random orders by block of colors                     │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+  Latest result : 616 [Progress : 1/1]
+
+  Result after running Greedy 1 times, grouping vertices that have 
+  the same color and shuffling the order of the groups : 616
+
+  Running time : 0.066667
+  Estimated remaining time : 6.560000
+  Estimated total time : 6.626667
+  Greedy runs : 10/994
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│                         Genetic strategy                           │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+
+───────── Beginning round number  1 of independent evolution ───────── 
+
+ Branch 0 : 558 Branch 1 : 513, Branch 2 : 555 [Progress : 4/4]
+
+  Round 1 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.150000
+  Estimated remaining time : 6.627273
+  Estimated total time : 6.777273
+  Greedy runs : 22/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  2 of independent evolution ───────── 
+
+ Branch 0 : 499 Branch 1 : 476, Branch 2 : 489 [Progress : 4/4]
+
+  Round 2 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.233333
+  Estimated remaining time : 6.588235
+  Estimated total time : 6.821569
+  Greedy runs : 34/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  3 of independent evolution ───────── 
+
+ Branch 0 : 461 Branch 1 : 456, Branch 2 : 458 [Progress : 4/4]
+
+  Round 3 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.300000
+  Estimated remaining time : 6.182609
+  Estimated total time : 6.482609
+  Greedy runs : 46/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  4 of independent evolution ───────── 
+
+ Branch 0 : 444 Branch 1 : 444, Branch 2 : 442 [Progress : 4/4]
+
+  Round 4 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 0.383333
+  Estimated remaining time : 6.186207
+  Estimated total time : 6.569540
+  Greedy runs : 58/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  5 of independent evolution ───────── 
+
+ Branch 0 : 433 Branch 1 : 413, Branch 2 : 428 [Progress : 4/4]
+
+  Round 5 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.450000
+  Estimated remaining time : 5.940000
+  Estimated total time : 6.390000
+  Greedy runs : 70/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  6 of independent evolution ───────── 
+
+ Branch 0 : 406 Branch 1 : 399, Branch 2 : 403 [Progress : 4/4]
+
+  Round 6 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.533333
+  Estimated remaining time : 5.931707
+  Estimated total time : 6.465041
+  Greedy runs : 82/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  7 of independent evolution ───────── 
+
+ Branch 0 : 395 Branch 1 : 395, Branch 2 : 394 [Progress : 4/4]
+
+  Round 7 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 0.600000
+  Estimated remaining time : 5.744681
+  Estimated total time : 6.344681
+  Greedy runs : 94/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  8 of independent evolution ───────── 
+
+ Branch 0 : 387 Branch 1 : 369, Branch 2 : 386 [Progress : 4/4]
+
+  Round 8 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.683333
+  Estimated remaining time : 5.724528
+  Estimated total time : 6.407862
+  Greedy runs : 106/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  9 of independent evolution ───────── 
+
+ Branch 0 : 363 Branch 1 : 366, Branch 2 : 366 [Progress : 4/4]
+
+  Round 9 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.750000
+  Estimated remaining time : 5.567797
+  Estimated total time : 6.317797
+  Greedy runs : 118/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  10 of independent evolution ───────── 
+
+ Branch 0 : 356 Branch 1 : 352, Branch 2 : 357 [Progress : 4/4]
+
+  Round 10 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.833333
+  Estimated remaining time : 5.538462
+  Estimated total time : 6.371795
+  Greedy runs : 130/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  11 of independent evolution ───────── 
+
+ Branch 0 : 347 Branch 1 : 348, Branch 2 : 344 [Progress : 4/4]
+
+  Round 11 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 0.900000
+  Estimated remaining time : 5.400000
+  Estimated total time : 6.300000
+  Greedy runs : 142/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  12 of independent evolution ───────── 
+
+ Branch 0 : 336 Branch 1 : 329, Branch 2 : 335 [Progress : 4/4]
+
+  Round 12 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.966667
+  Estimated remaining time : 5.272727
+  Estimated total time : 6.239394
+  Greedy runs : 154/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  13 of independent evolution ───────── 
+
+ Branch 0 : 328 Branch 1 : 326, Branch 2 : 320 [Progress : 4/4]
+
+  Round 13 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 1.050000
+  Estimated remaining time : 5.237349
+  Estimated total time : 6.287349
+  Greedy runs : 166/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  14 of independent evolution ───────── 
+
+ Branch 0 : 318 Branch 1 : 312, Branch 2 : 314 [Progress : 4/4]
+
+  Round 14 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.116667
+  Estimated remaining time : 5.119101
+  Estimated total time : 6.235768
+  Greedy runs : 178/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  15 of independent evolution ───────── 
+
+ Branch 0 : 311 Branch 1 : 310, Branch 2 : 309 [Progress : 4/4]
+
+  Round 15 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 1.200000
+  Estimated remaining time : 5.077895
+  Estimated total time : 6.277895
+  Greedy runs : 190/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  16 of independent evolution ───────── 
+
+ Branch 0 : 308 Branch 1 : 300, Branch 2 : 307 [Progress : 4/4]
+
+  Round 16 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.266667
+  Estimated remaining time : 4.966337
+  Estimated total time : 6.233003
+  Greedy runs : 202/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  17 of independent evolution ───────── 
+
+ Branch 0 : 299 Branch 1 : 300, Branch 2 : 297 [Progress : 4/4]
+
+  Round 17 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 1.333333
+  Estimated remaining time : 4.859813
+  Estimated total time : 6.193146
+  Greedy runs : 214/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  18 of independent evolution ───────── 
+
+ Branch 0 : 295 Branch 1 : 291, Branch 2 : 293 [Progress : 4/4]
+
+  Round 18 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.400000
+  Estimated remaining time : 4.757522
+  Estimated total time : 6.157522
+  Greedy runs : 226/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  19 of independent evolution ───────── 
+
+ Branch 0 : 288 Branch 1 : 289, Branch 2 : 286 [Progress : 4/4]
+
+  Round 19 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 1.483333
+  Estimated remaining time : 4.711765
+  Estimated total time : 6.195098
+  Greedy runs : 238/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  20 of independent evolution ───────── 
+
+ Branch 0 : 283 Branch 1 : 282, Branch 2 : 282 [Progress : 4/4]
+
+  Round 20 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 1.550000
+  Estimated remaining time : 4.612800
+  Estimated total time : 6.162800
+  Greedy runs : 250/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  21 of independent evolution ───────── 
+
+ Branch 0 : 280 Branch 1 : 274, Branch 2 : 279 [Progress : 4/4]
+
+  Round 21 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.616667
+  Estimated remaining time : 4.516794
+  Estimated total time : 6.133461
+  Greedy runs : 262/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  22 of independent evolution ───────── 
+
+ Branch 0 : 273 Branch 1 : 273, Branch 2 : 273 [Progress : 4/4]
+
+  Round 22 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.683333
+  Estimated remaining time : 4.423358
+  Estimated total time : 6.106691
+  Greedy runs : 274/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  23 of independent evolution ───────── 
+
+ Branch 0 : 271 Branch 1 : 273, Branch 2 : 271 [Progress : 4/4]
+
+  Round 23 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.766667
+  Estimated remaining time : 4.373427
+  Estimated total time : 6.140093
+  Greedy runs : 286/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  24 of independent evolution ───────── 
+
+ Branch 0 : 270 Branch 1 : 264, Branch 2 : 269 [Progress : 4/4]
+
+  Round 24 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.833333
+  Estimated remaining time : 4.281879
+  Estimated total time : 6.115213
+  Greedy runs : 298/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  25 of independent evolution ───────── 
+
+ Branch 0 : 261 Branch 1 : 264, Branch 2 : 264 [Progress : 4/4]
+
+  Round 25 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 1.900000
+  Estimated remaining time : 4.192258
+  Estimated total time : 6.092258
+  Greedy runs : 310/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  26 of independent evolution ───────── 
+
+ Branch 0 : 259 Branch 1 : 259, Branch 2 : 258 [Progress : 4/4]
+
+  Round 26 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 1.966667
+  Estimated remaining time : 4.104348
+  Estimated total time : 6.071014
+  Greedy runs : 322/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  27 of independent evolution ───────── 
+
+ Branch 0 : 257 Branch 1 : 256, Branch 2 : 254 [Progress : 4/4]
+
+  Round 27 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.050000
+  Estimated remaining time : 4.050898
+  Estimated total time : 6.100898
+  Greedy runs : 334/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  28 of independent evolution ───────── 
+
+ Branch 0 : 254 Branch 1 : 254, Branch 2 : 254 [Progress : 4/4]
+
+  Round 28 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.116667
+  Estimated remaining time : 3.964162
+  Estimated total time : 6.080829
+  Greedy runs : 346/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  29 of independent evolution ───────── 
+
+ Branch 0 : 253 Branch 1 : 251, Branch 2 : 251 [Progress : 4/4]
+
+  Round 29 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.183333
+  Estimated remaining time : 3.878771
+  Estimated total time : 6.062104
+  Greedy runs : 358/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  30 of independent evolution ───────── 
+
+ Branch 0 : 251 Branch 1 : 249, Branch 2 : 249 [Progress : 4/4]
+
+  Round 30 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.250000
+  Estimated remaining time : 3.794595
+  Estimated total time : 6.044595
+  Greedy runs : 370/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  31 of independent evolution ───────── 
+
+ Branch 0 : 248 Branch 1 : 248, Branch 2 : 249 [Progress : 4/4]
+
+  Round 31 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.316667
+  Estimated remaining time : 3.711518
+  Estimated total time : 6.028185
+  Greedy runs : 382/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  32 of independent evolution ───────── 
+
+ Branch 0 : 247 Branch 1 : 246, Branch 2 : 248 [Progress : 4/4]
+
+  Round 32 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.383333
+  Estimated remaining time : 3.629442
+  Estimated total time : 6.012775
+  Greedy runs : 394/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  33 of independent evolution ───────── 
+
+ Branch 0 : 246 Branch 1 : 246, Branch 2 : 244 [Progress : 4/4]
+
+  Round 33 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.450000
+  Estimated remaining time : 3.548276
+  Estimated total time : 5.998276
+  Greedy runs : 406/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  34 of independent evolution ───────── 
+
+ Branch 0 : 244 Branch 1 : 243, Branch 2 : 243 [Progress : 4/4]
+
+  Round 34 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.533333
+  Estimated remaining time : 3.490909
+  Estimated total time : 6.024242
+  Greedy runs : 418/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  35 of independent evolution ───────── 
+
+ Branch 0 : 242 Branch 1 : 242, Branch 2 : 243 [Progress : 4/4]
+
+  Round 35 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.600000
+  Estimated remaining time : 3.410233
+  Estimated total time : 6.010233
+  Greedy runs : 430/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  36 of independent evolution ───────── 
+
+ Branch 0 : 242 Branch 1 : 241, Branch 2 : 240 [Progress : 4/4]
+
+  Round 36 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 2.666667
+  Estimated remaining time : 3.330317
+  Estimated total time : 5.996983
+  Greedy runs : 442/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  37 of independent evolution ───────── 
+
+ Branch 0 : 240 Branch 1 : 239, Branch 2 : 240 [Progress : 4/4]
+
+  Round 37 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.733333
+  Estimated remaining time : 3.251101
+  Estimated total time : 5.984435
+  Greedy runs : 454/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  38 of independent evolution ───────── 
+
+ Branch 0 : 239 Branch 1 : 239, Branch 2 : 239 [Progress : 4/4]
+
+  Round 38 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.800000
+  Estimated remaining time : 3.172532
+  Estimated total time : 5.972532
+  Greedy runs : 466/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  39 of independent evolution ───────── 
+
+ Branch 0 : 239 Branch 1 : 239, Branch 2 : 239 [Progress : 4/4]
+
+  Round 39 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.866667
+  Estimated remaining time : 3.094561
+  Estimated total time : 5.961227
+  Greedy runs : 478/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  40 of independent evolution ───────── 
+
+ Branch 0 : 239 Branch 1 : 239, Branch 2 : 239 [Progress : 4/4]
+
+  Round 40 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 2.933333
+  Estimated remaining time : 3.017143
+  Estimated total time : 5.950476
+  Greedy runs : 490/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  41 of independent evolution ───────── 
+
+ Branch 0 : 239 Branch 1 : 239, Branch 2 : 237 [Progress : 4/4]
+
+  Round 41 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 3.000000
+  Estimated remaining time : 2.940239
+  Estimated total time : 5.940239
+  Greedy runs : 502/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  42 of independent evolution ───────── 
+
+ Branch 0 : 237 Branch 1 : 237, Branch 2 : 237 [Progress : 4/4]
+
+  Round 42 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 3.083333
+  Estimated remaining time : 2.879377
+  Estimated total time : 5.962711
+  Greedy runs : 514/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  43 of independent evolution ───────── 
+
+ Branch 0 : 237 Branch 1 : 237, Branch 2 : 237 [Progress : 4/4]
+
+  Round 43 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 3.150000
+  Estimated remaining time : 2.802662
+  Estimated total time : 5.952662
+  Greedy runs : 526/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  44 of independent evolution ───────── 
+
+ Branch 0 : 235 Branch 1 : 236, Branch 2 : 237 [Progress : 4/4]
+
+  Round 44 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.216667
+  Estimated remaining time : 2.726394
+  Estimated total time : 5.943061
+  Greedy runs : 538/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  45 of independent evolution ───────── 
+
+ Branch 0 : 235 Branch 1 : 234, Branch 2 : 235 [Progress : 4/4]
+
+  Round 45 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.283333
+  Estimated remaining time : 2.650545
+  Estimated total time : 5.933879
+  Greedy runs : 550/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  46 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 46 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.350000
+  Estimated remaining time : 2.575089
+  Estimated total time : 5.925089
+  Greedy runs : 562/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  47 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 47 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.416667
+  Estimated remaining time : 2.500000
+  Estimated total time : 5.916667
+  Greedy runs : 574/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  48 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 48 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.483333
+  Estimated remaining time : 2.425256
+  Estimated total time : 5.908589
+  Greedy runs : 586/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  49 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 49 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.566667
+  Estimated remaining time : 2.361873
+  Estimated total time : 5.928540
+  Greedy runs : 598/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  50 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 50 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.633333
+  Estimated remaining time : 2.287213
+  Estimated total time : 5.920546
+  Greedy runs : 610/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  51 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 51 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.700000
+  Estimated remaining time : 2.212862
+  Estimated total time : 5.912862
+  Greedy runs : 622/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  52 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 234 [Progress : 4/4]
+
+  Round 52 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.766667
+  Estimated remaining time : 2.138801
+  Estimated total time : 5.905468
+  Greedy runs : 634/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  53 of independent evolution ───────── 
+
+ Branch 0 : 234 Branch 1 : 234, Branch 2 : 233 [Progress : 4/4]
+
+  Round 53 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 3.833333
+  Estimated remaining time : 2.065015
+  Estimated total time : 5.898349
+  Greedy runs : 646/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  54 of independent evolution ───────── 
+
+ Branch 0 : 233 Branch 1 : 233, Branch 2 : 233 [Progress : 4/4]
+
+  Round 54 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 3.900000
+  Estimated remaining time : 1.991489
+  Estimated total time : 5.891489
+  Greedy runs : 658/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  55 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 233, Branch 2 : 233 [Progress : 4/4]
+
+  Round 55 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 3.966667
+  Estimated remaining time : 1.918209
+  Estimated total time : 5.884876
+  Greedy runs : 670/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  56 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 232, Branch 2 : 232 [Progress : 4/4]
+
+  Round 56 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.033333
+  Estimated remaining time : 1.845161
+  Estimated total time : 5.878495
+  Greedy runs : 682/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  57 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 232, Branch 2 : 232 [Progress : 4/4]
+
+  Round 57 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.100000
+  Estimated remaining time : 1.772334
+  Estimated total time : 5.872334
+  Greedy runs : 694/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  58 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 232, Branch 2 : 232 [Progress : 4/4]
+
+  Round 58 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.183333
+  Estimated remaining time : 1.706516
+  Estimated total time : 5.889849
+  Greedy runs : 706/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  59 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 232, Branch 2 : 232 [Progress : 4/4]
+
+  Round 59 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.250000
+  Estimated remaining time : 1.633705
+  Estimated total time : 5.883705
+  Greedy runs : 718/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  60 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 232, Branch 2 : 232 [Progress : 4/4]
+
+  Round 60 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.316667
+  Estimated remaining time : 1.561096
+  Estimated total time : 5.877763
+  Greedy runs : 730/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  61 of independent evolution ───────── 
+
+ Branch 0 : 232 Branch 1 : 232, Branch 2 : 231 [Progress : 4/4]
+
+  Round 61 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 4.383333
+  Estimated remaining time : 1.488679
+  Estimated total time : 5.872013
+  Greedy runs : 742/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  62 of independent evolution ───────── 
+
+ Branch 0 : 231 Branch 1 : 231, Branch 2 : 231 [Progress : 4/4]
+
+  Round 62 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 4.450000
+  Estimated remaining time : 1.416446
+  Estimated total time : 5.866446
+  Greedy runs : 754/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  63 of independent evolution ───────── 
+
+ Branch 0 : 231 Branch 1 : 231, Branch 2 : 231 [Progress : 4/4]
+
+  Round 63 of independent evolution has finished, branch 2 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 1 is now a clone of the fittest branch
+  Running time : 4.516667
+  Estimated remaining time : 1.344386
+  Estimated total time : 5.861053
+  Greedy runs : 766/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  64 of independent evolution ───────── 
+
+ Branch 0 : 231 Branch 1 : 229, Branch 2 : 231 [Progress : 4/4]
+
+  Round 64 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.583333
+  Estimated remaining time : 1.272494
+  Estimated total time : 5.855827
+  Greedy runs : 778/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  65 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 65 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.666667
+  Estimated remaining time : 1.205063
+  Estimated total time : 5.871730
+  Greedy runs : 790/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  66 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 66 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.733333
+  Estimated remaining time : 1.133167
+  Estimated total time : 5.866500
+  Greedy runs : 802/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  67 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 67 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.800000
+  Estimated remaining time : 1.061425
+  Estimated total time : 5.861425
+  Greedy runs : 814/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  68 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 68 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.866667
+  Estimated remaining time : 0.989831
+  Estimated total time : 5.856497
+  Greedy runs : 826/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  69 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 69 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 4.933333
+  Estimated remaining time : 0.918377
+  Estimated total time : 5.851710
+  Greedy runs : 838/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  70 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 70 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.000000
+  Estimated remaining time : 0.847059
+  Estimated total time : 5.847059
+  Greedy runs : 850/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  71 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 71 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.083333
+  Estimated remaining time : 0.778422
+  Estimated total time : 5.861756
+  Greedy runs : 862/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  72 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 72 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.150000
+  Estimated remaining time : 0.707094
+  Estimated total time : 5.857094
+  Greedy runs : 874/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  73 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 73 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.216667
+  Estimated remaining time : 0.635892
+  Estimated total time : 5.852558
+  Greedy runs : 886/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  74 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 74 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.283333
+  Estimated remaining time : 0.564811
+  Estimated total time : 5.848144
+  Greedy runs : 898/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  75 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 75 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.350000
+  Estimated remaining time : 0.493846
+  Estimated total time : 5.843846
+  Greedy runs : 910/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  76 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 76 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.416667
+  Estimated remaining time : 0.422993
+  Estimated total time : 5.839660
+  Greedy runs : 922/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  77 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 77 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.483333
+  Estimated remaining time : 0.352248
+  Estimated total time : 5.835582
+  Greedy runs : 934/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  78 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 78 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.550000
+  Estimated remaining time : 0.281607
+  Estimated total time : 5.831607
+  Greedy runs : 946/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  79 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 79 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.616667
+  Estimated remaining time : 0.211065
+  Estimated total time : 5.827731
+  Greedy runs : 958/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  80 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 80 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.700000
+  Estimated remaining time : 0.141031
+  Estimated total time : 5.841031
+  Greedy runs : 970/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  81 of independent evolution ───────── 
+
+ Branch 0 : 229 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 81 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.766667
+  Estimated remaining time : 0.070468
+  Estimated total time : 5.837135
+  Greedy runs : 982/994
+  Proceeding to the next cycle...
+
+───────── Beginning round number  82 of independent evolution ───────── 
+
+ Branch 0 : 228 Branch 1 : 229, Branch 2 : 229 [Progress : 4/4]
+
+  Round 82 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 5.833333
+  Estimated remaining time : 0.000000
+  Estimated total time : 5.833333
+  Greedy runs : 994/994
+  Proceeding to the next cycle...
+Time to finish: 5.839425
+ 
+
+
+ ─────────── The search for the best coloring has finished! ───────────────    
+                                                                               
+  The best coloring we could find uses 228 colors                  
+                                                                               
+  Total running time : 5.839425 minutes                                 
+                                                                               
+ ──────────────────────────────────────────────────────────────────────────

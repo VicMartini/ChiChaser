@@ -1,0 +1,55 @@
+En este caso el archivo de corrida era demasiado grande, así que solo incluimos el segmento final:
+
+───────── Beginning round number  818 of independent evolution ───────── 
+
+ Branch 0 : 16 Branch 1 : 16, Branch 2 : 16 [Progress : 4/4]
+
+  Round 818 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.000000
+  Estimated remaining time : 0.000000
+  Estimated total time : 0.000000
+  Greedy runs : 9833/9857
+  Proceeding to the next cycle...
+
+───────── Beginning round number  819 of independent evolution ───────── 
+
+ Branch 0 : 16 Branch 1 : 16, Branch 2 : 16 [Progress : 4/4]
+
+  Round 819 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.000000
+  Estimated remaining time : 0.000000
+  Estimated total time : 0.000000
+  Greedy runs : 9845/9857
+  Proceeding to the next cycle...
+
+───────── Beginning round number  820 of independent evolution ───────── 
+
+ Branch 0 : 16 Branch 1 : 16, Branch 2 : 16 [Progress : 4/4]
+
+  Round 820 of independent evolution has finished, branch 1 has been
+  chosen as the fittest branch
+
+  Branch 0 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.016667
+  Estimated remaining time : 0.000000
+  Estimated total time : 0.016667
+  Greedy runs : 9857/9857
+  Proceeding to the next cycle...
+
+
+ ─────────── The search for the best coloring has finished! ───────────────    
+                                                                               
+  The best coloring we could find uses 16 colors                  
+                                                                               
+  Total running time : 0.016669 minutes                                 
+                                                                               
+ ──────────────────────────────────────────────────────────────────────────
