@@ -5,6 +5,7 @@
 #include <limits.h>
 #include <errno.h>
 #include <time.h>
+#include "rQuickSort.h"
 #include "UnleashHell.h"
 
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -14,13 +15,15 @@
 #define ANSI_COLOR_CYAN    "\x1b[36m"
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
-void swap(u32 *a, u32 *b);
+//void swap(u32 *a, u32 *b);
 
 typedef struct params_st{
     u32 p[6]; // struct para a,b,c,d,e,f
 }params;
 
-void print_image(FILE *fptr)
+//Algunas funciones que solo usamos en el main y no corresponden a ninguna estructura.
+
+void print_ascii_art(FILE *fptr)
 {
     char read_string[128];
  
@@ -28,7 +31,22 @@ void print_image(FILE *fptr)
         printf(ANSI_COLOR_GREEN "%s" ANSI_COLOR_RESET,read_string);
 }
 
+//Inicializa un array con una permutación aleatoria de [0:n-1]
+//se debe liberar memoria.
+u32 *shuffle_array(u32 n)
+{
+    u32 *a = calloc(n, sizeof(u32));
+    u32 r;
+    for (u32 i = 0; i < n; ++i)
+    {
+        r = rand() % (i + 1);
+        if (r != i)
+            a[i] = a[r];
+        a[r] = i;
+    }
 
+    return a;
+}
 
 int main(int argc, char *argv[])
 { 
@@ -41,7 +59,7 @@ int main(int argc, char *argv[])
         return 1;
     }
  
-    print_image(fptr);
+    print_ascii_art(fptr);
  
     fclose(fptr);
     printf("\n");

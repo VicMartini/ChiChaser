@@ -7,8 +7,6 @@
 #include "RomaVictor.h"
 typedef uint32_t u32;
 
-
-
 Grafo ConstruccionDelGrafo(void)
 {
     Grafo new_graph = malloc(sizeof(struct GrafoSt));
@@ -30,6 +28,9 @@ Grafo ConstruccionDelGrafo(void)
 
     hash_table index = new_ht(N); //La hashtable va a servir como un indice para la
                                   //construcción del grafo.
+    
+    //Insertamos cada uno de los lados, si uno de los endpoints del lado no existe,
+    //insert_edge se encarga de crearlo
     for (u32 i = 0; i < M; ++i)
     {
         edge = parse_edge();
@@ -55,21 +56,6 @@ Grafo ConstruccionDelGrafo(void)
     free(infoEdge);
 
     return new_graph;
-}
-
-u32 Delta(Grafo g)
-{
-    return g->Delta;
-}
-
-u32 NumeroDeLados(Grafo G)
-{
-    return G->num_lados;
-}
-
-u32 NumeroDeVertices(Grafo G)
-{
-    return G->num_vertices;
 }
 
 Grafo CopiarGrafo(Grafo G)
@@ -113,6 +99,23 @@ void DestruccionDelGrafo(Grafo G)
     G->vertices = NULL;
     free(G);
     G = NULL;
+}
+
+//Funciones para extraer informacion del grafo
+
+u32 Delta(Grafo g)
+{
+    return g->Delta;
+}
+
+u32 NumeroDeLados(Grafo G)
+{
+    return G->num_lados;
+}
+
+u32 NumeroDeVertices(Grafo G)
+{
+    return G->num_vertices;
 }
 
 // Funciones para extraer información de los vertices
@@ -216,21 +219,3 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
     }
 };
 
-/*
-  toma el tamaño de arreglo
-  crea un array , lo inicializa y luego aleatoriza los valores.
-  se debe liberar memoria
-*/
-u32* shuffle_array(u32 n){
-    u32 *a = calloc(n, sizeof(u32));
-    u32 r;
-    for (u32 i = 0; i < n; ++i)
-    {
-        r = rand() % (i + 1);
-        if (r != i)
-            a[i] = a[r];
-        a[r] = i;
-    }
-    
-    return a;
-}
