@@ -151,7 +151,7 @@ u32 ColorVecino(u32 j, u32 i, Grafo G)
         return 0;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].color;
-};
+}
 u32 NombreVecino(u32 j, u32 i, Grafo G)
 {
     u32 *o = G->orden;
@@ -159,7 +159,7 @@ u32 NombreVecino(u32 j, u32 i, Grafo G)
         return 0;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].nombre;
-};
+}
 
 u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
 {
@@ -169,7 +169,7 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
         return G->vertices[o[i]].pesos[j];
     else
         return 0;
-};
+}
 u32 OrdenVecino(u32 j, u32 i, Grafo G)
 {
     u32 *o = G->orden;
@@ -205,7 +205,6 @@ char FijarOrden(u32 i, Grafo G, u32 N)
 
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
 {
-    ;
     u32 n = G->num_vertices;
     if (i < n && j < G->vertices[i].grado)
     {
@@ -217,4 +216,3 @@ u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G)
         return 1;
     }
 };
-

@@ -5,9 +5,8 @@ CFLAGS= -Wall  -Wextra -O3 -std=c99  -std=c11
 # the macro DEPS, which is the set of .h files on which the .c files depend
 DEPS=List.h rQuickSort.h HashTable.h GrafoSt21.h RomaVictor.h dimacs.h darray.h VerticeSt.h queue.h UnleashHell.h
 
-OBJ=check_build_time.o rQuickSort.o  GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o UnleashHell.o
 
-OBJ2=main.o rQuickSort.o GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o UnleashHell.o
+OBJ=main.o rQuickSort.o GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o darray.o VerticeSt.o queue.o UnleashHell.o
 
 # we define a rule that applies to all files ending in the .o suffix.
 # The rule says that the .o file depends upon the .c version of the file and the .h
@@ -22,17 +21,14 @@ OBJ2=main.o rQuickSort.o GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o da
 
 # use the special macros $@ and $^, which are the left and right sides of the :,
 # respectively, to make the overall compilation rule more general.
-check_build_time: $(OBJ)
+main: $(OBJ)
 	$(CC)  -o $@ $^ $(CFLAGS)
 
-main: $(OBJ2)
-	$(CC) -o $@ $^ $(CFLAGS) 
 
 .PHONY: clean
 
-all: check_build_time main
+all:  main
 
 clean:
 	rm -f *.o
-	rm -f check_build_time
 	rm -f main
