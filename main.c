@@ -92,7 +92,9 @@ int main(int argc, char *argv[])
         }
 
         if (val < 0 || val >= UINT_MAX){
-            fprintf(stderr, "range out of u32 \n");
+            fprintf(stderr, "Some argument is out of range,\n");
+            fprintf(stderr, "the maximum allowed is : %u\n",UINT_MAX);
+
             exit(EXIT_FAILURE);
         }
         // set val al struct p[0]=a, p[1]=b,...,p[5]=f
@@ -120,8 +122,10 @@ int main(int argc, char *argv[])
     printf(                 "  N = %d | M = %d \n", n, m);
     printf(                 "  Δ = %u | δ = %u\n", Delta(G), G->delta);
 
-    u32 esBipartito = Bipartito(G);
-    
+    //Comieza a correr el tiempo
+    t = clock();
+
+    u32 esBipartito = Bipartito(G);  
     // 3
     printf(ANSI_COLOR_GREEN"\n┌────────────────────────────────────────────────────────────────────┐"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
@@ -137,19 +141,21 @@ int main(int argc, char *argv[])
         printf("  No, proceeding... \n");        
     }
     
-    
-    t = clock();
-
     //5
     printf(ANSI_COLOR_GREEN"\n┌────────────────────────────────────────────────────────────────────┐"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                         Random orders                              │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n│                                                                    │"ANSI_COLOR_RESET);
     printf(ANSI_COLOR_GREEN"\n└────────────────────────────────────────────────────────────────────┘\n\n"ANSI_COLOR_RESET);        
-    GenerarOrdenNatural(G);
+    
+    //Hacer que el orden interno coincida con el orden natural
+    for (u32 i = 0; i < NumeroDeVertices(G); i++)
+    {
+        FijarOrden(i, G, i);
+    }
     u32 ordenNat = Greedy(G);
     printf("  Result using natural order: %d \n\n", ordenNat);
-    // aleatorizar vertices
+    // Aleatorizar vertices
     u32 best_result = UINT_MAX;
     u32 greedy, iorden;
     greedy = iorden = 0;
@@ -174,10 +180,10 @@ int main(int argc, char *argv[])
         printf("  Estimated total time : %f\n",total_time);
     }
     printf("  Greedy runs : %u/%u\n",count_greedys, a+b+(c*d*3)+1);
-    printf("  Restoring best order...\n");
 
     // Salvo que sea el ultimo 
     if(iorden != f+a){
+        printf("  Restoring best order...\n");
         AleatorizarVertices(G, iorden);
         best_result = Greedy(G);
         if(best_result!=UINT_MAX){
