@@ -171,7 +171,7 @@ int main(int argc, char *argv[])
         AleatorizarVertices(G, f + i);
         greedy = Greedy(G);
         count_greedies++;
-        printf("\r  Latest result : %u [Progress : %u/%u]", greedy, i + 1, a);
+        printf("\r  Latest result : %u [Progress : %u/%u]\n", greedy, i + 1, a);
         fflush(stdout);
         if (greedy < br_random_orders)
         {

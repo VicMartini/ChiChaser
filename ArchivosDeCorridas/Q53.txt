@@ -32,7 +32,8 @@ Time creating: 0.030579
 
   Result using natural order: 86 
 
-  Latest result : 68 [Progress : 16/16]  Running time : 0.000000
+  Latest result : 68 [Progress : 16/16]  
+  Running time : 0.000000
   Estimated remaining time : 0.000000
   Estimated total time : 0.000000
   Greedy runs : 16/1001
