@@ -5,7 +5,7 @@ typedef uint32_t u32;
 
 #define GROWTH_FACTOR 2
 
-//Array dinamico de punteros a vertices, lo vamos a usar para guardar vencios.
+//Array dinamico, lo vamos a usar para guardar vecinos.
 //la justificación por detrás de esta decisión de diseño es que queremos tener
 //lookup O(1) por indice en el conjunto de los vecinos de un vertice.
 

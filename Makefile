@@ -21,7 +21,7 @@ OBJ=main.o rQuickSort.o GrafoSt21.o dimacs.o List.o RomaVictor.o HashTable.o dar
 
 # use the special macros $@ and $^, which are the left and right sides of the :,
 # respectively, to make the overall compilation rule more general.
-main: $(OBJ)
+chichaser: $(OBJ)
 	$(CC)  -o $@ $^ $(CFLAGS)
 
 
@@ -31,4 +31,4 @@ all:  main
 
 clean:
 	rm -f *.o
-	rm -f main
+	rm -f chichaser
