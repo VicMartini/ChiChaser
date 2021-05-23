@@ -9,6 +9,8 @@ char AleatorizarVertices(Grafo G, u32 R)
     //un arreglo con una permutación aleatoria
     //de [0:N)
     u32 *a = calloc(NumeroDeVertices(G), sizeof(u32));
+    if(a == NULL)
+        return 1;
     u32 r;
     for (u32 i = 0; i < NumeroDeVertices(G); ++i)
     {
@@ -80,6 +82,8 @@ u32 Greedy(Grafo G)
     u32 max_chosen_color = 0;
     bool *used = calloc(Delta(G)+1,sizeof(bool));
     queue q = new_queue();
+    if(used == NULL)
+        return 0xFFFFFFFF;
     for (u32 i = 0; i < n; ++i)
     {
         min_color = 0;

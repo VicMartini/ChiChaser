@@ -121,8 +121,6 @@ u32 NumeroDeVertices(Grafo G)
 
 u32 Nombre(u32 i, Grafo G)
 {
-    if (i >= G->num_vertices)
-        return 0;
     u32 *o = G->orden;
     return G->vertices[o[i]].nombre;
 }
@@ -130,7 +128,7 @@ u32 Nombre(u32 i, Grafo G)
 u32 Color(u32 i, Grafo G)
 {
     if (i >= G->num_vertices)
-        return 0;
+        return 0xFFFFFFFF;
     u32 *o = G->orden;
     return G->vertices[o[i]].color;
 }
@@ -138,7 +136,7 @@ u32 Color(u32 i, Grafo G)
 u32 Grado(u32 i, Grafo G)
 {
     if (i >= G->num_vertices)
-        return 0;
+        return 0xFFFFFFFF;
     u32 *o = G->orden;
     return G->vertices[o[i]].grado;
 }
@@ -148,15 +146,13 @@ u32 ColorVecino(u32 j, u32 i, Grafo G)
 {
     u32 *o = G->orden;
     if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
-        return 0;
+        return 0xFFFFFFFF;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].color;
 }
 u32 NombreVecino(u32 j, u32 i, Grafo G)
 {
     u32 *o = G->orden;
-    if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
-        return 0;
     u32 neigh_pos = darray_get(j, G->vertices[o[i]].vecinos);
     return G->vertices[neigh_pos].nombre;
 }
@@ -168,14 +164,14 @@ u32 PesoLadoConVecino(u32 j, u32 i, Grafo G)
     if (i < n && j < G->vertices[i].grado)
         return G->vertices[o[i]].pesos[j];
     else
-        return 0;
+        return 0xFFFFFFFF;
 }
 u32 OrdenVecino(u32 j, u32 i, Grafo G)
 {
     u32 *o = G->orden;
     if (i >= G->num_vertices || j >= G->vertices[o[i]].grado)
     {
-        return 0;
+        return 0xFFFFFFFF;
     }
     u32 neigh_index = darray_get(j, G->vertices[o[i]].vecinos);
 

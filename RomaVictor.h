@@ -52,12 +52,4 @@ char FijarOrden(u32 i, Grafo G, u32 N);
 //ese u32 de valor de retorno deberia ser un void pero lo dejo asi porque
 //asi estaba en el pdf de las especificaciones aunque no se especifica nada sobre ese valor de retorno.
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
-
-char AleatorizarVertices(Grafo G, u32 R);
-
-
-void GenerarOrdenNatural(Grafo G);
-
-u32* shuffle_array(u32 ncolor);
-void swap(u32 *a, u32 *b);
 #endif
