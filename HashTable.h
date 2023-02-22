@@ -21,3 +21,5 @@ void ht_put(u32 key, u32 val, hash_table ht);
 u32 ht_get(u32 key, hash_table ht);
 u32 hash(u32 nombre_real, hash_table ht);
 void destroy_ht(hash_table ht);
+bool in_ht(u32 key, hash_table ht);
+void ht_delete_bucket(u32 key, hash_table ht);

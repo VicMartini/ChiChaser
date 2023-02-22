@@ -41,6 +41,12 @@ void ht_put(u32 key, u32 val, hash_table ht)
     ht->ocupation += 1;
 }
 
+void ht_delete_bucket(u32 key, hash_table ht)
+{
+    destroy_list(ht->buckets[key]);
+    ht->buckets[key] = new_list();
+}
+
 u32 ht_get(u32 key, hash_table ht)
 {
     u32 hsh = hash(key, ht);

@@ -1,0 +1,132 @@
+❯ ./chichaser 4 4 4 4 4 42 <Graphs/R1999999_10123123_1
+_________ .__    .___________ .__                                
+\_   ___ \|  |__ |__\_   ___ \|  |__ _____    ______ ___________ 
+/    \  \/|  |  \|  /    \  \/|  |  \\__  \  /  ___// __ \_  __ \
+\     \___|   Y  \  \     \___|   Y  \/ __ \_\___ \\  ___/|  | \/
+ \______  /___|  /__|\______  /___|  (____  /____  >\___  >__|   
+        \/     \/           \/     \/     \/     \/     \/       
+
+ChiChaser - An heuristic based chromatic number estimation tool.
+
+Building graph...
+Time creating: 1.515478
+
+ ─────────────────────────── Graph specs ────────────────────────────
+
+  N = 1999999 | M = 10123123 
+  Δ = 1999998 | δ = 1
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│                    Is the graph bipartite?                         │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+  No, proceeding... 
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│                         Random orders                              │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+  Result using natural order: 7 
+
+  Latest result : 7 [Progress : 4/4]  
+  Running time : 0.050000
+  Estimated remaining time : 0.662500
+  Estimated total time : 0.712500
+  Greedy runs : 4/57
+  Restoring best order...
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│               Random orders by block of colors                     │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+  Latest result : 7 [Progress : 4/4]
+
+  Result after running Greedy 4 times, grouping vertices that have 
+  the same color and shuffling the order of the groups : 7
+
+  Running time : 0.083333
+  Estimated remaining time : 0.444444
+  Estimated total time : 0.527778
+  Greedy runs : 9/57
+
+┌────────────────────────────────────────────────────────────────────┐
+│                                                                    │
+│                         Genetic strategy                           │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+
+
+───────── Beginning round number  1 of independent evolution ───────── 
+
+ Branch 0 : 7 Branch 1 : 7, Branch 2 : 7 [Progress : 4/4]
+
+  Round 1 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.150000
+  Estimated remaining time : 0.257143
+  Estimated total time : 0.407143
+  Greedy runs : 21/57
+  Proceeding to the next cycle...
+
+───────── Beginning round number  2 of independent evolution ───────── 
+
+ Branch 0 : 7 Branch 1 : 7, Branch 2 : 7 [Progress : 4/4]
+
+  Round 2 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.216667
+  Estimated remaining time : 0.157576
+  Estimated total time : 0.374242
+  Greedy runs : 33/57
+  Proceeding to the next cycle...
+
+───────── Beginning round number  3 of independent evolution ───────── 
+
+ Branch 0 : 7 Branch 1 : 7, Branch 2 : 7 [Progress : 4/4]
+
+  Round 3 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.283333
+  Estimated remaining time : 0.075556
+  Estimated total time : 0.358889
+  Greedy runs : 45/57
+  Proceeding to the next cycle...
+
+───────── Beginning round number  4 of independent evolution ───────── 
+
+ Branch 0 : 7 Branch 1 : 7, Branch 2 : 7 [Progress : 4/4]
+
+  Round 4 of independent evolution has finished, branch 0 has been
+  chosen as the fittest branch
+
+  Branch 1 is now a clone of the fittest branch
+  Branch 2 is now a clone of the fittest branch
+  Running time : 0.333333
+  Estimated remaining time : 0.000000
+  Estimated total time : 0.333333
+  Greedy runs : 57/57
+  Proceeding to the next cycle...
+
+
+ ─────────── The search for the best coloring has finished! ───────────────    
+                                                                               
+  The best coloring we could find uses 7 colors                  
+                                                                               
+  Total running time : 0.352660 minutes                                 
+                                                                               
+ ──────────────────────────────────────────────────────────────────────────

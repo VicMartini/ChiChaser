@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "darray.h"
-#include "assert.h"
 typedef uint32_t u32;
 
 darray new_darray(void)
@@ -48,6 +47,5 @@ void delete_darray(darray d)
 }
 u32 darray_get(u32 index, darray d)
 {
-    assert(index < d->ocupation);
     return d->elements[index];
 }

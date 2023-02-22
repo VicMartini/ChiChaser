@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #include "GrafoSt21.h"
+#include "queue.h"
 
 //Grafo es un puntero a una estructura, la cual debe estar definida en el .h de arriba
 //u32 tambien debe estar definida arriba
@@ -51,5 +52,4 @@ char FijarOrden(u32 i, Grafo G, u32 N);
 //ese u32 de valor de retorno deberia ser un void pero lo dejo asi porque
 //asi estaba en el pdf de las especificaciones aunque no se especifica nada sobre ese valor de retorno.
 u32 FijarPesoLadoConVecino(u32 j, u32 i, u32 p, Grafo G);
-
 #endif
